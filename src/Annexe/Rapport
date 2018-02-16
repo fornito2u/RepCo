@@ -9,5 +9,7 @@ Lien GitHub : https://github.com/fornito2u/RepCo
 16/02/1018 :
 Marvin : - Création et initialisation du projet (Packages Annexe / Main)
 		 - Création des classes abstraites Joueur / EtatJeu
+		 - Méthode de comparaison d'état dans EtatReversi
 		 
 Damien : - Création des classes EtatReversi / JoueurReversi
+		 - Méthode affichage de EtatReversi
