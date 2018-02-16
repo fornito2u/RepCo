@@ -1,5 +1,7 @@
 package Main;
 
+import java.util.ArrayList;
+
 /**
  * Classe repr�sentant l'�tat d'un jeu
  * @author Marvin / Damien
@@ -11,6 +13,7 @@ public class EtatReversi extends EtatJeu {
 	 * Plateau de jeu
 	 */
 	protected String[][] plateau;
+	protected ArrayList<EtatReversi> succ;
 	
 	/**
 	 * Constructeur
@@ -22,6 +25,7 @@ public class EtatReversi extends EtatJeu {
 		super(joueur);
 		plateau = new String[8][8];
 		this.etatInitial();
+		this.succ = new ArrayList<>();
 		
 	}
  
