@@ -15,6 +15,30 @@ public class EtatReversi extends EtatJeu {
 		
 	}
 	
+	public boolean compareEtat(EtatReversi etat)
+	{
+		boolean b = true;
+		if(this.getJoueurActuel() == etat.getJoueurActuel())
+		{
+			for(int i = 0; i < plateau.length; ++i)
+			{
+				for(int j = 0; j < plateau.length; ++j)
+				{
+					if(plateau[i][j] != etat.plateau[i][j])
+					{
+						return false;
+					}
+				}
+			}
+		}
+		else
+		{
+			b = false;
+		}
+		
+		return b;
+	}
+	
 	public void setEtat(String[][] tab){
 		this.plateau = tab;
 	}

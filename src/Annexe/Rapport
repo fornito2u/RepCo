@@ -1,8 +1,13 @@
-											Rapport
+									Rapport
 
 Binôme : 
 - Fornito Marvin
 - Levy Damien
 
-Organisation :
-- 16/02/1018 : Initialisation du projet et TP 1
+Lien GitHub : https://github.com/fornito2u/RepCo 									
+
+16/02/1018 :
+Marvin : - Création et initialisation du projet (Packages Annexe / Main)
+		 - Création des classes abstraites Joueur / EtatJeu
+		 
+Damien : - Création des classes EtatReversi / JoueurReversi
