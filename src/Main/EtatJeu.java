@@ -2,10 +2,12 @@ package Main;
 
 public abstract class EtatJeu 
 {
-	private int joueurActuel;
-	private String[][] tab;
+	private Joueur joueurActuel;
 	
-	public EtatJeu(){};
+	public EtatJeu(Joueur joueur)
+	{
+		joueurActuel = joueur;
+	}
 	
 	public abstract int getJoueurActuel();
 	
