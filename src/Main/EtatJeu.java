@@ -2,16 +2,21 @@ package Main;
 
 public abstract class EtatJeu 
 {
-	private Joueur joueurActuel;
+	protected Joueur joueurActuel;
 	
 	public EtatJeu(Joueur joueur)
 	{
 		joueurActuel = joueur;
 	}
 	
-	public abstract int getJoueurActuel();
+	public Joueur getJoueurActuel(){
+		return this.joueurActuel;
+	}
 	
-	public abstract String[][] getTab();
 	
-	public abstract void setJoueurActuel(int id);
+	
+	public void setJoueurActuel(Joueur id){
+		this.joueurActuel = id;
+	}
+	
 }

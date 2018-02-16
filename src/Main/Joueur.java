@@ -1,6 +1,6 @@
 package Main;
 
-public abstract class Joueur {
+public abstract class Joueur  {
 	
 	private int id;
 	
