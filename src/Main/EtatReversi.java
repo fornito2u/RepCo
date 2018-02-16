@@ -69,6 +69,8 @@ public class EtatReversi extends EtatJeu {
 		
 	}
 	
+	
+	
 	 public static void main(String[] args) {
 		 EtatReversi er = new EtatReversi(new JoueurReversi(1));
 		 er.afficherTab();
