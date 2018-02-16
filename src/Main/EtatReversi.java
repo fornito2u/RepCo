@@ -1,9 +1,22 @@
 package Main;
 
+/**
+ * Classe représentant l'état d'un jeu
+ * @author Marvin / Damien
+ *
+ */
 public class EtatReversi extends EtatJeu {
 
+	/**
+	 * Plateau de jeu
+	 */
 	protected String[][] plateau;
 	
+	/**
+	 * Constructeur
+	 * @param joueur
+	 * 				Joueur actuel
+	 */
 	public EtatReversi(JoueurReversi joueur) {
 		// TODO Auto-generated constructor stub
 		super(joueur);
@@ -12,6 +25,9 @@ public class EtatReversi extends EtatJeu {
 		
 	}
  
+	/**
+	 * Initialisation du premier etat
+	 */
 	public void etatInitial(){
 		for(int i=0; i<plateau.length;i++){
 			for(int j =0; j< plateau[0].length; j++)
@@ -25,6 +41,13 @@ public class EtatReversi extends EtatJeu {
 		plateau[4][3] = " N  ";
 	}
 	
+	/**
+	 * Renvoit true si les deux etats sont identiques
+	 * @param etat
+	 * 			Etat a fournir en parametre
+	 * @return b
+	 * 			Boolean
+	 */
 	public boolean compareEtat(EtatReversi etat)
 	{
 		boolean b = true;
@@ -49,15 +72,26 @@ public class EtatReversi extends EtatJeu {
 		return b;
 	}
 	
+	/**
+	 * Setter du plateau
+	 * @param tab
+	 */
 	public void setEtat(String[][] tab){
 		this.plateau = tab;
 	}
 	
+	/**
+	 * Getter du plateau
+	 * @return plateau
+	 */
 	public String[][] getTab() {
 		// TODO Auto-generated method stub
 		return plateau;
 	}
 
+	/**
+	 * Méthode d'affichage de l'état
+	 */
 	public void afficherTab(){
 		for(int i=0; i<plateau.length;i++){
 			for(int j =0; j< plateau[0].length; j++)
@@ -69,6 +103,11 @@ public class EtatReversi extends EtatJeu {
 		
 	}
 	
+	/**
+	 * Méthode principal de lancement
+	 * @param args
+	 * 				Arguments
+	 */
 	 public static void main(String[] args) {
 		 EtatReversi er = new EtatReversi(new JoueurReversi(1));
 		 er.afficherTab();
