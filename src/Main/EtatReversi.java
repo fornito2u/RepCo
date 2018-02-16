@@ -10,7 +10,14 @@ public class EtatReversi extends EtatJeu {
 		plateau = new String[8][8];
 		
 	}
-
+ 
+	public void etatInitial(){
+		
+	}
+	
+	public void setEtat(String[][] tab){
+		this.plateau = tab;
+	}
 	
 	public String[][] getTab() {
 		// TODO Auto-generated method stub
@@ -18,10 +25,19 @@ public class EtatReversi extends EtatJeu {
 	}
 
 	public void afficherTab(){
-		System.out.println(plateau);
+		for(int i=0; i<plateau.length;i++){
+			for(int j =0; j< plateau[0].length; j++)
+			{
+				System.out.println(plateau[i][j]);
+			}
+		}
+		
 	}
 	
-	
+	 public static void main(String[] args) {
+		 EtatReversi er = new EtatReversi(new JoueurReversi(1));
+		 er.afficherTab();
+	 }
 
 
 }
