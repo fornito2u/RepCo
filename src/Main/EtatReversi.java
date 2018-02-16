@@ -8,11 +8,21 @@ public class EtatReversi extends EtatJeu {
 		// TODO Auto-generated constructor stub
 		super(joueur);
 		plateau = new String[8][8];
+		this.etatInitial();
 		
 	}
  
 	public void etatInitial(){
-		
+		for(int i=0; i<plateau.length;i++){
+			for(int j =0; j< plateau[0].length; j++)
+			{
+				plateau[i][j] = "vide";
+			}
+		}
+		plateau[3][3] = " B  ";
+		plateau[3][4] = " N  ";
+		plateau[4][4] = " B  ";
+		plateau[4][3] = " N  ";
 	}
 	
 	public boolean compareEtat(EtatReversi etat)
@@ -52,8 +62,9 @@ public class EtatReversi extends EtatJeu {
 		for(int i=0; i<plateau.length;i++){
 			for(int j =0; j< plateau[0].length; j++)
 			{
-				System.out.println(plateau[i][j]);
+				System.out.print("["+plateau[i][j]+"] ");
 			}
+			System.out.println(" ");
 		}
 		
 	}
