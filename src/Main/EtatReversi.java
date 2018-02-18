@@ -36,13 +36,13 @@ public class EtatReversi extends EtatJeu {
 		for(int i=0; i<plateau.length;i++){
 			for(int j =0; j< plateau[0].length; j++)
 			{
-				plateau[i][j] = "    ";
+				plateau[i][j] = "   ";
 			}
 		}
-		plateau[3][3] = " B  ";
-		plateau[3][4] = " N  ";
-		plateau[4][4] = " B  ";
-		plateau[4][3] = " N  ";
+		plateau[3][3] = " B ";
+		plateau[3][4] = " N ";
+		plateau[4][4] = " B ";
+		plateau[4][3] = " N ";
 	}
 	
 	/**
@@ -107,7 +107,58 @@ public class EtatReversi extends EtatJeu {
 		
 	}
 	
+	
+	/**
+	 * 
+	 * @return succ
+	 * la liste de successeur
+	 */
+	public ArrayList<EtatReversi> getSuccesseur() {
+		return this.succ;
+	}
 
+	/**
+	 * 
+	 * @param e permet d'ajouter un etat successeur à la liste d'etat successeur
+	 */
+	public void setSuccesseur(EtatReversi e){
+		this.succ.add(e);
+	}
+
+	public String[][] copieEtat(){
+		String [][] copie = new String[plateau.length][plateau[0].length];
+		for(int i=0; i<copie.length;i++) {
+			for(int j=0; j<copie[0].length;j++) {
+				copie[i][j] = plateau[i][j];
+			}
+		}
+		return copie;
+	}
+	
+	public void succ() {
+		String[][] tmp = this.copieEtat();
+		//permet de regarder chaques cases du plateau
+		for (int i =0; i<plateau.length;i++) {
+			for(int j =0; j<plateau[0].length;j++) {
+				
+				if(plateau[i][j]!="   ") {
+					
+					if(i==0) {
+						
+						if(j==0) {
+							//regarder à gauche
+							
+							//regarder en dessous à gauche
+							
+							//regarder en dessous
+							
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	/**
 	 * M�thode principal de lancement
 	 * @param args
