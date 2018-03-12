@@ -1,6 +1,8 @@
 package Main;
 
 import java.util.ArrayList;
+import java.awt.Point;
+import java.awt.geom.Point2D;
 
 /**
  * Classe reprï¿½sentant l'ï¿½tat d'un jeu
@@ -156,36 +158,60 @@ public class EtatReversi extends EtatJeu {
 		return copie;
 	}
 	
-	public void succ() 
+	/**
+	 * Renvoit une liste des coordonnées auquel on peut jouer
+	 */
+	public Point[] succ() 
 	{	
-		String[][] tmp = this.copieEtat();
-		boolean done = false;
-		//permet de regarder chaques cases du plateau
+		Point[] tabPoint = new Point[60]; // A ne pas mettre a 60 mais a 61-tourActuel
+		int compteurPoint = 0;
+		int compt = 0;
 		for (int i =0; i<plateau.length;i++) 
 		{
 			for(int j =0; j<plateau[0].length;j++) 
 			{
-				if(plateau[i][j]!="   ") 
-				{
-					if()
-					// Regarder uniquement les cases blanches
-					if(plateau[i][j]== " B ")
+				// Le joueur actuel est blanc
+				if(joueurActuel.getCouleur() == "Blanc")
+				{	
+					// On regarde donc uniquement les cases à pion noir (car le pion posé sera focément collé 
+					// à une pièce de cette couleur). Soit i la case que l'on regarde actuellement (noir)
+					if(plateau[i][j]== " N ")
 					{
-						// Regarder en haut = Pour chaque case vers le haut
-						for(int k=i-1; k>0; k--)
+						// On regarde la case a un cran vers le haut de i (uniquement si i est pas déjà en haut du plateau) 
+						if(i>0 && plateau[i-1][j]=="   ")
 						{
-							if(plateau[k][j] == " N ")
+							// Dans le cas ou la case vers le haut est vide, on regarde vers le bas de i
+							// Si on ne trouve pas de vide et qu'on trouve un pion de notre couleur (blanc)
+							// dans ce cas la case vide au dessus de i est une position valide pour poser notre pion blanc
+							compt = i;
+							// compt passe a -1 quand on se rend compte que la case en haut de i n'est pas une solution
+							// valide
+							while(compt > -1)
 							{
-								if(plateau[k-1][j] == "   ")
+								// Si on peut aller vers le bas (le pion actuel n'est pas collé en bas du plateau)
+								// et si la case en bas n'est pas vide
+								// dans ce cas soit : - la case en bas de i est noir (appelez case k) 
+								//						alors on peut verifier la case en bas de k (incrémentation du compteur)
+								//					  - la case en bas est blanche, donc la case en haut de i est une position
+								//						valide pour un pion blanc
+								if(compt<plateau.length && plateau[compt+1][j]!="   ")
 								{
-										
+									if(plateau[compt+1][j]== " B ")
+									{
+										compt +=1;
+									}
+									else
+									{
+										tabPoint[compteurPoint] = new Point(i-1, j);
+									}
 								}
 							}
-						}			
+						}
 					}
-				}		
+				}	
 			}
 		}
+		return null;
 	}
 
 	//attention on ne peut regarder Ã  gauche que si il reste des cases Ã  parcourir : j doit etre < tab[0].length-1
