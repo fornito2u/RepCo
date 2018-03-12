@@ -7,6 +7,7 @@ package Main;
  */
 
 public class JoueurReversi extends Joueur {
+	protected String couleur;
 	
 	
 /**
@@ -17,7 +18,22 @@ public class JoueurReversi extends Joueur {
 	public JoueurReversi(int id) {
 		// TODO Auto-generated constructor stub
 		super(id);
+		this.setCouleur(id);
+		
 		
 	}
 
+	private void setCouleur(int id) {
+		if(id==1) {
+			couleur = "noir ";
+		}
+		else {
+			couleur = "blanc";
+		}
+	}
+	
+	public String getCouleur() {
+		return couleur;
+		
+	}
 }

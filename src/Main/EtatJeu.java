@@ -22,7 +22,7 @@ public abstract class EtatJeu
 	 */
 	public EtatJeu()
 	{
-		//joueurActuel = joueur;
+		
 		this.listeJoueur = new ArrayList<>();
 	}
 	

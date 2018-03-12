@@ -14,6 +14,7 @@ public class EtatReversi extends EtatJeu {
 	 */
 	protected String[][] plateau;
 	protected ArrayList<EtatReversi> succ;
+	protected JoueurReversi joueurActuel;
 	
 	
 	/**
@@ -21,24 +22,28 @@ public class EtatReversi extends EtatJeu {
 	 * @param joueur
 	 * 				Joueur actuel
 	 */
-	public EtatReversi(JoueurReversi joueur1) {
+	public EtatReversi(JoueurReversi joueur1,JoueurReversi joueur2) {
 		// TODO Auto-generated constructor stub
 		super();
+		this.setJoueur(joueur1);
+		this.setJoueur(joueur2);
 		plateau = new String[8][8];
 		this.etatInitial();
 		this.succ = new ArrayList<>();
+		this.setJoueurActuel(joueur1);
 		
 	}
 	
 	/*
-	 * constructeur par copie
-	public EtatReversi(EtatReversi e,JoueurReversi joueur) {
+	 * constructeur par copie*
+	public EtatReversi(EtatReversi e,JoueurReversi joueurActuel) {
 		
-		super(joueur);
+		super();
 		this.plateau = e.getTab();
 		
-	}
- */
+		
+	}*/
+
 	/**
 	 * Initialisation du premier etat
 	 */
@@ -62,6 +67,11 @@ public class EtatReversi extends EtatJeu {
 	 * @return b
 	 * 			Boolean
 	 */
+	
+	public void setJoueurActuel(JoueurReversi j) {
+		this.joueurActuel = j;
+	}
+	
 	public boolean compareEtat(EtatReversi etat)
 	{
 		boolean b = true;
