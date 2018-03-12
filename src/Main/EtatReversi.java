@@ -14,21 +14,22 @@ public class EtatReversi extends EtatJeu {
 	 */
 	protected String[][] plateau;
 	protected ArrayList<EtatReversi> succ;
-	protected ArrayList
+	
 	
 	/**
 	 * Constructeur pour l'état initial
 	 * @param joueur
 	 * 				Joueur actuel
 	 */
-	public EtatReversi(JoueurReversi joueur) {
+	public EtatReversi(JoueurReversi joueur1) {
 		// TODO Auto-generated constructor stub
-		super(joueur);
+		super();
 		plateau = new String[8][8];
 		this.etatInitial();
 		this.succ = new ArrayList<>();
 		
 	}
+	
 	/*
 	 * constructeur par copie
 	public EtatReversi(EtatReversi e,JoueurReversi joueur) {
