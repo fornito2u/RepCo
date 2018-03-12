@@ -8,21 +8,16 @@ package Main;
 
 public class JoueurReversi extends Joueur {
 	
-	protected String couleur;
+	
 /**
  * 
  * @param id  
  * numéro du joueur
  */
-	public JoueurReversi(int id, String couleur) {
+	public JoueurReversi(int id) {
 		// TODO Auto-generated constructor stub
 		super(id);
-		this.couleur = couleur;
-	}
-/*
-	public JoueurReversi getJoueurSuivant() {
-		JoueurReversi joueurSuivant;
 		
 	}
-	*/
+
 }

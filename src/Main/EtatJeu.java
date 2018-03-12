@@ -1,7 +1,9 @@
 package Main;
 
+import java.util.ArrayList;
+
 /**
- * Classe abstraite représentant l'état d'un jeu
+ * Classe abstraite reprï¿½sentant l'ï¿½tat d'un jeu
  * @author Marvin / Damien
  *
  */
@@ -10,16 +12,18 @@ public abstract class EtatJeu
 	/**
 	 * Le joueur qui doit jouer
 	 */
-	protected Joueur joueurActuel;
+	//protected Joueur joueurActuel;
+	protected ArrayList<Joueur> listeJoueur;
 	
 	/**
 	 * Constructeur
 	 * @param joueur
 	 * 				Joueur actuel
 	 */
-	public EtatJeu(Joueur joueur)
+	public EtatJeu()
 	{
-		joueurActuel = joueur;
+		//joueurActuel = joueur;
+		this.listeJoueur = new ArrayList<>();
 	}
 	
 	/**
@@ -27,17 +31,18 @@ public abstract class EtatJeu
 	 * @return joueurActuel
 	 * 		   Joueur actuel
 	 */
-	public Joueur getJoueurActuel(){
-		return this.joueurActuel;
+	public Joueur getJoueur(int indice){
+		return this.listeJoueur.get(indice);
+		
 	}
 	
 	
 	/**
-	 * Setter joueurActuel
+	 * Ajoute un  joueur dans la liste 
 	 * @param id
 	 */
-	public void setJoueurActuel(Joueur id){
-		this.joueurActuel = id;
+	public void setJoueur(Joueur id){
+		this.listeJoueur.add(id);
 	}
 	
 }
