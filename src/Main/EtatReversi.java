@@ -14,7 +14,6 @@ public class EtatReversi extends EtatJeu {
 	 */
 	protected String[][] plateau;
 	protected ArrayList<EtatReversi> succ;
-	protected ArrayList
 	
 	/**
 	 * Constructeur pour l'état initial
@@ -144,42 +143,34 @@ public class EtatReversi extends EtatJeu {
 		return copie;
 	}
 	
-	public void succ() {
-		
+	public void succ() 
+	{	
 		String[][] tmp = this.copieEtat();
+		boolean done = false;
 		//permet de regarder chaques cases du plateau
-		for (int i =0; i<plateau.length;i++) {
-			for(int j =0; j<plateau[0].length;j++) {
-				
-				if(plateau[i][j]!="   ") {
-					
-					if(i==0) {
-						
-						if(j==0) {
-							
-							//regarder à gauche
-							tmp = gauche(tmp, i, j);
-							setEtat(tmp);
-							/*
-							//regarder en dessous à gauche
-							if(plateau[i+1][j+1] == "   ") {
-								
+		for (int i =0; i<plateau.length;i++) 
+		{
+			for(int j =0; j<plateau[0].length;j++) 
+			{
+				if(plateau[i][j]!="   ") 
+				{
+					if()
+					// Regarder uniquement les cases blanches
+					if(plateau[i][j]== " B ")
+					{
+						// Regarder en haut = Pour chaque case vers le haut
+						for(int k=i-1; k>0; k--)
+						{
+							if(plateau[k][j] == " N ")
+							{
+								if(plateau[k-1][j] == "   ")
+								{
+										
+								}
 							}
-							
-							//regarder en dessous
-							if(plateau[i][j+1] == "   ") {
-								
-							}
-							
-						*/
-							
-							}//fin if j
-					
-					}//fin if i
-					
-					
-					
-				}
+						}			
+					}
+				}		
 			}
 		}
 	}
