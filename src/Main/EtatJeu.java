@@ -35,7 +35,9 @@ public abstract class EtatJeu
 		return this.listeJoueur.get(indice);
 		
 	}
-	
+	public ArrayList<Joueur> getListJoueur(){
+		return this.listeJoueur;
+	}
 	
 	/**
 	 * Ajoute un  joueur dans la liste 
