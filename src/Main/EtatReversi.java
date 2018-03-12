@@ -14,9 +14,10 @@ public class EtatReversi extends EtatJeu {
 	 */
 	protected String[][] plateau;
 	protected ArrayList<EtatReversi> succ;
+	protected ArrayList
 	
 	/**
-	 * Constructeur
+	 * Constructeur pour l'état initial
 	 * @param joueur
 	 * 				Joueur actuel
 	 */
@@ -28,7 +29,15 @@ public class EtatReversi extends EtatJeu {
 		this.succ = new ArrayList<>();
 		
 	}
- 
+	/*
+	 * constructeur par copie
+	public EtatReversi(EtatReversi e,JoueurReversi joueur) {
+		
+		super(joueur);
+		this.plateau = e.getTab();
+		
+	}
+ */
 	/**
 	 * Initialisation du premier etat
 	 */
@@ -136,6 +145,7 @@ public class EtatReversi extends EtatJeu {
 	}
 	
 	public void succ() {
+		
 		String[][] tmp = this.copieEtat();
 		//permet de regarder chaques cases du plateau
 		for (int i =0; i<plateau.length;i++) {
@@ -146,27 +156,153 @@ public class EtatReversi extends EtatJeu {
 					if(i==0) {
 						
 						if(j==0) {
-							//regarder à gauche
 							
+							//regarder à gauche
+							tmp = gauche(tmp, i, j);
+							setEtat(tmp);
+							/*
 							//regarder en dessous à gauche
+							if(plateau[i+1][j+1] == "   ") {
+								
+							}
 							
 							//regarder en dessous
+							if(plateau[i][j+1] == "   ") {
+								
+							}
 							
-						}
-					}
+						*/
+							
+							}//fin if j
+					
+					}//fin if i
+					
+					
+					
 				}
 			}
 		}
 	}
+
+	//attention on ne peut regarder à gauche que si il reste des cases à parcourir : j doit etre < tab[0].length-1
+	public String[][] gauche(String [][]tab,int i,int j) {
+		//String gauche = "   ";
+		if(j<tab[0].length-1) {
+			if(tab[i][j] == "   ") {
+				
+				if(tab[i][j+1] != "   ") {
+					tab=gauche(tab,i,j+1);
+					tab[i][j] = tab[i][j+1];
+				}
+				
+
+
+			}
+			
+			else if(tab[i][j]== " B ") {
+				
+				if(tab[i][j+1]==" B ") {
+					tab= gauche(tab, i, j+1);
+				}
+				else if(tab[i][j+1] == " N ") {
+					tab[i][j] =" N ";
+				}
+				else if(tab[i][j+1]=="   ") {
+					tab[i][j] = " B ";
+				}
+
+				
+			}
+			
+			else if(tab[i][j]== " N ") {
+				
+				if(tab[i][j+1]==" N ") {
+					tab= gauche(tab, i, j+1);
+				}
+				else if(tab[i][j+1] == " B ") {
+					tab[i][j]=" B ";
+				}
+				else if(tab[i][j+1]=="   ") {
+					tab[i][j] = " N ";
+				}
+
+				
+			}
+		}
+
 	
+		return tab;
+	}
+	
+	//on ne peut aller à droite que si j>0
+	public String droite(String[][] tab,int i, int j) {
+		String droite = "   ";
+		if(j>0) {
+			if(tab[i][j]=="   ") {
+				if(tab[i][j-1]!= "   ") {
+					droite = droite(tab, i, j-1);
+				}
+				else{
+					droite ="   "; 
+				}
+				
+			}
+			if(tab[i][j]==" B ") {
+				if(tab[i][j-1]==" B ") {
+					droite = droite(tab, i, j-1);
+				}
+				else if(tab[i][j-1]==" N ") {
+					droite = " N ";
+				}
+				else if(tab[i][j-1]=="   ") {
+					droite = " B ";
+				}
+
+			}
+			if(tab[i][j]==" N ") {
+				if(tab[i][j-1]==" N ") {
+					droite = droite(tab, i, j-1);
+				}
+				else if(tab[i][j-1]==" B ") {
+					droite = " B ";
+				}
+				else if(tab[i][j-1]=="   ") {
+					droite = " N ";
+				}
+				
+			}
+			
+		}
+		return droite;
+	}
 	/**
-	 * M�thode principal de lancement
+	 * Méthode principal de lancement
 	 * @param args
 	 * 				Arguments
 	 */
 
 	 public static void main(String[] args) {
+		 
 		 EtatReversi er = new EtatReversi(new JoueurReversi(1));
+		 er.afficherTab();
+		 System.out.println("////////////");
+		 String [][]tab=new String[er.getTab().length][er.getTab()[0].length];
+		 for(int i = 0; i<er.getTab().length;i++) {
+			 for(int j =0; j<er.getTab()[0].length;j++) {
+				 tab[i][j] = er.getTab()[i][j]; 
+			 }
+		 }
+		 for(int i = 0; i<er.getTab().length;i++) {
+			 for(int j =0; j<er.getTab()[0].length;j++) {
+				 //System.out.print("["+tab[i][j]+"] ");
+				 tab = er.gauche(er.getTab(), i, j);
+				
+			 }
+			 
+			 //System.out.println(" ");
+		 }
+		 System.out.println("////////////");
+		 er.setEtat(tab);
 		 er.afficherTab();
 	 }
 
