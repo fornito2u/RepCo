@@ -37,8 +37,11 @@ public class EtatReversi extends EtatJeu {
 		
 	}
 	
-	/*
-	 * constructeur par copie*/
+	/**
+	  * constructeur par copie
+	  * pour les etats suivants
+	  * */
+	
 	public EtatReversi(EtatReversi e) {
 		
 		super();
@@ -51,6 +54,8 @@ public class EtatReversi extends EtatJeu {
 		else {
 			this.setJoueurActuel((JoueurReversi)this.getJoueur(1));
 		}
+		setTour();
+		
 		
 		
 	}
@@ -171,7 +176,7 @@ public class EtatReversi extends EtatJeu {
 	}
 	
 	/**
-	 * Renvoit une liste des coordonnées auquel on peut jouer
+	 * Renvoit une liste des coordonnï¿½es auquel on peut jouer
 	 */
 	public Point[] succ() 
 	{	
@@ -185,11 +190,11 @@ public class EtatReversi extends EtatJeu {
 				// Le joueur actuel est blanc
 				if(joueurActuel.getCouleur() == "Blanc")
 				{	
-					// On regarde donc uniquement les cases à pion noir (car le pion posé sera focément collé 
-					// à une pièce de cette couleur). Soit i la case que l'on regarde actuellement (noir)
+					// On regarde donc uniquement les cases ï¿½ pion noir (car le pion posï¿½ sera focï¿½ment collï¿½ 
+					// ï¿½ une piï¿½ce de cette couleur). Soit i la case que l'on regarde actuellement (noir)
 					if(plateau[i][j]== " N ")
 					{
-						// On regarde la case a un cran vers le haut de i (uniquement si i est pas déjà en haut du plateau) 
+						// On regarde la case a un cran vers le haut de i (uniquement si i est pas dï¿½jï¿½ en haut du plateau) 
 						if(i>0 && plateau[i-1][j]=="   ")
 						{
 							// Dans le cas ou la case vers le haut est vide, on regarde vers le bas de i
@@ -200,10 +205,10 @@ public class EtatReversi extends EtatJeu {
 							// valide
 							while(compt > -1)
 							{
-								// Si on peut aller vers le bas (le pion actuel n'est pas collé en bas du plateau)
+								// Si on peut aller vers le bas (le pion actuel n'est pas collï¿½ en bas du plateau)
 								// et si la case en bas n'est pas vide
 								// dans ce cas soit : - la case en bas de i est noir (appelez case k) 
-								//						alors on peut verifier la case en bas de k (incrémentation du compteur)
+								//						alors on peut verifier la case en bas de k (incrï¿½mentation du compteur)
 								//					  - la case en bas est blanche, donc la case en haut de i est une position
 								//						valide pour un pion blanc
 								if(compt<plateau.length && plateau[compt+1][j]!="   ")

@@ -14,6 +14,7 @@ public abstract class EtatJeu
 	 */
 	//protected Joueur joueurActuel;
 	protected ArrayList<Joueur> listeJoueur;
+	protected static int tour = 1;
 	
 	/**
 	 * Constructeur
@@ -45,6 +46,14 @@ public abstract class EtatJeu
 	 */
 	public void setJoueur(Joueur id){
 		this.listeJoueur.add(id);
+	}
+	
+	public static int getTour() {
+		return tour;
+	}
+	
+	public static void setTour() {
+		tour++;
 	}
 	
 }
