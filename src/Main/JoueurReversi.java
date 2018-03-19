@@ -24,7 +24,7 @@ public class JoueurReversi extends Joueur {
 	}
 
 	private void setCouleur(int id) {
-		if(id==1) {
+		if(id==0) {
 			couleur = "noir";
 		}
 		else {

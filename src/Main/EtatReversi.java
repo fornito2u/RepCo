@@ -28,8 +28,8 @@ public class EtatReversi extends EtatJeu {
 	public EtatReversi() {
 		// TODO Auto-generated constructor stub
 		super();
+		this.setJoueur(new JoueurReversi(0));
 		this.setJoueur(new JoueurReversi(1));
-		this.setJoueur(new JoueurReversi(2));
 		plateau = new String[8][8];
 		this.etatInitial();
 		this.succ = new ArrayList<>();
@@ -42,19 +42,21 @@ public class EtatReversi extends EtatJeu {
 	  * pour les etats suivants
 	  * */
 	
-	public EtatReversi(EtatReversi e) {
+	public EtatReversi(EtatReversi e,String[][] plateau) {
 		
 		super();
-		this.plateau = e.getTab();
-		this.listeJoueur = this.getListJoueur();
+		this.plateau = plateau;
+		this.listeJoueur = e.getListJoueur();
 		this.succ = new ArrayList<>();
-		if(e.getJoueurActuel()==this.getJoueur(1)) {
+		//System.out.println();
+		//System.out.println(e.listeJoueur);
+		if(e.getJoueurActuel().getCouleur()== ((JoueurReversi) this.getJoueur(1)).getCouleur()) {
 			this.setJoueurActuel((JoueurReversi) this.getJoueur(0));
 		}
 		else {
 			this.setJoueurActuel((JoueurReversi)this.getJoueur(1));
 		}
-		setTour();
+		
 		
 		
 		
@@ -179,6 +181,10 @@ public class EtatReversi extends EtatJeu {
 		this.succ.add(e);
 	}
 
+	/**
+	 * 
+	 * @return une copie du tableau de l'etat courant
+	 */
 	public String[][] copieEtat(){
 		String [][] copie = new String[plateau.length][plateau[0].length];
 		for(int i=0; i<copie.length;i++) {
@@ -208,7 +214,7 @@ public class EtatReversi extends EtatJeu {
 					// � une pi�ce de cette couleur). Soit i la case que l'on regarde actuellement (noir)
 					if(plateau[i][j]== " N ")
 					{
-						// On regarde la case a un cran vers le haut de i (uniquement si i est pas d�j� en haut du plateau) 
+						// On regarde la case a un cran vers le haut de i (uniquement si i est pas déjà en haut du plateau) 
 						if(i>0 && plateau[i-1][j]=="   ")
 						{
 							// Dans le cas ou la case vers le haut est vide, on regarde vers le bas de i
@@ -219,10 +225,10 @@ public class EtatReversi extends EtatJeu {
 							// valide
 							while(compt > -1)
 							{
-								// Si on peut aller vers le bas (le pion actuel n'est pas coll� en bas du plateau)
+								// Si on peut aller vers le bas (le pion actuel n'est pas collé en bas du plateau)
 								// et si la case en bas n'est pas vide
 								// dans ce cas soit : - la case en bas de i est noir (appelez case k) 
-								//						alors on peut verifier la case en bas de k (incr�mentation du compteur)
+								//						alors on peut verifier la case en bas de k (incrémentation du compteur)
 								//					  - la case en bas est blanche, donc la case en haut de i est une position
 								//						valide pour un pion blanc
 								if(compt<plateau.length && plateau[compt+1][j]!="   ")
@@ -245,7 +251,146 @@ public class EtatReversi extends EtatJeu {
 		return null;
 	}
 
+/**
+ * 	
+ * @return une liste de points ou sont présent les pions adverse
+ */
+	public ArrayList<Point> jetonAdverse(){
+		ArrayList<Point> jeton = new ArrayList<>();
+		for(int i =0 ; i<this.plateau.length;i++) {
+			for(int j = 0; j< this.plateau[0].length;j++) {
+				if(this.joueurActuel.getCouleur()=="noir") {//si les pions du joueur actuel sont noir
+					if(this.plateau[i][j]==" B ") {
+						jeton.add(new Point(i, j));
+					}
+				}
+				else { //si les pions du joueur actuel sont blanc
+					if(this.plateau[i][j]==" N ") {
+						jeton.add(new Point(i,j));
+						}
+				}
+			}
+		}
+		//System.out.println(jeton); //pour tester que la fonction fonctionne correctement
+		return jeton;
+	}
+	
+	
+	//fonction qui va regarder pour chaque jeton adverse
+	//si il est possible de poser un jeton autour et si c'est le cas 
+	//on calcule l'etat successeur et
+	//on l'ajoute a la liste d'etat successeur
+	public void calculEtatSuccesseur() { 
+		for(Point p : this.jetonAdverse()) {
+			String [][]plateau;
+			plateau= copieEtat();
+			int x = (int) p.getX();
+			int y = (int) p.getY();
+			if(this.joueurActuel.getCouleur() == "noir") {
+				if(p.getY()>0 && p.getY()<plateau[0].length) {
+					if(plateau[x][y-1]==" N ") {//regarder si à gauche du pion blanc il y a un pion noir
+						//on regarde si il est possible de poser un pion noir à droite
+						if(getDroite(x,y," B ")) {
+							while(plateau[x][y] == " B ") {
+								plateau[x][y] = " N ";
+								y++;
+							}
+							plateau[x][y]=" N ";
+							this.setSuccesseur(new EtatReversi(this, plateau));
+						}
+					
+					}
+					if(plateau[x][y+1]==" N ") {
+						if(getGauche(x, y, " B ")) {
+							while(plateau[x][y] == " B ") {
+								plateau[x][y]= " N ";
+								y--;
+							}
+							plateau[x][y]=" N ";
+							this.setSuccesseur(new EtatReversi(this, plateau));
+						}
+					}
+					if(plateau[x-1][y]==" N ") {
+						if(getBas(x, y, " B ")) {
+							while(plateau[x][y] == " B ") {
+								plateau[x][y]= " N ";
+								x++;
+							}
+							plateau[x][y]=" N ";
+							this.setSuccesseur(new EtatReversi(this, plateau));
+						}
+					}
+				}
+				
+			}
+			else {//si le joueur actuel a les pions blanc
+				
+			}
+		}
+	}
 
+	public boolean getDroite(int i, int j,String couleur) {
+		//System.out.println("getDroite");
+		boolean possible = false;
+		while((this.plateau[i][j]==couleur) && j<this.plateau[0].length) {
+			//System.out.println();
+			j++;
+		}
+		if(this.plateau[i][j] == "   ") {
+			//System.out.println("getDroite : possible");
+			possible = true;
+		}
+		return possible;
+	}
+	public boolean getGauche(int i, int j , String couleur) {
+		boolean possible = false;
+		while((this.plateau[i][j]==couleur) && j>0) {
+			j--;
+		}
+		if(this.plateau[i][j]=="   ") {
+			//System.out.println("getGauche : possible");
+			possible = true;
+		}
+		return possible;
+	}
+	public boolean getHaut(int x,int y, String couleur) {
+		boolean possible = false;
+		while((this.plateau[x][y]==couleur && x<0)) {
+			x--;
+		}
+		if(this.plateau[x][y]=="   ") {
+			possible = true;
+		}
+		return possible;
+	}
+	public boolean getBas(int x,int y, String couleur) {
+		boolean possible = false;
+		while((this.plateau[x][y]==couleur && x>plateau.length)) {
+			x++;
+		}
+		if(this.plateau[x][y]=="   ") {
+			possible = true;
+		}
+		return possible;
+	}
+	public boolean getDiagHautGauche(int x,int y, String couleur) {
+		boolean possible = false;
+		return possible;
+	}
+	public boolean getDiagHautdroite(int x,int y, String couleur) {
+		boolean possible = false;
+		return possible;
+	}
+	
+
+	public boolean getDiagBasGauche(int x,int y, String couleur) {
+		boolean possible = false;
+		return possible;
+	}
+	public boolean getDiagBasDroite(int x,int y, String couleur) {
+		boolean possible = false;
+		return possible;
+	}
 	/**
 	 * Méthode principal de lancement
 	 * @param args
@@ -256,8 +401,17 @@ public class EtatReversi extends EtatJeu {
 		 
 		 EtatReversi er = new EtatReversi();
 		 er.afficherTab();
+		 er.calculEtatSuccesseur();
+		 System.out.println();
+		 for(EtatReversi e : er.getSuccesseur()) {
+			 
+			 e.afficherTab();
+			 System.out.println();
+		 }
+		 
 		// System.out.println("////////////");
-		 String [][]tab=new String[er.getTab().length][er.getTab()[0].length];
+		// String [][]tab=new String[er.getTab().length][er.getTab()[0].length];
+		 
 		/* for(int i = 0; i<er.getTab().length;i++) {
 			 for(int j =0; j<er.getTab()[0].length;j++) {
 				 tab[i][j] = er.getTab()[i][j]; 

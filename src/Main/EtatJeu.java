@@ -33,6 +33,7 @@ public abstract class EtatJeu
 	 * 		   Joueur actuel
 	 */
 	public Joueur getJoueur(int indice){
+		
 		return this.listeJoueur.get(indice);
 		
 	}
