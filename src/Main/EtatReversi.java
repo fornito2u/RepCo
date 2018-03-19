@@ -137,10 +137,24 @@ public class EtatReversi extends EtatJeu {
 	 * M�thode d'affichage de l'�tat
 	 */
 	public void afficherTab(){
+		for(int k =-1 ; k<plateau[0].length; k++) {
+			if(k==-1) {
+				System.out.print("[   ] ");
+			}
+			else {
+				System.out.print("[ "+k+" ] ");
+			}
+		}
+		System.out.println(" ");
 		for(int i=0; i<plateau.length;i++){
-			for(int j =0; j< plateau[0].length; j++)
+			for(int j =-1; j< plateau[0].length; j++)
 			{
+				if(j==-1) {
+					System.out.print("[ "+i+" ] ");
+				}
+				else {
 				System.out.print("["+plateau[i][j]+"] ");
+				}
 			}
 			System.out.println(" ");
 		}
