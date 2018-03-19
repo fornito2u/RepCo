@@ -12,4 +12,11 @@ Marvin : - Création et initialisation du projet (Packages Annexe / Main)
 		 - Méthode de comparaison d'état dans EtatReversi
 		 
 Damien : - Création des classes EtatReversi / JoueurReversi
+		 - Constructeur EtatReversi / JoueurReversi
+		 - Méthode d'initialisation du premier etat dans EtatReversi
 		 - Méthode affichage de EtatReversi
+		 - Méthode de gestion de la couleur du joueur dans JoueurReversi
+		 - Méthode de gestion de la liste de joueur dans EtatJeu
+		 - Méthode de gestion du tour dans EtatJeu
+		 - Méthode de copie du plateau de jeu dans EtatReversi
+		 - gestion des successeurs : calcul et ajout des successeurs possible à la liste succ

@@ -198,6 +198,7 @@ public class EtatReversi extends EtatJeu {
 	/**
 	 * Renvoit une liste des coordonn�es auquel on peut jouer
 	 */
+	/* inutile maintenant
 	public Point[] succ() 
 	{	
 		Point[] tabPoint = new Point[60]; // A ne pas mettre a 60 mais a 61-tourActuel
@@ -250,6 +251,7 @@ public class EtatReversi extends EtatJeu {
 		}
 		return null;
 	}
+	*/
 
 /**
  * 	
@@ -281,115 +283,401 @@ public class EtatReversi extends EtatJeu {
 	//on calcule l'etat successeur et
 	//on l'ajoute a la liste d'etat successeur
 	public void calculEtatSuccesseur() { 
+		String blanc = " B ";
+		String noir = " N ";
 		for(Point p : this.jetonAdverse()) {
 			String [][]plateau;
 			plateau= copieEtat();
 			int x = (int) p.getX();
 			int y = (int) p.getY();
-			if(this.joueurActuel.getCouleur() == "noir") {
-				if(p.getY()>0 && p.getY()<plateau[0].length) {
-					if(plateau[x][y-1]==" N ") {//regarder si à gauche du pion blanc il y a un pion noir
+			if(this.joueurActuel.getCouleur() == "noir") { //dans le cas ou le joueur pose un pion noir
+				
+				
+				
+				if(p.getY()>0 && p.getY()<plateau[0].length && p.getX()>0 && p.getX()<plateau.length) { //on regarde le centre du plateaau sans s'occuper des extremités
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					if(this.plateau[x][y-1]==noir) {//regarder si à gauche du pion blanc il y a un pion noir
 						//on regarde si il est possible de poser un pion noir à droite
-						if(getDroite(x,y," B ")) {
-							while(plateau[x][y] == " B ") {
-								plateau[x][y] = " N ";
+						if(getDroite(x,y,blanc)) {
+							while(plateau[x][y] == blanc) {
+								plateau[x][y] = noir;
 								y++;
 							}
-							plateau[x][y]=" N ";
+							plateau[x][y]=noir;
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
+						
 					
-					}
-					if(plateau[x][y+1]==" N ") {
-						if(getGauche(x, y, " B ")) {
-							while(plateau[x][y] == " B ") {
-								plateau[x][y]= " N ";
-								y--;
-							}
-							plateau[x][y]=" N ";
-							this.setSuccesseur(new EtatReversi(this, plateau));
-						}
-					}
-					if(plateau[x-1][y]==" N ") {
-						if(getBas(x, y, " B ")) {
-							while(plateau[x][y] == " B ") {
-								plateau[x][y]= " N ";
+					}//1
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					
+					if(this.plateau[x-1][y]==noir) {//regardre au dessus si le pion est noir
+						
+						if(getBas(x, y, blanc)) {
+							
+							while(plateau[x][y] == blanc) {
+								
+								plateau[x][y]= noir;
 								x++;
 							}
-							plateau[x][y]=" N ";
+							plateau[x][y]=noir;
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
-					}
+					}//2
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					
+					if(this.plateau[x][y+1]==noir) { //regarde a droite si le pion est noir
+						
+						if(getGauche(x, y, blanc)) {
+							while(plateau[x][y] == blanc) {
+								plateau[x][y]= noir;
+								y--;
+							}
+							plateau[x][y]=noir;
+							this.setSuccesseur(new EtatReversi(this, plateau));
+						}
+					}//3
+					
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					if(this.plateau[x+1][y] == noir) {
+						System.out.println(y);
+						if(getHaut(x, y, blanc)) {
+							System.out.println("regarde en dessous");
+							while(plateau[x][y] == blanc) {
+								plateau[x][y] = noir;
+								x--;
+							}
+							plateau[x][y]=noir;
+							this.setSuccesseur(new EtatReversi(this, plateau));
+						}
+					}//4
+					
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					//diaghautgauche
+					if(this.plateau[x+1][y+1]==noir) {
+						while(plateau[x][y] == blanc) {
+							plateau[x][y] = noir;
+							x--;
+							y--;
+						}
+						plateau[x][y]=noir;
+						this.setSuccesseur(new EtatReversi(this, plateau));
+					}//5
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					//diagbasGauche
+					if(this.plateau[x-1][y+1]==noir) {
+						while(plateau[x][y] == blanc) {
+							plateau[x][y] = noir;
+							x++;
+							y--;
+						}
+						plateau[x][y]=noir;
+						this.setSuccesseur(new EtatReversi(this, plateau));
+					}//6
+					
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					//diaghautDroit
+					if(this.plateau[x+1][y-1]==noir) {
+						while(plateau[x][y] == blanc) {
+							plateau[x][y] = noir;
+							x--;
+							y++;
+						}
+						plateau[x][y]=noir;
+						this.setSuccesseur(new EtatReversi(this, plateau));
+						
+					}//7
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					//diagBasDroit
+					if(this.plateau[x-1][y-1]==noir) {
+						while(plateau[x][y] == blanc) {
+							plateau[x][y] = noir;
+							x++;
+							y++;
+						}
+						plateau[x][y]=noir;
+						this.setSuccesseur(new EtatReversi(this, plateau));
+					}//8
 				}
 				
 			}
 			else {//si le joueur actuel a les pions blanc
+				if(p.getY()>0 && p.getY()<plateau[0].length && p.getX()>0 && p.getX()<plateau.length) {
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					if(this.plateau[x][y-1]==blanc) {//regarder si à gauche du pion blanc il y a un pion noir
+						//on regarde si il est possible de poser un pion noir à droite
+						if(getDroite(x,y,blanc)) {
+							while(plateau[x][y] == noir) {
+								plateau[x][y] = blanc;
+								y++;
+							}
+							plateau[x][y]=blanc;
+							this.setSuccesseur(new EtatReversi(this, plateau));
+						}
+						
+					
+					}//1.1
+					
+
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					
+					if(this.plateau[x-1][y]==blanc) {//regardre au dessus si le pion est noir
+						
+						if(getBas(x, y, noir)) {
+							
+							while(plateau[x][y] == noir) {
+								
+								plateau[x][y]= blanc;
+								x++;
+							}
+							plateau[x][y]=blanc;
+							this.setSuccesseur(new EtatReversi(this, plateau));
+						}
+					}//2.2
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					
+					if(this.plateau[x][y+1]==blanc) { //regarde a droite si le pion est noir
+						
+						if(getGauche(x, y, noir)) {
+							while(plateau[x][y] == noir) {
+								plateau[x][y]= blanc;
+								y--;
+							}
+							plateau[x][y]=blanc;
+							this.setSuccesseur(new EtatReversi(this, plateau));
+						}
+					}//3.3
+					
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					if(this.plateau[x+1][y] == blanc) {
+						System.out.println(y);
+						if(getHaut(x, y, noir)) {
+							System.out.println("regarde en dessous");
+							while(plateau[x][y] == noir) {
+								plateau[x][y] = blanc;
+								x--;
+							}
+							plateau[x][y]=blanc;
+							this.setSuccesseur(new EtatReversi(this, plateau));
+						}
+					}//4.4
+					
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					//diaghautgauche
+					if(this.plateau[x+1][y+1]==blanc) {
+						while(plateau[x][y] == noir) {
+							plateau[x][y] = blanc;
+							x--;
+							y--;
+						}
+						plateau[x][y]= blanc;
+						this.setSuccesseur(new EtatReversi(this, plateau));
+					}//5.5
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					//diagbasGauche
+					if(this.plateau[x-1][y+1]==blanc) {
+						while(plateau[x][y] == noir) {
+							plateau[x][y] = blanc;
+							x++;
+							y--;
+						}
+						plateau[x][y]=blanc;
+						this.setSuccesseur(new EtatReversi(this, plateau));
+					}//6.6
+					
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					//diaghautDroit
+					if(this.plateau[x+1][y-1]==blanc) {
+						while(plateau[x][y] == noir) {
+							plateau[x][y] = blanc;
+							x--;
+							y++;
+						}
+						plateau[x][y]=blanc;
+						this.setSuccesseur(new EtatReversi(this, plateau));
+						
+					}//7.7
+					
+					x = (int) p.getX();
+					y = (int) p.getY();
+					plateau= copieEtat();
+					//diagBasDroit
+					if(this.plateau[x-1][y-1]==blanc) {
+						while(plateau[x][y] == noir) {
+							plateau[x][y] = blanc;
+							x++;
+							y++;
+						}
+						plateau[x][y]=blanc;
+						this.setSuccesseur(new EtatReversi(this, plateau));
+					}//8.8
+
+					
+					
+					
+				}
 				
 			}
 		}
 	}
 
 	public boolean getDroite(int i, int j,String couleur) {
-		//System.out.println("getDroite");
+		
 		boolean possible = false;
 		while((this.plateau[i][j]==couleur) && j<this.plateau[0].length) {
-			//System.out.println();
+			
 			j++;
 		}
 		if(this.plateau[i][j] == "   ") {
-			//System.out.println("getDroite : possible");
+			
 			possible = true;
 		}
 		return possible;
 	}
+	
 	public boolean getGauche(int i, int j , String couleur) {
 		boolean possible = false;
 		while((this.plateau[i][j]==couleur) && j>0) {
 			j--;
 		}
 		if(this.plateau[i][j]=="   ") {
-			//System.out.println("getGauche : possible");
 			possible = true;
 		}
-		return possible;
-	}
-	public boolean getHaut(int x,int y, String couleur) {
-		boolean possible = false;
-		while((this.plateau[x][y]==couleur && x<0)) {
-			x--;
-		}
-		if(this.plateau[x][y]=="   ") {
-			possible = true;
-		}
-		return possible;
-	}
-	public boolean getBas(int x,int y, String couleur) {
-		boolean possible = false;
-		while((this.plateau[x][y]==couleur && x>plateau.length)) {
-			x++;
-		}
-		if(this.plateau[x][y]=="   ") {
-			possible = true;
-		}
-		return possible;
-	}
-	public boolean getDiagHautGauche(int x,int y, String couleur) {
-		boolean possible = false;
-		return possible;
-	}
-	public boolean getDiagHautdroite(int x,int y, String couleur) {
-		boolean possible = false;
 		return possible;
 	}
 	
-
-	public boolean getDiagBasGauche(int x,int y, String couleur) {
+	public boolean getHaut(int i,int j, String couleur) {
+		
 		boolean possible = false;
+		while((this.plateau[i][j]==couleur && i>0)) {
+			
+			i--;
+		}
+		if(this.plateau[i][j]=="   ") {
+			possible = true;
+		}
+		System.out.println(possible);
 		return possible;
 	}
-	public boolean getDiagBasDroite(int x,int y, String couleur) {
+	public boolean getBas(int i,int j, String couleur) {
+		
 		boolean possible = false;
+		
+		while((this.plateau[i][j]==couleur && i<plateau.length)) {
+			i++;
+			
+		}
+		if(this.plateau[i][j]=="   ") {
+			possible = true;
+		}
 		return possible;
+	}
+	
+	
+	public boolean getDiagHautGauche(int i,int j, String couleur) {
+		boolean possible = false;
+		
+		while(this.plateau[i][j]=="   ") {
+			i--;
+			j--;
+		}
+		
+		if(this.plateau[i][j]=="   ") {
+			possible = true;
+		}
+		return possible;
+		
+	}
+	
+	public boolean getDiagHautdroite(int i,int j, String couleur) {
+		boolean possible = false;
+		
+		while(this.plateau[i][j]=="   ") {
+			i--;
+			j++;
+		}
+		
+		if(this.plateau[i][j]=="   ") {
+			possible = true;
+		}
+		return possible;
+		
+	}
+	
+
+	public boolean getDiagBasGauche(int i,int j, String couleur) {
+		boolean possible = false;
+		
+		while(this.plateau[i][j]=="   ") {
+			i++;
+			j--;
+		}
+		
+		
+		if(this.plateau[i][j]=="   ") {
+			possible = true;
+		}
+		return possible;
+		
+	}
+
+	public boolean getDiagBasDroite(int i,int j, String couleur) {
+		boolean possible = false;
+		
+		while(this.plateau[i][j]=="   ") {
+			i++;
+			j++;
+		}
+		
+		if(this.plateau[i][j]=="   ") {
+			possible = true;
+		}
+		return possible;
+		
 	}
 	/**
 	 * Méthode principal de lancement
