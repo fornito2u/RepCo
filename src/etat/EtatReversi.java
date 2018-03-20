@@ -1,6 +1,9 @@
-package Main;
+package etat;
 
 import java.util.ArrayList;
+
+import joueur.JoueurReversi;
+
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
@@ -77,8 +80,17 @@ public class EtatReversi extends EtatJeu {
 		plateau[3][4] = " N ";
 		plateau[4][4] = " B ";
 		plateau[4][3] = " N ";
+		test();
 	}
-	
+	private void test() {
+		plateau[3][3] = " B ";
+		plateau[3][4] = " B ";
+		plateau[4][4] = " B ";
+		plateau[4][3] = " N ";
+		plateau[2][4] = " N ";
+		plateau[2][2] = " N ";
+		
+	}
 	/**
 	 * Renvoit true si les deux etats sont identiques
 	 * @param etat
@@ -292,10 +304,14 @@ public class EtatReversi extends EtatJeu {
 			int y = (int) p.getY();
 			if(this.joueurActuel.getCouleur() == "noir") { //dans le cas ou le joueur pose un pion noir
 				
+				if(p.getY() == 0) {
+					
+				}
+				
 				
 				
 				if(p.getY()>0 && p.getY()<plateau[0].length && p.getX()>0 && p.getX()<plateau.length) { //on regarde le centre du plateaau sans s'occuper des extremités
-					
+					//on reinitialise x,y et plateau a chaque étape
 					x = (int) p.getX();
 					y = (int) p.getY();
 					plateau= copieEtat();
@@ -352,9 +368,9 @@ public class EtatReversi extends EtatJeu {
 					y = (int) p.getY();
 					plateau= copieEtat();
 					if(this.plateau[x+1][y] == noir) {
-						System.out.println(y);
+						//System.out.println(y);
 						if(getHaut(x, y, blanc)) {
-							System.out.println("regarde en dessous");
+							//System.out.println("regarde en dessous");
 							while(plateau[x][y] == blanc) {
 								plateau[x][y] = noir;
 								x--;
@@ -370,42 +386,57 @@ public class EtatReversi extends EtatJeu {
 					plateau= copieEtat();
 					//diaghautgauche
 					if(this.plateau[x+1][y+1]==noir) {
-						while(plateau[x][y] == blanc) {
-							plateau[x][y] = noir;
-							x--;
-							y--;
+						if(getDiagHautGauche(x, y, blanc)) {
+							while(plateau[x][y] == blanc) {
+								plateau[x][y] = noir;
+								x--;
+								y--;
+							}
+							plateau[x][y]=noir;
+							this.setSuccesseur(new EtatReversi(this, plateau));
+							
 						}
-						plateau[x][y]=noir;
-						this.setSuccesseur(new EtatReversi(this, plateau));
 					}//5
 					
+					///////////////////////////////////////////////A VERIFIER À PARTIR D'ICI////////////////////////////////
 					x = (int) p.getX();
 					y = (int) p.getY();
 					plateau= copieEtat();
 					//diagbasGauche
+					//System.out.println("x : "+x);
+					//System.out.println("y : "+y);
 					if(this.plateau[x-1][y+1]==noir) {
-						while(plateau[x][y] == blanc) {
-							plateau[x][y] = noir;
-							x++;
-							y--;
+						
+						if(getDiagBasGauche(x, y, blanc)) {
+							while(plateau[x][y] == blanc) {
+								plateau[x][y] = noir;
+								x++;
+								y--;
+							}
+							plateau[x][y]=noir;
+							this.setSuccesseur(new EtatReversi(this, plateau));
+							
 						}
-						plateau[x][y]=noir;
-						this.setSuccesseur(new EtatReversi(this, plateau));
+						
 					}//6
 					
 					
 					x = (int) p.getX();
 					y = (int) p.getY();
 					plateau= copieEtat();
-					//diaghautDroit
+					//diaghautDroit : OK!
 					if(this.plateau[x+1][y-1]==noir) {
-						while(plateau[x][y] == blanc) {
-							plateau[x][y] = noir;
-							x--;
-							y++;
+						
+						if(getDiagHautdroite(x, y, blanc)) {
+							while(plateau[x][y] == blanc) {
+								plateau[x][y] = noir;
+								x--;
+								y++;
+							}
+							plateau[x][y]=noir;
+							this.setSuccesseur(new EtatReversi(this, plateau));
+							//System.out.println("ajouté!");
 						}
-						plateau[x][y]=noir;
-						this.setSuccesseur(new EtatReversi(this, plateau));
 						
 					}//7
 					
@@ -414,13 +445,16 @@ public class EtatReversi extends EtatJeu {
 					plateau= copieEtat();
 					//diagBasDroit
 					if(this.plateau[x-1][y-1]==noir) {
-						while(plateau[x][y] == blanc) {
-							plateau[x][y] = noir;
-							x++;
-							y++;
+						if(getDiagBasDroite(x, y, blanc)) {
+							while(plateau[x][y] == blanc) {
+								plateau[x][y] = noir;
+								x++;
+								y++;
+							}
+							plateau[x][y]=noir;
+							this.setSuccesseur(new EtatReversi(this, plateau));
+							//System.out.println("ajouté!");
 						}
-						plateau[x][y]=noir;
-						this.setSuccesseur(new EtatReversi(this, plateau));
 					}//8
 				}
 				
@@ -433,7 +467,7 @@ public class EtatReversi extends EtatJeu {
 					plateau= copieEtat();
 					if(this.plateau[x][y-1]==blanc) {//regarder si à gauche du pion blanc il y a un pion noir
 						//on regarde si il est possible de poser un pion noir à droite
-						if(getDroite(x,y,blanc)) {
+						if(getDroite(x,y,noir)) {
 							while(plateau[x][y] == noir) {
 								plateau[x][y] = blanc;
 								y++;
@@ -487,7 +521,7 @@ public class EtatReversi extends EtatJeu {
 					if(this.plateau[x+1][y] == blanc) {
 						System.out.println(y);
 						if(getHaut(x, y, noir)) {
-							System.out.println("regarde en dessous");
+							
 							while(plateau[x][y] == noir) {
 								plateau[x][y] = blanc;
 								x--;
@@ -503,13 +537,15 @@ public class EtatReversi extends EtatJeu {
 					plateau= copieEtat();
 					//diaghautgauche
 					if(this.plateau[x+1][y+1]==blanc) {
-						while(plateau[x][y] == noir) {
-							plateau[x][y] = blanc;
-							x--;
-							y--;
+						if(getDiagHautGauche(x,y,noir)) {
+							while(plateau[x][y] == noir) {
+								plateau[x][y] = blanc;
+								x--;
+								y--;
+							}
+							plateau[x][y]= blanc;
+							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
-						plateau[x][y]= blanc;
-						this.setSuccesseur(new EtatReversi(this, plateau));
 					}//5.5
 					
 					x = (int) p.getX();
@@ -517,13 +553,15 @@ public class EtatReversi extends EtatJeu {
 					plateau= copieEtat();
 					//diagbasGauche
 					if(this.plateau[x-1][y+1]==blanc) {
-						while(plateau[x][y] == noir) {
-							plateau[x][y] = blanc;
-							x++;
-							y--;
+						if(getDiagBasGauche(x,y,noir)) {
+							while(plateau[x][y] == noir) {
+								plateau[x][y] = blanc;
+								x++;
+								y--;
+							}
+							plateau[x][y]=blanc;
+							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
-						plateau[x][y]=blanc;
-						this.setSuccesseur(new EtatReversi(this, plateau));
 					}//6.6
 					
 					
@@ -532,13 +570,15 @@ public class EtatReversi extends EtatJeu {
 					plateau= copieEtat();
 					//diaghautDroit
 					if(this.plateau[x+1][y-1]==blanc) {
-						while(plateau[x][y] == noir) {
-							plateau[x][y] = blanc;
-							x--;
-							y++;
+						if(getDiagHautdroite(x,y,noir)) {
+							while(plateau[x][y] == noir) {
+								plateau[x][y] = blanc;
+								x--;
+								y++;
+							}
+							plateau[x][y]=blanc;
+							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
-						plateau[x][y]=blanc;
-						this.setSuccesseur(new EtatReversi(this, plateau));
 						
 					}//7.7
 					
@@ -547,13 +587,15 @@ public class EtatReversi extends EtatJeu {
 					plateau= copieEtat();
 					//diagBasDroit
 					if(this.plateau[x-1][y-1]==blanc) {
-						while(plateau[x][y] == noir) {
-							plateau[x][y] = blanc;
-							x++;
-							y++;
+						if(getDiagBasDroite(x,y,noir)) {
+							while(plateau[x][y] == noir) {
+								plateau[x][y] = blanc;
+								x++;
+								y++;
+							}
+							plateau[x][y]=blanc;
+							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
-						plateau[x][y]=blanc;
-						this.setSuccesseur(new EtatReversi(this, plateau));
 					}//8.8
 
 					
@@ -600,7 +642,7 @@ public class EtatReversi extends EtatJeu {
 		if(this.plateau[i][j]=="   ") {
 			possible = true;
 		}
-		System.out.println(possible);
+		//System.out.println(possible);
 		return possible;
 	}
 	public boolean getBas(int i,int j, String couleur) {
@@ -617,11 +659,11 @@ public class EtatReversi extends EtatJeu {
 		return possible;
 	}
 	
-	
+	///////////////////A VERIFIER ////////////////////////////
 	public boolean getDiagHautGauche(int i,int j, String couleur) {
 		boolean possible = false;
-		
-		while(this.plateau[i][j]=="   ") {
+		System.out.println("getdiaghautgauche");
+		while(this.plateau[i][j]==couleur && i>0 && j>0) {
 			i--;
 			j--;
 		}
@@ -629,14 +671,23 @@ public class EtatReversi extends EtatJeu {
 		if(this.plateau[i][j]=="   ") {
 			possible = true;
 		}
+		System.out.println("getDiagHautGauche : "+possible);
 		return possible;
 		
 	}
 	
+///////////////////A VERIFIER ////////////////////////////
 	public boolean getDiagHautdroite(int i,int j, String couleur) {
+		System.out.println("i : "+i);
+	
 		boolean possible = false;
+		//System.out.println("getDiagHaudroit");
+		//boolean toto = (this.plateau[i][j]==couleur) && (i>0) && (j<this.plateau[0].length);
 		
-		while(this.plateau[i][j]=="   ") {
+		while((this.plateau[i][j]==couleur)) {
+			System.out.println(this.plateau[i][j]);
+			//System.out.println("i : "+i);
+			//System.out.println(j);
 			i--;
 			j++;
 		}
@@ -644,15 +695,17 @@ public class EtatReversi extends EtatJeu {
 		if(this.plateau[i][j]=="   ") {
 			possible = true;
 		}
+		//System.out.println(possible);
 		return possible;
 		
 	}
 	
 
+///////////////////A VERIFIER ////////////////////////////
 	public boolean getDiagBasGauche(int i,int j, String couleur) {
 		boolean possible = false;
 		
-		while(this.plateau[i][j]=="   ") {
+		while(this.plateau[i][j]==couleur && i<plateau.length && j>0) {
 			i++;
 			j--;
 		}
@@ -665,10 +718,11 @@ public class EtatReversi extends EtatJeu {
 		
 	}
 
+///////////////////A VERIFIER ////////////////////////////
 	public boolean getDiagBasDroite(int i,int j, String couleur) {
 		boolean possible = false;
 		
-		while(this.plateau[i][j]=="   ") {
+		while(this.plateau[i][j]==couleur && i<plateau.length && j<plateau[0].length) {
 			i++;
 			j++;
 		}
@@ -691,32 +745,14 @@ public class EtatReversi extends EtatJeu {
 		 er.afficherTab();
 		 er.calculEtatSuccesseur();
 		 System.out.println();
+		 
 		 for(EtatReversi e : er.getSuccesseur()) {
 			 
 			 e.afficherTab();
 			 System.out.println();
-		 }
-		 
-		// System.out.println("////////////");
-		// String [][]tab=new String[er.getTab().length][er.getTab()[0].length];
-		 
-		/* for(int i = 0; i<er.getTab().length;i++) {
-			 for(int j =0; j<er.getTab()[0].length;j++) {
-				 tab[i][j] = er.getTab()[i][j]; 
-			 }
-		 }
-		for(int i = 0; i<er.getTab().length;i++) {
-			 for(int j =0; j<er.getTab()[0].length;j++) {
-				 //System.out.print("["+tab[i][j]+"] ");
-				 tab = er.gauche(er.getTab(), i, j);
-				
-			 }*/
 			 
-			 //System.out.println(" ");
-		 //}
-		// System.out.println("////////////");
-		 //er.setEtat(tab);
-		 //er.afficherTab();
+		 }
+		 
 	 }
 
 

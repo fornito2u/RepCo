@@ -1,4 +1,4 @@
-package Main;
+package joueur;
 /**
  * 
  * @author Damien et Marvin

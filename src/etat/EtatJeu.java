@@ -1,6 +1,8 @@
-package Main;
+package etat;
 
 import java.util.ArrayList;
+
+import joueur.Joueur;
 
 /**
  * Classe abstraite repr�sentant l'�tat d'un jeu

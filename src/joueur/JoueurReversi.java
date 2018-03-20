@@ -1,4 +1,4 @@
-package Main;
+package joueur;
 /**
  * 
  * @author Damien et Marvin
@@ -16,6 +16,7 @@ public class JoueurReversi extends Joueur {
  * numéro du joueur
  */
 	public JoueurReversi(int id) {
+		
 		// TODO Auto-generated constructor stub
 		super(id);
 		this.setCouleur(id);
