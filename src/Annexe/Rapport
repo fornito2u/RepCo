@@ -6,10 +6,12 @@ Binôme :
 
 Lien GitHub : https://github.com/fornito2u/RepCo 									
 
-16/02/1018 :
 Marvin : - Création et initialisation du projet (Packages Annexe / Main)
 		 - Création des classes abstraites Joueur / EtatJeu
+		 - Constructeur + Initialisation des classes Joueur / EtatJeu
 		 - Méthode de comparaison d'état dans EtatReversi
+		 - Prototype de la méthode des sucesseurs (non utilisé, Damien c'est occupé da la méthode complète fonctionnelle)
+		 - Gestion du jeu (TP2 = Class Reversi)
 		 
 Damien : - Création des classes EtatReversi / JoueurReversi
 		 - Constructeur EtatReversi / JoueurReversi
@@ -19,4 +21,5 @@ Damien : - Création des classes EtatReversi / JoueurReversi
 		 - Méthode de gestion de la liste de joueur dans EtatJeu
 		 - Méthode de gestion du tour dans EtatJeu
 		 - Méthode de copie du plateau de jeu dans EtatReversi
-		 - gestion des successeurs : calcul et ajout des successeurs possible à la liste succ
+		 - Gestion des successeurs : calcul et ajout des successeurs possible à la liste succ
+		 

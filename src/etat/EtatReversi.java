@@ -59,10 +59,6 @@ public class EtatReversi extends EtatJeu {
 		else {
 			this.setJoueurActuel((JoueurReversi)this.getJoueur(1));
 		}
-		
-		
-		
-		
 	}
 
 	/**
@@ -212,63 +208,6 @@ public class EtatReversi extends EtatJeu {
 		return copie;
 	}
 	
-	/**
-	 * Renvoit une liste des coordonn�es auquel on peut jouer
-	 */
-	/* inutile maintenant
-	public Point[] succ() 
-	{	
-		Point[] tabPoint = new Point[60]; // A ne pas mettre a 60 mais a 61-tourActuel
-		int compteurPoint = 0;
-		int compt = 0;
-		for (int i =0; i<plateau.length;i++) 
-		{
-			for(int j =0; j<plateau[0].length;j++) 
-			{
-				// Le joueur actuel est blanc
-				if(joueurActuel.getCouleur() == "Blanc")
-				{	
-					// On regarde donc uniquement les cases � pion noir (car le pion pos� sera foc�ment coll� 
-					// � une pi�ce de cette couleur). Soit i la case que l'on regarde actuellement (noir)
-					if(plateau[i][j]== " N ")
-					{
-						// On regarde la case a un cran vers le haut de i (uniquement si i est pas déjà en haut du plateau) 
-						if(i>0 && plateau[i-1][j]=="   ")
-						{
-							// Dans le cas ou la case vers le haut est vide, on regarde vers le bas de i
-							// Si on ne trouve pas de vide et qu'on trouve un pion de notre couleur (blanc)
-							// dans ce cas la case vide au dessus de i est une position valide pour poser notre pion blanc
-							compt = i;
-							// compt passe a -1 quand on se rend compte que la case en haut de i n'est pas une solution
-							// valide
-							while(compt > -1)
-							{
-								// Si on peut aller vers le bas (le pion actuel n'est pas collé en bas du plateau)
-								// et si la case en bas n'est pas vide
-								// dans ce cas soit : - la case en bas de i est noir (appelez case k) 
-								//						alors on peut verifier la case en bas de k (incrémentation du compteur)
-								//					  - la case en bas est blanche, donc la case en haut de i est une position
-								//						valide pour un pion blanc
-								if(compt<plateau.length && plateau[compt+1][j]!="   ")
-								{
-									if(plateau[compt+1][j]== " B ")
-									{
-										compt +=1;
-									}
-									else
-									{
-										tabPoint[compteurPoint] = new Point(i-1, j);
-									}
-								}
-							}
-						}
-					}
-				}	
-			}
-		}
-		return null;
-	}
-	*/
 
 /**
  * 	
@@ -309,9 +248,7 @@ public class EtatReversi extends EtatJeu {
 			int y = (int) p.getY();
 			if(this.joueurActuel.getCouleur() == "noir") { //dans le cas ou le joueur pose un pion noir
 				
-				if(p.getY() == 0) {
-					
-				}
+				
 				
 				
 				
