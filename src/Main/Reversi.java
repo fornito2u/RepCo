@@ -8,62 +8,69 @@ import java.util.Scanner;
 import etat.EtatReversi;
 
 /**
- * @author damien
- *classe permetant de jouer à deux joueurs humains
+ * @author Damien / Marvin
+ * Classe permetant de jouer a deux joueurs humains
  */
-public class Reversi {
+public class Reversi 
+{
 	EtatReversi etat;
 	
-	public Reversi() {
-
+	public Reversi() 
+	{
 		this.etat = new EtatReversi();
 		etat.calculEtatSuccesseur();
-		
-		
 	}
 	
-	public EtatReversi getEtat() {
+	public EtatReversi getEtat() 
+	{
 		return this.etat;
 	}
 	
-	public void tour() {
-		
-		int i = 0; 
-		for(EtatReversi e : etat.getSuccesseur()) {
-			System.out.println("possibilité "+i);
-			e.afficherTab();
-			System.out.println();
-			i++;
+	public boolean tour() 
+	{
+		// V�rifie qu'il �xiste un �tat sucesseur possible dans la liste succ (attribut de la classe EtatReversi). 
+		// Si il n'y en a pas --> fin du jeu
+		if(this.etat.getSuccesseur().size() != 0) 
+		{
+			int i = 0; 
+			for(EtatReversi e : this.etat.getSuccesseur()) 
+			{
+				System.out.println("Possibilite "+i);
+				e.afficherTab();
+				System.out.println();
+				i++;
+			}
+			System.out.println("Liste des sucesseurs : " + this.etat.getSuccesseur());
+			System.out.println("Nombre de possibilite : "+i);
+			System.out.println("Pour jouer inscrire le numero de la possibilitees affichee precedement choisi : ");
+			Scanner sc  = new Scanner(System.in);
+		    String s =  "";
+		    s = sc.nextLine();
+			this.etat = this.etat.getEtatSucc(Integer.parseInt(s)); // Permet d'affecter a l'etat courant le successeur choisi
+			System.out.println("Plateau de jeu actuel :");
+			this.etat.afficherTab();
+			return true;
 		}
-		System.out.println("Nombre de possibilité : "+i);
-		System.out.println("pour jouer inscrire le numéro de la possibilitées affichée précedement choisi : ");
-		
-		/////////////a modifier////////
-		Scanner sc  = new Scanner(System.in);
-	    //String s =  "";
-	   // s = sc.nextLine();
-	    //System.out.println(s);
-	    
-	    //////////////
-		
-		
-		this.etat = this.etat.getEtatSucc(1); //pour affecter à l'etat courant le successeur choisi
-		etat.afficherTab();
+		else
+		{
+			return false;
+		}
 		
 	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Reversi r = new Reversi();
-		r.getEtat().afficherTab();
-	
-		
-			r.tour();
-		
 
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		boolean b = true;
+		Reversi r = new Reversi();
+		System.out.println("Plateau de jeu actuel :");
+		r.getEtat().afficherTab();
+		while(b == true)
+		{
+			b = r.tour();
+		}
+		System.out.println("END OF THE GAME");
 	}
 
 }
