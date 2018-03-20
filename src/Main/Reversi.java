@@ -22,6 +22,10 @@ public class Reversi {
 		
 	}
 	
+	public EtatReversi getEtat() {
+		return this.etat;
+	}
+	
 	public void tour() {
 		
 		int i = 0; 
@@ -34,20 +38,17 @@ public class Reversi {
 		System.out.println("Nombre de possibilité : "+i);
 		System.out.println("pour jouer inscrire le numéro de la possibilitées affichée précedement choisi : ");
 		
-		/*TEST*/
-		
-		
-		/*TEST*/
-		/////////////////////////////////
+		/////////////a modifier////////
 		Scanner sc  = new Scanner(System.in);
-	    String s =  "";
-	    s = sc.nextLine();
-	    System.out.println(s);
+	    //String s =  "";
+	   // s = sc.nextLine();
+	    //System.out.println(s);
 	    
-	    
+	    //////////////
 		
-		////////////////////////////////
 		
+		this.etat = this.etat.getEtatSucc(1); //pour affecter à l'etat courant le successeur choisi
+		etat.afficherTab();
 		
 	}
 
@@ -57,7 +58,11 @@ public class Reversi {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Reversi r = new Reversi();
-		r.tour();
+		r.getEtat().afficherTab();
+	
+		
+			r.tour();
+		
 
 	}
 

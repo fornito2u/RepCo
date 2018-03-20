@@ -80,7 +80,7 @@ public class EtatReversi extends EtatJeu {
 		plateau[3][4] = " N ";
 		plateau[4][4] = " B ";
 		plateau[4][3] = " N ";
-		test();
+		//test();
 	}
 	private void test() {
 		plateau[3][3] = " B ";
@@ -128,6 +128,11 @@ public class EtatReversi extends EtatJeu {
 		}
 		
 		return b;
+	}
+	
+	
+	public EtatReversi getEtatSucc(int i) {
+		return this.succ.get(i);
 	}
 	
 	/**
