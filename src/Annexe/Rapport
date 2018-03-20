@@ -11,7 +11,8 @@ Marvin : - Création et initialisation du projet (Packages Annexe / Main)
 		 - Constructeur + Initialisation des classes Joueur / EtatJeu
 		 - Méthode de comparaison d'état dans EtatReversi
 		 - Prototype de la méthode des sucesseurs (non utilisé, Damien c'est occupé da la méthode complète fonctionnelle)
-		 - Gestion du jeu (TP2 = Class Reversi)
+		 - Gestion du jeu (TP2 = Classe Reversi) + Gestion des erreurs d'entrées utilisateurs
+		 - Méthode estUnEntier (Classe Reversi) 
 		 
 Damien : - Création des classes EtatReversi / JoueurReversi
 		 - Constructeur EtatReversi / JoueurReversi
