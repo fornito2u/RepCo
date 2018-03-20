@@ -60,7 +60,7 @@ public class EtatReversi extends EtatJeu {
 			this.setJoueurActuel((JoueurReversi)this.getJoueur(1));
 		}
 		
-		
+		System.out.println(this.getJoueurActuel().getCouleur());
 		
 		
 	}
@@ -309,9 +309,7 @@ public class EtatReversi extends EtatJeu {
 			int y = (int) p.getY();
 			if(this.joueurActuel.getCouleur() == "noir") { //dans le cas ou le joueur pose un pion noir
 				
-				if(p.getY() == 0) {
-					
-				}
+				
 				
 				
 				

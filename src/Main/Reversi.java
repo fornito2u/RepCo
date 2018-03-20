@@ -17,7 +17,7 @@ public class Reversi {
 	public Reversi() {
 
 		this.etat = new EtatReversi();
-		etat.calculEtatSuccesseur();
+		
 		
 		
 	}
@@ -29,6 +29,7 @@ public class Reversi {
 	public void tour() {
 		
 		int i = 0; 
+		
 		for(EtatReversi e : etat.getSuccesseur()) {
 			System.out.println("possibilité "+i);
 			e.afficherTab();
@@ -47,8 +48,9 @@ public class Reversi {
 	    //////////////
 		
 		
-		this.etat = this.etat.getEtatSucc(1); //pour affecter à l'etat courant le successeur choisi
+		this.etat = this.etat.getEtatSucc(0); //pour affecter à l'etat courant le successeur choisi
 		etat.afficherTab();
+		System.out.println(this.etat.getJoueurActuel().getCouleur());
 		
 	}
 
@@ -59,9 +61,14 @@ public class Reversi {
 		// TODO Auto-generated method stub
 		Reversi r = new Reversi();
 		r.getEtat().afficherTab();
-	
 		
+		r.getEtat().calculEtatSuccesseur();
+		while(!r.getEtat().getSuccesseur().isEmpty()) {
 			r.tour();
+			r.getEtat().calculEtatSuccesseur();
+		}
+		
+			
 		
 
 	}
