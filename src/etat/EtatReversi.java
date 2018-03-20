@@ -461,7 +461,7 @@ public class EtatReversi extends EtatJeu {
 					y = (int) p.getY();
 					plateau= copieEtat();
 					if(this.plateau[x+1][y] == blanc) {
-						System.out.println(y);
+						//System.out.println(y);
 						if(getHaut(x, y, noir)) {
 							
 							while(plateau[x][y] == noir) {
@@ -604,7 +604,7 @@ public class EtatReversi extends EtatJeu {
 	///////////////////A VERIFIER ////////////////////////////
 	public boolean getDiagHautGauche(int i,int j, String couleur) {
 		boolean possible = false;
-		System.out.println("getdiaghautgauche");
+		//System.out.println("getdiaghautgauche");
 		while(this.plateau[i][j]==couleur && i>0 && j>0) {
 			i--;
 			j--;
@@ -613,14 +613,14 @@ public class EtatReversi extends EtatJeu {
 		if(this.plateau[i][j]=="   ") {
 			possible = true;
 		}
-		System.out.println("getDiagHautGauche : "+possible);
+		//System.out.println("getDiagHautGauche : "+possible);
 		return possible;
 		
 	}
 	
 ///////////////////A VERIFIER ////////////////////////////
 	public boolean getDiagHautdroite(int i,int j, String couleur) {
-		System.out.println("i : "+i);
+		//System.out.println("i : "+i);
 	
 		boolean possible = false;
 		//System.out.println("getDiagHaudroit");
@@ -686,12 +686,12 @@ public class EtatReversi extends EtatJeu {
 		 EtatReversi er = new EtatReversi();
 		 er.afficherTab();
 		 er.calculEtatSuccesseur();
-		 System.out.println();
+		 //System.out.println();
 		 
 		 for(EtatReversi e : er.getSuccesseur()) {
 			 
 			 e.afficherTab();
-			 System.out.println();
+			//System.out.println();
 			 
 		 }
 		 

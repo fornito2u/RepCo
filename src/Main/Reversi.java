@@ -27,6 +27,19 @@ public class Reversi
 	{
 		return this.etat;
 	}
+	
+	public boolean estUnEntier(String chaine) 
+	{
+		try 
+		{
+			Integer.parseInt(chaine);
+		} 
+		catch (NumberFormatException e)
+		{
+			return false;
+		}
+		return true;
+	}
 
 	public void tour() 
 	{		
@@ -41,10 +54,23 @@ public class Reversi
 		}
 		System.out.println("Tour n°" + nbTour+ " / Joueur " + this.etat.getJoueurActuel().getCouleur());
 		System.out.println("Nombre de possibilite : "+i);
-		System.out.println("Pour jouer inscrire le numero de la possibilitees affichee precedement choisi : ");
 		Scanner sc  = new Scanner(System.in);
-		String s =  "";
-		s = sc.nextLine();
+		String s = "";
+		int si = -1;
+		while(si < 0 || si > this.etat.getSuccesseur().size()-1 || estUnEntier(s) == false)
+		{
+			System.out.println("Pour jouer, entrez un numéro de possibilité valide");
+			s = sc.nextLine();
+			try 
+			{
+				si = Integer.parseInt(s);
+			} 
+			catch (NumberFormatException e)
+			{
+				System.out.println("Vous devez entrer un entier !");
+			}
+		}
+		
 		this.etat = this.etat.getEtatSucc(Integer.parseInt(s)); // Permet d'affecter a l'etat courant le successeur choisi
 		System.out.println("----------------------------------------------------------------------------------\n"
 				 + "----------------------------------------------------------------------------------\n"
