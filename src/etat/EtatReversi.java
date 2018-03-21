@@ -252,7 +252,7 @@ public class EtatReversi extends EtatJeu {
 				
 				
 				
-				if(p.getY()>0 && p.getY()<plateau[0].length-1 && p.getX()>0 && p.getX()<plateau.length-1) { //on regarde le centre du plateaau sans s'occuper des extremités
+				if(p.getY()>0 && p.getY()<plateau[0].length-1 && p.getX()>0 && p.getX()<plateau.length-1) { //on regarde uniquement le centre du plateaau 
 					//on reinitialise x,y et plateau a chaque étape
 					x = (int) p.getX();
 					y = (int) p.getY();
@@ -340,7 +340,7 @@ public class EtatReversi extends EtatJeu {
 						}
 					}//5
 					
-					///////////////////////////////////////////////A VERIFIER À PARTIR D'ICI////////////////////////////////
+					
 					x = (int) p.getX();
 					y = (int) p.getY();
 					plateau= copieEtat();

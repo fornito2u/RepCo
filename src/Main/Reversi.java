@@ -19,7 +19,7 @@ public class Reversi
 	public Reversi() 
 	{
 		this.etat = new EtatReversi();
-		etat.calculEtatSuccesseur();
+		//etat.calculEtatSuccesseur();
 		this.nbTour = 0;
 	}
 	
@@ -45,6 +45,7 @@ public class Reversi
 	{		
 		int i = 0; 
 		this.nbTour += 1;
+		
 		for(EtatReversi e : this.etat.getSuccesseur()) 
 		{
 			System.out.println("Possibilite "+i);
@@ -61,7 +62,7 @@ public class Reversi
 		{
 			System.out.println("Pour jouer, entrez un numéro de possibilité valide");
 			s = sc.nextLine();
-			//s="0";
+			//s="0";//pour tester rapidement 
 			try 
 			{
 				si = Integer.parseInt(s);
