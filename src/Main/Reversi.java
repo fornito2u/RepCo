@@ -52,15 +52,16 @@ public class Reversi
 			System.out.println();
 			i++;
 		}
-		System.out.println("Tour n°" + nbTour+ " / Joueur " + this.etat.getJoueurActuel().getCouleur());
+		System.out.println("Tour nï¿½" + nbTour+ " / Joueur " + this.etat.getJoueurActuel().getCouleur());
 		System.out.println("Nombre de possibilite : "+i);
 		Scanner sc  = new Scanner(System.in);
 		String s = "";
 		int si = -1;
 		while(si < 0 || si > this.etat.getSuccesseur().size()-1 || estUnEntier(s) == false)
 		{
-			System.out.println("Pour jouer, entrez un numéro de possibilité valide");
+			System.out.println("Pour jouer, entrez un numÃ©ro de possibilitÃ© valide");
 			s = sc.nextLine();
+			//s="0";
 			try 
 			{
 				si = Integer.parseInt(s);

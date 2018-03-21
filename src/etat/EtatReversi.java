@@ -252,7 +252,7 @@ public class EtatReversi extends EtatJeu {
 				
 				
 				
-				if(p.getY()>0 && p.getY()<plateau[0].length && p.getX()>0 && p.getX()<plateau.length) { //on regarde le centre du plateaau sans s'occuper des extremités
+				if(p.getY()>0 && p.getY()<plateau[0].length-1 && p.getX()>0 && p.getX()<plateau.length-1) { //on regarde le centre du plateaau sans s'occuper des extremités
 					//on reinitialise x,y et plateau a chaque étape
 					x = (int) p.getX();
 					y = (int) p.getY();
@@ -402,7 +402,7 @@ public class EtatReversi extends EtatJeu {
 				
 			}
 			else {//si le joueur actuel a les pions blanc
-				if(p.getY()>0 && p.getY()<plateau[0].length && p.getX()>0 && p.getX()<plateau.length) {
+				if(p.getY()>0 && p.getY()<plateau[0].length-1 && p.getX()>0 && p.getX()<plateau.length-1) {
 					
 					x = (int) p.getX();
 					y = (int) p.getY();
@@ -552,7 +552,8 @@ public class EtatReversi extends EtatJeu {
 	public boolean getDroite(int i, int j,String couleur) {
 		
 		boolean possible = false;
-		while((this.plateau[i][j]==couleur) && j<this.plateau[0].length) {
+		//System.out.println("getDroite this.plateau[0].lenght = "+this.plateau[0].length);
+		while((this.plateau[i][j]==couleur) && j<this.plateau[0].length-1) {
 			
 			j++;
 		}
@@ -591,7 +592,7 @@ public class EtatReversi extends EtatJeu {
 		
 		boolean possible = false;
 		
-		while((this.plateau[i][j]==couleur && i<plateau.length)) {
+		while((this.plateau[i][j]==couleur && i<plateau.length-1)) {
 			i++;
 			
 		}
@@ -626,7 +627,7 @@ public class EtatReversi extends EtatJeu {
 		//System.out.println("getDiagHaudroit");
 		//boolean toto = (this.plateau[i][j]==couleur) && (i>0) && (j<this.plateau[0].length);
 		
-		while((this.plateau[i][j]==couleur)) {
+		while((this.plateau[i][j]==couleur) && (i>0) && (j<this.plateau[0].length-1)) {
 			System.out.println(this.plateau[i][j]);
 			//System.out.println("i : "+i);
 			//System.out.println(j);
@@ -647,7 +648,7 @@ public class EtatReversi extends EtatJeu {
 	public boolean getDiagBasGauche(int i,int j, String couleur) {
 		boolean possible = false;
 		
-		while(this.plateau[i][j]==couleur && i<plateau.length && j>0) {
+		while(this.plateau[i][j]==couleur && i<plateau.length-1 && j>0) {
 			i++;
 			j--;
 		}
@@ -664,7 +665,7 @@ public class EtatReversi extends EtatJeu {
 	public boolean getDiagBasDroite(int i,int j, String couleur) {
 		boolean possible = false;
 		
-		while(this.plateau[i][j]==couleur && i<plateau.length && j<plateau[0].length) {
+		while(this.plateau[i][j]==couleur && i<plateau.length-1 && j<plateau[0].length-1) {
 			i++;
 			j++;
 		}
