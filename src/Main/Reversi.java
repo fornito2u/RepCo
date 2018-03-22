@@ -84,6 +84,17 @@ public class Reversi
 				 + "Plateau de jeu actuel :");
 		this.etat.afficherTab();
 	}
+	public void win() {
+		if(this.getEtat().getNombreBlanc()>this.getEtat().getNombreNoir()) {
+			System.out.println("blanc : "+getEtat().getNombreBlanc());
+			System.out.println("noir : "+getEtat().getNombreNoir());
+			System.out.println("Blanc gagnant!!");
+		}else if(getEtat().getNombreBlanc()==getEtat().getNombreNoir()){
+			System.out.println("ÉGALITÉ!!");
+		}else {
+			System.out.println("Noir gagnant!!");
+		}
+	}
 	
 	public static void main(String[] args) 
 	{
@@ -100,15 +111,7 @@ public class Reversi
 			r.tour();
 			r.getEtat().calculEtatSuccesseur();
 		}
-		if(r.getEtat().getNombreBlanc()>r.getEtat().getNombreNoir()) {
-			System.out.println("blanc : "+r.getEtat().getNombreBlanc());
-			System.out.println("noir : "+r.getEtat().getNombreNoir());
-			System.out.println("Blanc gagnant!!");
-		}else if(r.getEtat().getNombreBlanc()==r.getEtat().getNombreNoir()){
-			System.out.println("ÉGALITÉ!!");
-		}else {
-			System.out.println("Noir gagnant!!");
-		}
+		r.win();
 		System.out.println("END OF THE GAME");
 		
 	}		

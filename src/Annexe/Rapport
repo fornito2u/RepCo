@@ -23,4 +23,6 @@ Damien : - Création des classes EtatReversi / JoueurReversi
 		 - Méthode de gestion du tour dans EtatJeu
 		 - Méthode de copie du plateau de jeu dans EtatReversi
 		 - Gestion des successeurs : calcul et ajout des successeurs possible à la liste succ
+		 - Méthode win() dans reversi
+		 - Methode pour compter les jetons sur le plateau
 		 
