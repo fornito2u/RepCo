@@ -53,7 +53,7 @@ public class Reversi
 			System.out.println();
 			i++;
 		}
-		System.out.println("Tour n�" + nbTour+ " / Joueur " + this.etat.getJoueurActuel().getCouleur());
+		System.out.println("Tour n°" + nbTour+ " / Joueur " + this.etat.getJoueurActuel().getCouleur());
 		System.out.println("Nombre de possibilite : "+i);
 		Scanner sc  = new Scanner(System.in);
 		String s = "";
@@ -61,8 +61,12 @@ public class Reversi
 		while(si < 0 || si > this.etat.getSuccesseur().size()-1 || estUnEntier(s) == false)
 		{
 			System.out.println("Pour jouer, entrez un numéro de possibilité valide");
+
+			
 			s = sc.nextLine();
-			//s="0";//pour tester rapidement 
+			//s="0";//pour tester rapidement
+			
+			
 			try 
 			{
 				si = Integer.parseInt(s);
@@ -91,13 +95,24 @@ public class Reversi
 						 + "Plateau de jeu actuel :");
 		r.getEtat().afficherTab();
 		r.getEtat().calculEtatSuccesseur();
-		while(!r.getEtat().getSuccesseur().isEmpty()) 
+		while(!r.getEtat().estUnEtatFinal())//r.getEtat().getSuccesseur().isEmpty() 
 		{
 			r.tour();
 			r.getEtat().calculEtatSuccesseur();
 		}
+		if(r.getEtat().getNombreBlanc()>r.getEtat().getNombreNoir()) {
+			System.out.println("blanc : "+r.getEtat().getNombreBlanc());
+			System.out.println("noir : "+r.getEtat().getNombreNoir());
+			System.out.println("Blanc gagnant!!");
+		}else if(r.getEtat().getNombreBlanc()==r.getEtat().getNombreNoir()){
+			System.out.println("ÉGALITÉ!!");
+		}else {
+			System.out.println("Noir gagnant!!");
+		}
 		System.out.println("END OF THE GAME");
+		
 	}		
+	
 }
 			
 	

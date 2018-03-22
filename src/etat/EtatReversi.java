@@ -51,8 +51,6 @@ public class EtatReversi extends EtatJeu {
 		this.plateau = plateau;
 		this.listeJoueur = e.getListJoueur();
 		this.succ = new ArrayList<>();
-		//System.out.println();
-		//System.out.println(e.listeJoueur);
 		if(e.getJoueurActuel().getCouleur()== ((JoueurReversi) this.getJoueur(1)).getCouleur()) {
 			this.setJoueurActuel((JoueurReversi) this.getJoueur(0));
 		}
@@ -267,8 +265,6 @@ public class EtatReversi extends EtatJeu {
 							plateau[x][y]=noir;
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
-						
-					
 					}//1
 					
 					x = (int) p.getX();
@@ -310,7 +306,7 @@ public class EtatReversi extends EtatJeu {
 					y = (int) p.getY();
 					plateau= copieEtat();
 					if(this.plateau[x+1][y] == noir) {
-						//System.out.println(y);
+						
 						if(getHaut(x, y, blanc)) {
 							//System.out.println("regarde en dessous");
 							while(plateau[x][y] == blanc) {
@@ -345,8 +341,6 @@ public class EtatReversi extends EtatJeu {
 					y = (int) p.getY();
 					plateau= copieEtat();
 					//diagbasGauche
-					//System.out.println("x : "+x);
-					//System.out.println("y : "+y);
 					if(this.plateau[x-1][y+1]==noir) {
 						
 						if(getDiagBasGauche(x, y, blanc)) {
@@ -377,7 +371,7 @@ public class EtatReversi extends EtatJeu {
 							}
 							plateau[x][y]=noir;
 							this.setSuccesseur(new EtatReversi(this, plateau));
-							//System.out.println("ajouté!");
+							
 						}
 						
 					}//7
@@ -461,7 +455,7 @@ public class EtatReversi extends EtatJeu {
 					y = (int) p.getY();
 					plateau= copieEtat();
 					if(this.plateau[x+1][y] == blanc) {
-						//System.out.println(y);
+						
 						if(getHaut(x, y, noir)) {
 							
 							while(plateau[x][y] == noir) {
@@ -602,7 +596,7 @@ public class EtatReversi extends EtatJeu {
 		return possible;
 	}
 	
-	///////////////////A VERIFIER ////////////////////////////
+
 	public boolean getDiagHautGauche(int i,int j, String couleur) {
 		boolean possible = false;
 		//System.out.println("getdiaghautgauche");
@@ -619,18 +613,12 @@ public class EtatReversi extends EtatJeu {
 		
 	}
 	
-///////////////////A VERIFIER ////////////////////////////
+
 	public boolean getDiagHautdroite(int i,int j, String couleur) {
-		//System.out.println("i : "+i);
-	
-		boolean possible = false;
-		//System.out.println("getDiagHaudroit");
-		//boolean toto = (this.plateau[i][j]==couleur) && (i>0) && (j<this.plateau[0].length);
-		
+			
+		boolean possible = false;		
 		while((this.plateau[i][j]==couleur) && (i>0) && (j<this.plateau[0].length-1)) {
-			System.out.println(this.plateau[i][j]);
-			//System.out.println("i : "+i);
-			//System.out.println(j);
+			
 			i--;
 			j++;
 		}
@@ -644,7 +632,7 @@ public class EtatReversi extends EtatJeu {
 	}
 	
 
-///////////////////A VERIFIER ////////////////////////////
+
 	public boolean getDiagBasGauche(int i,int j, String couleur) {
 		boolean possible = false;
 		
@@ -652,8 +640,6 @@ public class EtatReversi extends EtatJeu {
 			i++;
 			j--;
 		}
-		
-		
 		if(this.plateau[i][j]=="   ") {
 			possible = true;
 		}
@@ -661,7 +647,7 @@ public class EtatReversi extends EtatJeu {
 		
 	}
 
-///////////////////A VERIFIER ////////////////////////////
+
 	public boolean getDiagBasDroite(int i,int j, String couleur) {
 		boolean possible = false;
 		
@@ -674,7 +660,31 @@ public class EtatReversi extends EtatJeu {
 			possible = true;
 		}
 		return possible;
+	}
+	
+	public boolean estUnEtatFinal() {
+		return this.succ.isEmpty();
+	}
+	public int nombreJeton(String couleur) {
+		int nbr=0;
+		int large,haut;
+		large = this.plateau[0].length;
+		haut = this.plateau.length;
+		for(int i =0 ; i<haut;i++) {
+			for(int j=0; j<large; j++) {
+				if(this.plateau[i][j]==couleur) {
+					nbr++;
+				}
+			}
+		}
 		
+		return nbr;
+	}
+	public int getNombreBlanc() {
+		return nombreJeton(" B ");
+	}
+	public int getNombreNoir() {
+		return nombreJeton(" N ");
 	}
 	/**
 	 * Méthode principal de lancement
@@ -692,8 +702,9 @@ public class EtatReversi extends EtatJeu {
 		 for(EtatReversi e : er.getSuccesseur()) {
 			 
 			 e.afficherTab();
-			//System.out.println();
-			 
+			System.out.println();
+			System.out.println(e.getNombreBlanc());
+			System.out.println(e.getNombreNoir());
 		 }
 		 
 	 }
