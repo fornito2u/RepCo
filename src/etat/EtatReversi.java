@@ -20,6 +20,8 @@ public class EtatReversi extends EtatJeu {
 	protected String[][] plateau;
 	protected ArrayList<EtatReversi> succ;
 	protected JoueurReversi joueurActuel;
+	protected int poids; //valeur par evaluation eval0
+	
 	
 
 	
@@ -31,6 +33,7 @@ public class EtatReversi extends EtatJeu {
 	public EtatReversi() {
 		// TODO Auto-generated constructor stub
 		super();
+		this.poids=0;
 		this.setJoueur(new JoueurReversi(0));
 		this.setJoueur(new JoueurReversi(1));
 		plateau = new String[8][8];
@@ -57,6 +60,8 @@ public class EtatReversi extends EtatJeu {
 		else {
 			this.setJoueurActuel((JoueurReversi)this.getJoueur(1));
 		}
+		this.poids = eval0();
+		//EtatJeu.setTour();
 	}
 
 	/**
@@ -686,16 +691,42 @@ public class EtatReversi extends EtatJeu {
 	public int getNombreNoir() {
 		return nombreJeton(" N ");
 	}
-	
-	//fonction qui evalue un état successeur
-	public int eval0(EtatReversi e) {
-		int poids = 0; //return 0 si la situation est neutre
+	public String getCouleurGagnante() {
+		String gagnant=null;
+		int blanc,noir;
+		blanc = getNombreBlanc();
+		noir = getNombreNoir();
 		
-		if(this.getJoueurActuel().estBlanc()) {
-			poids = e.getNombreBlanc()-e.getNombreNoir();
+		if(blanc>noir) {
+			gagnant = "Blanc gagnant";
+		}
+		else if (noir>blanc) {
+			gagnant = "Noir gagnant";
 		}
 		else {
-			poids = e.getNombreNoir()-getNombreBlanc();
+			gagnant = "egalité";
+		}
+	
+		return gagnant;
+	}
+	
+	//fonction qui evalue un état successeur
+	public int eval0() {
+		//int poids = 0; //return 0 si la situation est neutre
+		
+		if(this.getJoueurActuel().estBlanc()) {
+			poids = this.getNombreBlanc()-this.getNombreNoir();
+		}
+		else {
+			poids = this.getNombreNoir()-this.getNombreBlanc();
+		}
+		
+		//a modifier pour faire en fonction de la couleur gagnante
+		if(this.estUnEtatFinal() && this.getJoueurActuel().getCouleur()==this.getCouleurGagnante()) {
+			poids = Integer.MAX_VALUE; //pour simuler + l'infini
+		}
+		else {
+			poids = Integer.MIN_VALUE;
 		}
 		
 		return poids;

@@ -5,6 +5,7 @@ package Main;
 
 import java.util.Scanner;
 
+import etat.EtatJeu;
 import etat.EtatReversi;
 
 /**
@@ -52,6 +53,7 @@ public class Reversi
 			e.afficherTab();
 			System.out.println();
 			i++;
+			
 		}
 		System.out.println("Tour n°" + nbTour+ " / Joueur " + this.etat.getJoueurActuel().getCouleur());
 		System.out.println("Nombre de possibilite : "+i);
@@ -85,15 +87,15 @@ public class Reversi
 		this.etat.afficherTab();
 	}
 	public void win() {
-		if(this.getEtat().getNombreBlanc()>this.getEtat().getNombreNoir()) {
-			System.out.println("blanc : "+getEtat().getNombreBlanc());
-			System.out.println("noir : "+getEtat().getNombreNoir());
-			System.out.println("Blanc gagnant!!");
-		}else if(getEtat().getNombreBlanc()==getEtat().getNombreNoir()){
-			System.out.println("ÉGALITÉ!!");
-		}else {
-			System.out.println("Noir gagnant!!");
-		}
+		String couleur;
+		int blanc,noir;
+		couleur = this.getEtat().getCouleurGagnante();
+		blanc = getEtat().getNombreBlanc();
+		noir = getEtat().getNombreNoir();
+		System.out.println("blanc : "+ blanc);
+		System.out.println("noir : " + noir);
+		System.out.println(couleur);
+		
 	}
 	
 	public static void main(String[] args) 

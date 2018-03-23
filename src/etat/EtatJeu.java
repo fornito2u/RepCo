@@ -16,6 +16,7 @@ public abstract class EtatJeu
 	 */
 	//protected Joueur joueurActuel;
 	protected ArrayList<Joueur> listeJoueur;
+	
 	protected static int tour = 1;
 	
 	/**

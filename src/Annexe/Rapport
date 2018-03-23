@@ -25,4 +25,7 @@ Damien : - Création des classes EtatReversi / JoueurReversi
 		 - Gestion des successeurs : calcul et ajout des successeurs possible à la liste succ
 		 - Méthode win() dans reversi
 		 - Methode pour compter les jetons sur le plateau
+		 - Methode booleen pour connaitre la couleur des joueurs
+		 - Ébauche de eval0
+		 
 		 
