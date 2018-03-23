@@ -795,25 +795,104 @@ public class EtatReversi extends EtatJeu {
 		return this.poids;
 	}
 	
+	/**
+	 * Compare deux fonctions eval0
+	 * @param i Numéro de la première eval0 (entre 0 et 2 pour les fonction eval0, eval0V2 et eval0V3
+	 * @param j Numéro de la première eval0 (entre 0 et 2 pour les fonction eval0, eval0V2 et eval0V3
+	 * @param p Profondeur
+	 * @return 1 si premier eval0 meilleur que le second, -1 pour l'inverse, 0 si egalité 
+	 */
 	public int compareEval0(int i, int j, int p)
 	{
 		int result = 0;
+		int compteur = 1;
+		int compteurVictoirePremierEval0 = 0;
+		int compteurVictoireSecondEval0 = 0;
+		int nbNoir = 0;
+		int nbBlanc = 0;
 		EtatReversi er = new EtatReversi();
-		er.calculEtatSuccesseur();
-		er = this.minimax(1); 
+		for(int f = 0; f<2;f++)
+		{
+			while(!er.estUnEtatFinal())
+			{
+				er.calculEtatSuccesseur();
+				if(f == 0)
+				{
+					//Noir utilise le premier eval0
+					if(compteur == 1)
+					{
+						er = this.minimax(p, i);
+						compteur = 2;
+					}
+					else // Blanc utilise le second eval0
+					{
+						er = this.minimax(p, j);
+						compteur = 1;
+					}
+				}
+				else
+				{
+					//Noir utilise le second eval0
+					if(compteur == 1)
+					{
+						er = this.minimax(p, j);
+						compteur = 2;
+					}
+					else // Blanc utilise le premier eval0
+					{
+						er = this.minimax(p, i);
+						compteur = 1;
+					}
+				}	
+			}
+			compteur = 1;
+			nbNoir = er.getNombreNoir();
+			nbBlanc = er.getNombreBlanc();
+			if(nbNoir > nbBlanc)
+			{
+				if(f == 0)
+				{
+					compteurVictoirePremierEval0+=1;
+				}
+				else
+				{
+					compteurVictoireSecondEval0+=1;
+				}
+			}
+			if(nbNoir<nbBlanc)
+			{
+				if(f==0)
+				{
+					compteurVictoireSecondEval0+=1;
+				}
+				else
+				{
+					compteurVictoirePremierEval0+=1;
+				}
+			}
+		}
 		
+		if(compteurVictoirePremierEval0 > compteurVictoireSecondEval0)
+		{
+			result = 1;
+		}
+		if(compteurVictoirePremierEval0 < compteurVictoireSecondEval0)
+		{
+			result = -1;
+		}
 		
 		return result;
 	}
 	
-	public EtatReversi minimax(int c)
+	public EtatReversi minimax(int c, int valEval0)
 	{
 		float score = 0;
 		float score_max = Integer.MIN_VALUE;
 		EtatReversi e_sortie = null;
 		for(EtatReversi s : this.succ)
 		{
-			//score=evaluation(c);
+			
+			score=(float)evaluation(c, this, valEval0);
 			if(score>=score_max)
 			{
 				e_sortie = s;
