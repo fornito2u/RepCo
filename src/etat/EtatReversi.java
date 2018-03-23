@@ -8,7 +8,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 /**
- * Classe repr�sentant l'�tat d'un jeu
+ * Classe représentant l'état d'un jeu
  * @author Marvin / Damien
  *
  */
@@ -787,6 +787,12 @@ public class EtatReversi extends EtatJeu {
 		return poids;
 	}
 	
+	
+	public int eval0V3() 
+	{
+		poids = this.succ.size();
+		return this.poids;
+	}
 	
 	/**
 	 * Méthode principal de lancement
