@@ -787,6 +787,12 @@ public class EtatReversi extends EtatJeu {
 	}
 	
 	
+	public int eval0V3() 
+	{
+		poids = this.succ.size();
+		return this.poids;
+	}
+	
 	/**
 	 * Méthode principal de lancement
 	 * @param args
