@@ -60,6 +60,7 @@ public class EtatReversi extends EtatJeu {
 		else {
 			this.setJoueurActuel((JoueurReversi)this.getJoueur(1));
 		}
+		this.calculEtatSuccesseur();
 		this.poids = eval0();
 		//EtatJeu.setTour();
 	}
@@ -727,7 +728,7 @@ public class EtatReversi extends EtatJeu {
 		}
 		
 		//a modifier pour faire en fonction de la couleur gagnante
-		/*
+		
 		if(this.estUnEtatFinal()) 
 		{
 			if( this.getJoueurActuel().getCouleur()==this.getCouleurGagnante())
@@ -739,7 +740,7 @@ public class EtatReversi extends EtatJeu {
 				poids = Integer.MIN_VALUE;
 			}
 		}
-		*/
+		
 		
 		return poids;
 	}
