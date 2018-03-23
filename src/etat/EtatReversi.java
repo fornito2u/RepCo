@@ -8,7 +8,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 /**
- * Classe reprï¿½sentant l'ï¿½tat d'un jeu
+ * Classe reprÃ©sentant l'Ã©tat d'un jeu
  * @author Marvin / Damien
  *
  */
@@ -715,7 +715,7 @@ public class EtatReversi extends EtatJeu {
 		return this.plateau;
 	}
 	
-	// Evalue l'intéret de l'état actuel (Par calcul du matériel)
+	// Evalue l'intï¿½ret de l'ï¿½tat actuel (Par calcul du matï¿½riel)
 	public int eval0() {
 		//int poids = 0; //return 0 si la situation est neutre
 		
@@ -744,7 +744,7 @@ public class EtatReversi extends EtatJeu {
 		return poids;
 	}
 	
-	// Evalue l'intéret de l'état actuel (Par calcul de force des pions)
+	// Evalue l'intï¿½ret de l'ï¿½tat actuel (Par calcul de force des pions)
 	public int eval0V2() 
 	{
 		this.poids = 0;
