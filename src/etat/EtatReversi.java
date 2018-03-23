@@ -60,9 +60,8 @@ public class EtatReversi extends EtatJeu {
 		else {
 			this.setJoueurActuel((JoueurReversi)this.getJoueur(1));
 		}
-		this.calculEtatSuccesseur();
+		//this.calculEtatSuccesseur();
 		this.poids = eval0();
-		//EtatJeu.setTour();
 	}
 
 	/**
@@ -729,7 +728,7 @@ public class EtatReversi extends EtatJeu {
 		
 		//a modifier pour faire en fonction de la couleur gagnante
 		
-		if(this.estUnEtatFinal()) 
+		/*if(this.estUnEtatFinal()) 
 		{
 			if( this.getJoueurActuel().getCouleur()==this.getCouleurGagnante())
 			{
@@ -739,7 +738,7 @@ public class EtatReversi extends EtatJeu {
 			{
 				poids = Integer.MIN_VALUE;
 			}
-		}
+		}*/
 		
 		
 		return poids;
@@ -794,10 +793,12 @@ public class EtatReversi extends EtatJeu {
 		return this.poids;
 	}
 	
-	public int compareEval0(int i, int j)
+	public int compareEval0(int i, int j, int p)
 	{
 		int result = 0;
-		
+		EtatReversi er = new EtatReversi();
+		er.calculEtatSuccesseur();
+		er = this.minimax(1); 
 		
 		
 		return result;
@@ -817,7 +818,6 @@ public class EtatReversi extends EtatJeu {
 				score_max = score;
 			}
 		}
-		
 		return e_sortie;
 	}
 	
@@ -828,20 +828,12 @@ public class EtatReversi extends EtatJeu {
 	 */
 	 public static void main(String[] args) 
 	 {
-		 
 		EtatReversi er = new EtatReversi();
-		TabForce t = new TabForce();
-		int poid = 0;
-		
-		for(int i =0; i<3;i++)
-		{
-			er.calculEtatSuccesseur();
-			er = er.succ.get(0);
-			poid = er.eval0V2(); // <---------------- TEST FONCTION EVAL 0
-			System.out.println("Eval0V2 : "+er.eval0V2());
-			System.out.println("Poid : "+poid);
-		}
+		//TabForce t = new TabForce();
+		int poid = 0;		
+		er.calculEtatSuccesseur();
+		er = er.succ.get(0);
+		poid = er.eval0(); // <---------------- TEST FONCTION EVAL 0
+		System.out.println("Eval0 : "+er.eval0()); // <----------|
 	 }
-	 
-
 }
