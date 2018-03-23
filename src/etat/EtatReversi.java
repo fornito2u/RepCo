@@ -40,6 +40,7 @@ public class EtatReversi extends EtatJeu {
 		this.etatInitial();
 		this.succ = new ArrayList<>();
 		this.setJoueurActuel((JoueurReversi)this.getJoueur(0));
+		//this.calculEtatSuccesseur();
 		
 	}
 	
@@ -242,6 +243,7 @@ public class EtatReversi extends EtatJeu {
 	//on calcule l'etat successeur et
 	//on l'ajoute a la liste d'etat successeur
 	public void calculEtatSuccesseur() { 
+		
 		String blanc = " B ";
 		String noir = " N ";
 		for(Point p : this.jetonAdverse()) {
@@ -821,6 +823,71 @@ public class EtatReversi extends EtatJeu {
 		return e_sortie;
 	}
 	
+	public double max(double x,double y) {
+		double a;
+		if(x>y) {
+			a = x;
+		}else {
+			a = y;
+		}
+		return a;
+	}
+	public double min(double x,double y) {
+	
+		double a;
+		
+		if(x<y) {
+			a = x;
+		}else {
+			a = y;
+		}
+		return a;
+	}
+	public double evaluation(int c, EtatReversi etat, int numeroEvaluation) {
+		double score;
+		score=0;
+		
+		if(this.estUnEtatFinal()) {
+			//retourner -infini , +infini , 0 en fonction du gagnant
+		}
+		if(c == 0) {
+			switch (numeroEvaluation) {
+			case 0:
+				score = eval0();
+				break;
+				
+			case 1:
+				score = eval0V2();
+				break;
+				
+			case 2 :
+				score = eval0V3();
+				break;
+
+			default:
+				score = eval0();
+				break;
+			}
+			
+			return score; 
+		}
+		if(etat.getJoueurActuel()==this.getJoueurActuel()) {
+			score = Integer.MIN_VALUE;
+			for(EtatReversi e : this.getSuccesseur()) {
+				score = max(score,evaluation(c-1,e,numeroEvaluation));
+			}
+			return score;
+			
+		}else {
+			score = Integer.MAX_VALUE;
+			for(EtatReversi e : this.getSuccesseur()) {
+				score = min(score,evaluation(c-1, e,numeroEvaluation));
+			}
+			return score;
+			
+		}
+	}
+	
 	/**
 	 * Méthode principal de lancement
 	 * @param args
@@ -829,11 +896,15 @@ public class EtatReversi extends EtatJeu {
 	 public static void main(String[] args) 
 	 {
 		EtatReversi er = new EtatReversi();
+
 		//TabForce t = new TabForce();
 		int poid = 0;		
 		er.calculEtatSuccesseur();
 		er = er.succ.get(0);
 		poid = er.eval0(); // <---------------- TEST FONCTION EVAL 0
 		System.out.println("Eval0 : "+er.eval0()); // <----------|
+
+		System.out.println("er créé");
+		System.out.println(er.poids);
 	 }
 }
