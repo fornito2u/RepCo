@@ -729,7 +729,6 @@ public class EtatReversi extends EtatJeu {
 			poids = this.getNombreNoir()-this.getNombreBlanc();
 		}
 		
-		//a modifier pour faire en fonction de la couleur gagnante
 		
 		if(this.estUnEtatFinal()) 
 		{
@@ -847,7 +846,73 @@ public class EtatReversi extends EtatJeu {
 		double score;
 		score=0;
 		
-		if(this.estUnEtatFinal()) {
+		if(etat.estUnEtatFinal()) {
+			int nbNoir = etat.getNombreNoir();
+			int nbBlanc = etat.getNombreBlanc();
+			if(this.getJoueurActuel()==etat.getJoueurActuel()) {
+				
+				if(etat.getJoueurActuel().getCouleur()=="noir") {
+					if(nbNoir > nbBlanc) {
+						score = Integer.MAX_VALUE;
+						return score;
+					}
+					else if(nbNoir<nbBlanc) {
+						score = Integer.MIN_VALUE;
+						return score;
+					}
+					else {
+						score = 0;
+						return score;
+					}
+				}
+				else {
+					if(nbNoir > nbBlanc) {
+						score = Integer.MIN_VALUE;
+						return score;
+					}
+					else if(nbNoir<nbBlanc) {
+						score = Integer.MAX_VALUE;
+						return score;
+					}
+					else {
+						score = 0;
+						return score;
+					}
+					
+				}
+			}
+			else {
+
+				if(etat.getJoueurActuel().getCouleur()=="noir") {
+					if(nbNoir < nbBlanc) {
+						score = Integer.MAX_VALUE;
+						return score;
+					}
+					else if(nbNoir>nbBlanc) {
+						score = Integer.MIN_VALUE;
+						return score;
+					}
+					else {
+						score = 0;
+						return score;
+					}
+				}
+				else {
+					if(nbNoir < nbBlanc) {
+						score = Integer.MIN_VALUE;
+						return score;
+					}
+					else if(nbNoir > nbBlanc) {
+						score = Integer.MAX_VALUE;
+						return score;
+					}
+					else {
+						score = 0;
+						return score;
+					}
+					
+				}
+			}
 			//retourner -infini , +infini , 0 en fonction du gagnant
 		}
 		if(c == 0) {
