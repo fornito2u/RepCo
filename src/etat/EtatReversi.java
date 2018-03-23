@@ -686,6 +686,21 @@ public class EtatReversi extends EtatJeu {
 	public int getNombreNoir() {
 		return nombreJeton(" N ");
 	}
+	
+	//fonction qui evalue un état successeur
+	public int eval0(EtatReversi e) {
+		int poids = 0; //return 0 si la situation est neutre
+		
+		if(this.getJoueurActuel().estBlanc()) {
+			poids = e.getNombreBlanc()-e.getNombreNoir();
+		}
+		else {
+			poids = e.getNombreNoir()-getNombreBlanc();
+		}
+		
+		return poids;
+	}
+	
 	/**
 	 * Méthode principal de lancement
 	 * @param args

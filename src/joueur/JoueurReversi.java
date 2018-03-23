@@ -37,4 +37,10 @@ public class JoueurReversi extends Joueur {
 		return couleur;
 		
 	}
+	public boolean estBlanc() {
+		return this.getCouleur()=="blanc";
+	}
+	public boolean estNoir() {
+		return this.getCouleur()=="noir";
+	}
 }
