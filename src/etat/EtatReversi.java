@@ -40,6 +40,7 @@ public class EtatReversi extends EtatJeu {
 		this.etatInitial();
 		this.succ = new ArrayList<>();
 		this.setJoueurActuel((JoueurReversi)this.getJoueur(0));
+		//this.calculEtatSuccesseur();
 		
 	}
 	
@@ -60,7 +61,7 @@ public class EtatReversi extends EtatJeu {
 		else {
 			this.setJoueurActuel((JoueurReversi)this.getJoueur(1));
 		}
-		this.calculEtatSuccesseur();
+		//this.calculEtatSuccesseur();
 		this.poids = eval0();
 		//EtatJeu.setTour();
 	}
@@ -243,6 +244,7 @@ public class EtatReversi extends EtatJeu {
 	//on calcule l'etat successeur et
 	//on l'ajoute a la liste d'etat successeur
 	public void calculEtatSuccesseur() { 
+		
 		String blanc = " B ";
 		String noir = " N ";
 		for(Point p : this.jetonAdverse()) {
@@ -821,17 +823,51 @@ public class EtatReversi extends EtatJeu {
 		return e_sortie;
 	}
 	
-	public double evaluation(int c) {
-		double score, score_min, score_max;
+	public double max(double x,double y) {
+		double a;
+		if(x>y) {
+			a = x;
+		}else {
+			a = y;
+		}
+		return a;
+	}
+	public double min(double x,double y) {
+	
+		double a;
 		
+		if(x<y) {
+			a = x;
+		}else {
+			a = y;
+		}
+		return a;
+	}
+	public double evaluation(int c, EtatReversi etat) {
+		double score;
+		score=0;
 		if(this.estUnEtatFinal()) {
 			//retourner -infini , +infini , 0 en fonction du gagnant
 		}
 		if(c == 0) {
-			return eval0(); 
+			score = eval0();
+			return score; 
 		}
-		if()
-		return null;
+		if(etat.getJoueurActuel()==this.getJoueurActuel()) {
+			score = Integer.MIN_VALUE;
+			for(EtatReversi e : this.getSuccesseur()) {
+				score = max(score,evaluation(c-1,e));
+			}
+			return score;
+			
+		}else {
+			score = Integer.MAX_VALUE;
+			for(EtatReversi e : this.getSuccesseur()) {
+				score = min(score,evaluation(c-1, e));
+			}
+			return score;
+			
+		}
 	}
 	
 	/**
@@ -841,19 +877,21 @@ public class EtatReversi extends EtatJeu {
 	 */
 	 public static void main(String[] args) 
 	 {
-		 
+		System.out.println("creation er");
 		EtatReversi er = new EtatReversi();
-		TabForce t = new TabForce();
-		int poid = 0;
+		System.out.println("er créé");
+		System.out.println(er.poids);
+		//TabForce t = new TabForce();
+		//int poid = 0;
 		
-		for(int i =0; i<3;i++)
-		{
-			er.calculEtatSuccesseur();
-			er = er.succ.get(0);
-			poid = er.eval0V2(); // <---------------- TEST FONCTION EVAL 0
-			System.out.println("Eval0V2 : "+er.eval0V2());
-			System.out.println("Poid : "+poid);
-		}
+		//for(int i =0; i<3;i++)
+		//{
+			
+			//er = er.succ.get(0);
+			//poid = er.eval0(); // <---------------- TEST FONCTION EVAL 0
+			//System.out.println("Eval0V2 : "+er.eval0V2());
+			//System.out.println("Poid : "+poid);
+		//}
 	 }
 	 
 
