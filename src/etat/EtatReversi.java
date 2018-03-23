@@ -793,6 +793,27 @@ public class EtatReversi extends EtatJeu {
 		return this.poids;
 	}
 	
+	public int compareEval0(int i, int j)
+	{
+		int result = 0;
+		
+		
+		
+		return result;
+	}
+	
+	public EtatReversi minMax(EtatReversi e, int c)
+	{
+		EtatReversi s = null;
+		ArrayList<EtatReversi> succMinMax = this.succ;
+		float score, score_max;
+		score_max = Integer.MIN_VALUE;
+		
+		
+		
+		return s;
+	}
+	
 	/**
 	 * Méthode principal de lancement
 	 * @param args
@@ -814,6 +835,6 @@ public class EtatReversi extends EtatJeu {
 			System.out.println("Poid : "+poid);
 		}
 	 }
-
+	 
 
 }
