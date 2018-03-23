@@ -710,7 +710,12 @@ public class EtatReversi extends EtatJeu {
 		return gagnant;
 	}
 	
-	//fonction qui evalue un Ã©tat successeur
+	public String[][] getPlateau()
+	{
+		return this.plateau;
+	}
+	
+	// Evalue l'intéret de l'état actuel (Par calcul du matériel)
 	public int eval0() {
 		//int poids = 0; //return 0 si la situation est neutre
 		
@@ -722,37 +727,86 @@ public class EtatReversi extends EtatJeu {
 		}
 		
 		//a modifier pour faire en fonction de la couleur gagnante
-		if(this.estUnEtatFinal() && this.getJoueurActuel().getCouleur()==this.getCouleurGagnante()) {
-			poids = Integer.MAX_VALUE; //pour simuler + l'infini
+		/*
+		if(this.estUnEtatFinal()) 
+		{
+			if( this.getJoueurActuel().getCouleur()==this.getCouleurGagnante())
+			{
+				poids = Integer.MAX_VALUE; //pour simuler + l'infini
+			}
+			else
+			{
+				poids = Integer.MIN_VALUE;
+			}
 		}
-		else {
-			poids = Integer.MIN_VALUE;
-		}
+		*/
 		
 		return poids;
 	}
+	
+	// Evalue l'intéret de l'état actuel (Par calcul de force des pions)
+	public int eval0V2() 
+	{
+		this.poids = 0;
+		TabForce t = new TabForce(); // Tableau d'estimation de la force de chaque position		
+			if(this.getJoueurActuel().estBlanc()) 
+			{
+				for(int i = 0; i < 8; i++)
+				{
+					for(int j = 0; j < 8; j++)
+					{
+						if(plateau[i][j]==" B ")
+						{
+							poids = poids + t.getValueInTabForce(i, j);
+						}
+						if(plateau[i][j]==" N ")
+						{
+							poids = poids - t.getValueInTabForce(i, j);
+						}
+					}
+				}
+			}
+			else
+			{
+				for(int i = 0; i < 8; i++)
+				{
+					for(int j = 0; j < 8; j++)
+					{
+						if(plateau[i][j]==" N ")
+						{
+							poids = poids + t.getValueInTabForce(i, j);
+						}
+						if(plateau[i][j]==" B ")
+						{
+							poids = poids - t.getValueInTabForce(i, j);
+						}
+					}
+				}
+			}
+		return poids;
+	}
+	
 	
 	/**
 	 * MÃ©thode principal de lancement
 	 * @param args
 	 * 				Arguments
 	 */
-
-	 public static void main(String[] args) {
+	 public static void main(String[] args) 
+	 {
 		 
-		 EtatReversi er = new EtatReversi();
-		 er.afficherTab();
-		 er.calculEtatSuccesseur();
-		 //System.out.println();
-		 
-		 for(EtatReversi e : er.getSuccesseur()) {
-			 
-			 e.afficherTab();
-			System.out.println();
-			System.out.println(e.getNombreBlanc());
-			System.out.println(e.getNombreNoir());
-		 }
-		 
+		EtatReversi er = new EtatReversi();
+		TabForce t = new TabForce();
+		int poid = 0;
+		
+		for(int i =0; i<3;i++)
+		{
+			er.calculEtatSuccesseur();
+			er = er.succ.get(0);
+			poid = er.eval0V2(); // <---------------- TEST FONCTION EVAL 0
+			System.out.println("Eval0V2 : "+er.eval0V2());
+			System.out.println("Poid : "+poid);
+		}
 	 }
 
 

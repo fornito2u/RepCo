@@ -57,6 +57,7 @@ public class Reversi
 		}
 		System.out.println("Tour nÂ°" + nbTour+ " / Joueur " + this.etat.getJoueurActuel().getCouleur());
 		System.out.println("Nombre de possibilite : "+i);
+		System.out.println("Valeur de eval0 utilisé : "+this.etat.eval0V2());
 		Scanner sc  = new Scanner(System.in);
 		String s = "";
 		int si = -1;
