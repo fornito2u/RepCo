@@ -815,6 +815,19 @@ public class EtatReversi extends EtatJeu {
 		return s;
 	}
 	
+	public double evaluation(int c) {
+		double score, score_min, score_max;
+		
+		if(this.estUnEtatFinal()) {
+			//retourner -infini , +infini , 0 en fonction du gagnant
+		}
+		if(c == 0) {
+			return eval0(); 
+		}
+		if()
+		return null;
+	}
+	
 	/**
 	 * Méthode principal de lancement
 	 * @param args
