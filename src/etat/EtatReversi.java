@@ -803,16 +803,22 @@ public class EtatReversi extends EtatJeu {
 		return result;
 	}
 	
-	public EtatReversi minMax(EtatReversi e, int c)
+	public EtatReversi minimax(int c)
 	{
-		EtatReversi s = null;
-		ArrayList<EtatReversi> succMinMax = this.succ;
-		float score, score_max;
-		score_max = Integer.MIN_VALUE;
+		float score = 0;
+		float score_max = Integer.MIN_VALUE;
+		EtatReversi e_sortie = null;
+		for(EtatReversi s : this.succ)
+		{
+			//score=evaluation(c);
+			if(score>=score_max)
+			{
+				e_sortie = s;
+				score_max = score;
+			}
+		}
 		
-		
-		
-		return s;
+		return e_sortie;
 	}
 	
 	/**

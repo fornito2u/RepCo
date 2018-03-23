@@ -15,6 +15,7 @@ Marvin : - Création et initialisation du projet (Packages Annexe / Main)
 		 - Méthode estUnEntier (Classe Reversi)
 		 - Méthode eval0V2 qui est une seconde version d'eval0 qui effectue un calcul de force des positions du plateau afin de determiner le poid. 
 		 - Méthode eval0V3 qui effectue un calcul de mobilité (nombre de coup possible depuis l'état actuel)
+		 - Méthode minimax
 		 
 Damien : - Création des classes EtatReversi / JoueurReversi
 		 - Constructeur EtatReversi / JoueurReversi
