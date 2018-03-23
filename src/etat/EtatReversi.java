@@ -879,7 +879,6 @@ public class EtatReversi extends EtatJeu {
 		{
 			result = -1;
 		}
-		
 		return result;
 	}
 	
