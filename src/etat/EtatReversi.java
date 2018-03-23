@@ -843,27 +843,45 @@ public class EtatReversi extends EtatJeu {
 		}
 		return a;
 	}
-	public double evaluation(int c, EtatReversi etat) {
+	public double evaluation(int c, EtatReversi etat, int numeroEvaluation) {
 		double score;
 		score=0;
+		
 		if(this.estUnEtatFinal()) {
 			//retourner -infini , +infini , 0 en fonction du gagnant
 		}
 		if(c == 0) {
-			score = eval0();
+			switch (numeroEvaluation) {
+			case 0:
+				score = eval0();
+				break;
+				
+			case 1:
+				score = eval0V2();
+				break;
+				
+			case 2 :
+				score = eval0V3();
+				break;
+
+			default:
+				score = eval0();
+				break;
+			}
+			
 			return score; 
 		}
 		if(etat.getJoueurActuel()==this.getJoueurActuel()) {
 			score = Integer.MIN_VALUE;
 			for(EtatReversi e : this.getSuccesseur()) {
-				score = max(score,evaluation(c-1,e));
+				score = max(score,evaluation(c-1,e,numeroEvaluation));
 			}
 			return score;
 			
 		}else {
 			score = Integer.MAX_VALUE;
 			for(EtatReversi e : this.getSuccesseur()) {
-				score = min(score,evaluation(c-1, e));
+				score = min(score,evaluation(c-1, e,numeroEvaluation));
 			}
 			return score;
 			
