@@ -60,6 +60,7 @@ public class EtatReversi extends EtatJeu {
 		else {
 			this.setJoueurActuel((JoueurReversi)this.getJoueur(1));
 		}
+		this.calculEtatSuccesseur();
 		this.poids = eval0();
 		//EtatJeu.setTour();
 	}
@@ -715,7 +716,7 @@ public class EtatReversi extends EtatJeu {
 		return this.plateau;
 	}
 	
-	// Evalue l'intéret de l'état actuel (Par calcul du matériel)
+	// Evalue l'intï¿½ret de l'ï¿½tat actuel (Par calcul du matï¿½riel)
 	public int eval0() {
 		//int poids = 0; //return 0 si la situation est neutre
 		
@@ -727,7 +728,7 @@ public class EtatReversi extends EtatJeu {
 		}
 		
 		//a modifier pour faire en fonction de la couleur gagnante
-		/*
+		
 		if(this.estUnEtatFinal()) 
 		{
 			if( this.getJoueurActuel().getCouleur()==this.getCouleurGagnante())
@@ -739,12 +740,12 @@ public class EtatReversi extends EtatJeu {
 				poids = Integer.MIN_VALUE;
 			}
 		}
-		*/
+		
 		
 		return poids;
 	}
 	
-	// Evalue l'intéret de l'état actuel (Par calcul de force des pions)
+	// Evalue l'intï¿½ret de l'ï¿½tat actuel (Par calcul de force des pions)
 	public int eval0V2() 
 	{
 		this.poids = 0;
