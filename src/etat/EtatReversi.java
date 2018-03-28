@@ -807,10 +807,10 @@ public class EtatReversi extends EtatJeu {
 		int compteur = 1;
 		int compteurVictoirePremierEval0 = 0;
 		int compteurVictoireSecondEval0 = 0;
-		int nbNoir = 0;
-		int nbBlanc = 0;
+		int nbNoir = 0; // Nombre de pion noir pour 1 partie
+		int nbBlanc = 0; // Nombre de pion blanc pour 1 partie
 		EtatReversi er = new EtatReversi();
-		for(int f = 0; f<2;f++)
+		for(int f = 0; f<1;f++)
 		{
 			while(!er.estUnEtatFinal())
 			{
@@ -1039,15 +1039,7 @@ public class EtatReversi extends EtatJeu {
 	 public static void main(String[] args) 
 	 {
 		EtatReversi er = new EtatReversi();
-
-		//TabForce t = new TabForce();
-		int poid = 0;		
-		er.calculEtatSuccesseur();
-		er = er.succ.get(0);
-		poid = er.eval0(); // <---------------- TEST FONCTION EVAL 0
-		System.out.println("Eval0 : "+er.eval0()); // <----------|
-
-		System.out.println("er créé");
-		System.out.println(er.poids);
+		int i = er.compareEval0(0, 2, 1);
+		System.out.println("Result : "+ i);
 	 }
 }
