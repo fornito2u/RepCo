@@ -1,7 +1,6 @@
 package etat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import joueur.JoueurReversi;
 
@@ -56,8 +55,7 @@ public class EtatReversi extends EtatJeu {
 		this.plateau = plateau;
 		this.listeJoueur = e.getListJoueur();
 		this.succ = new ArrayList<>();
-		if(e.getJoueurActuel().equals(this.getJoueur(1))) {
-		//if(e.getJoueurActuel().getCouleur()== ((JoueurReversi) this.getJoueur(1)).getCouleur()) {
+		if(e.getJoueurActuel().getCouleur()== ((JoueurReversi) this.getJoueur(1)).getCouleur()) {
 			this.setJoueurActuel((JoueurReversi) this.getJoueur(0));
 		}
 		else {
@@ -812,18 +810,14 @@ public class EtatReversi extends EtatJeu {
 		int nbNoir = 0; // Nombre de pion noir pour 1 partie
 		int nbBlanc = 0; // Nombre de pion blanc pour 1 partie
 		EtatReversi er = new EtatReversi();
-		er.calculEtatSuccesseur(); //pour pouvoir rentrer dans le while ...
+		er.calculEtatSuccesseur();
 		for(int f = 0; f<1;f++)
 		{
-			
 			while(!er.estUnEtatFinal())
 			{
-				//System.out.println("while er est une etatfinal");
-				//er.calculEtatSuccesseur();
-				
+				er.calculEtatSuccesseur();
 				if(f == 0)
 				{
-					
 					//Noir utilise le premier eval0
 					if(compteur == 1)
 					{
@@ -895,30 +889,26 @@ public class EtatReversi extends EtatJeu {
 		float score = 0;
 		float score_max = Integer.MIN_VALUE;
 		EtatReversi e_sortie = null;
+
 		
 		this.calculEtatSuccesseur();
 		//System.out.println(succ.size());
 		//int i =0;
 		//for(EtatReversi s : this.succ)
 		for(int i=0;i<succ.size();i++)
+
 		{
 			//System.out.println(i);
 			//i++;
 			score=(float)evaluation(c, this, valEval0);
-			//System.out.println(score);
 			if(score>=score_max)
 			{
-				
 				e_sortie = succ.get(i);//s;
 				score_max = score;
 				//System.out.println(e_sortie);
 			}
-			
-			//System.out.println(e_sortie);
 		}
-		//System.out.println(e_sortie);
-		//e_sortie.afficherTab();
-		
+
 		return e_sortie;
 	}
 	
@@ -1046,7 +1036,6 @@ public class EtatReversi extends EtatJeu {
 			score = Integer.MIN_VALUE;
 			for(EtatReversi e : this.getSuccesseur()) {
 				score = max(score,evaluation(c-1,e,numeroEvaluation));
-				
 			}
 			return score;
 			
@@ -1056,15 +1045,11 @@ public class EtatReversi extends EtatJeu {
 			for(EtatReversi e : this.getSuccesseur()) {
 				score = min(score,evaluation(c-1, e,numeroEvaluation));
 			}
-			//System.out.println("etat revers : evaluation : score "+ score);
 			return score;
 			
 		}
 	}
 	
-	
-	
-
 	/**
 	 * Méthode principal de lancement
 	 * @param args
@@ -1073,6 +1058,7 @@ public class EtatReversi extends EtatJeu {
 	 public static void main(String[] args) 
 	 {
 		EtatReversi er = new EtatReversi();
+
 		//er = er.minimax(1,0);
 		//er.afficherTab();
 		
@@ -1080,5 +1066,6 @@ public class EtatReversi extends EtatJeu {
 		System.out.println("Result : "+ i);
 		
 		System.out.println("fini");
+
 	 }
 }
