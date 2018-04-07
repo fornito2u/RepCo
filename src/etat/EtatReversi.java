@@ -886,6 +886,7 @@ public class EtatReversi extends EtatJeu {
 	
 	public EtatReversi minimax(int c, int valEval0)
 	{
+		//System.out.println("minimax");
 		float score = 0;
 		float score_max = Integer.MIN_VALUE;
 		EtatReversi e_sortie = null;
@@ -901,6 +902,8 @@ public class EtatReversi extends EtatJeu {
 			//System.out.println(i);
 			//i++;
 			score=(float)evaluation(c, this, valEval0);
+			//System.out.println(score);
+			//System.out.println(score_max);
 			if(score>=score_max)
 			{
 				e_sortie = succ.get(i);//s;
@@ -943,8 +946,9 @@ public class EtatReversi extends EtatJeu {
 			System.out.println("estfinal");
 			int nbNoir = etat.getNombreNoir();
 			int nbBlanc = etat.getNombreBlanc();
-			if(this.getJoueurActuel()==etat.getJoueurActuel()) {
-				
+			if(this.getJoueurActuel().equals(etat.getJoueurActuel())) {
+			//if(this.getJoueurActuel()==etat.getJoueurActuel()) {
+				System.out.println("true");
 				if(etat.getJoueurActuel().getCouleur()=="noir") {
 					if(nbNoir > nbBlanc) {
 						score = Integer.MAX_VALUE;
@@ -1034,7 +1038,7 @@ public class EtatReversi extends EtatJeu {
 		if(etat.getJoueurActuel().equals(this.getJoueurActuel())) {
 			//System.out.println("evaluation joueur different"+getJoueurActuel().toString());
 			score = Integer.MIN_VALUE;
-			for(EtatReversi e : this.getSuccesseur()) {
+			for(EtatReversi e : etat.getSuccesseur()) {
 				score = max(score,evaluation(c-1,e,numeroEvaluation));
 			}
 			return score;
@@ -1042,7 +1046,7 @@ public class EtatReversi extends EtatJeu {
 		}else {
 			//System.out.println("evaluation joueur different"+getJoueurActuel().toString());
 			score = Integer.MAX_VALUE;
-			for(EtatReversi e : this.getSuccesseur()) {
+			for(EtatReversi e : etat.getSuccesseur()) {
 				score = min(score,evaluation(c-1, e,numeroEvaluation));
 			}
 			return score;
@@ -1059,11 +1063,16 @@ public class EtatReversi extends EtatJeu {
 	 {
 		EtatReversi er = new EtatReversi();
 
-		//er = er.minimax(1,0);
-		//er.afficherTab();
-		
-		int i = er.compareEval0(2, 1, 5);
-		System.out.println("Result : "+ i);
+		for(int i =0 ; i <4 ; i++) {
+			if(i%2==0) {
+				er = er.minimax(3,2);
+			}else {
+				er = er.minimax(1, 1);
+			}
+		er.afficherTab();
+		}
+		//int i = er.compareEval0(1, 1, 0);
+		//System.out.println("Result : "+ i);
 		
 		System.out.println("fini");
 
