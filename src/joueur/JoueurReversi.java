@@ -43,4 +43,11 @@ public class JoueurReversi extends Joueur {
 	public boolean estNoir() {
 		return this.getCouleur()=="noir";
 	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder("joueur ");
+		sb.append(this.getId()).append(" : ").append(getCouleur());
+		
+		return sb.toString();
+	}
 }

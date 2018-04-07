@@ -30,6 +30,6 @@ Damien : - Création des classes EtatReversi / JoueurReversi
 		 - Méthode win() dans reversi
 		 - Methode pour compter les jetons sur le plateau
 		 - Methode booleen pour connaitre la couleur des joueurs
-		 - Ébauche de eval0
+		 - eval0
 		 
 		 
