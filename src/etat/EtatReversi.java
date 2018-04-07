@@ -901,7 +901,7 @@ public class EtatReversi extends EtatJeu {
 		//for(EtatReversi s : this.succ)
 		for(int i=0;i<succ.size();i++)
 		{
-			System.out.println(i);
+			//System.out.println(i);
 			//i++;
 			score=(float)evaluation(c, this, valEval0);
 			//System.out.println(score);
@@ -910,7 +910,7 @@ public class EtatReversi extends EtatJeu {
 				
 				e_sortie = succ.get(i);//s;
 				score_max = score;
-				System.out.println(e_sortie);
+				//System.out.println(e_sortie);
 			}
 			
 			//System.out.println(e_sortie);
@@ -945,9 +945,9 @@ public class EtatReversi extends EtatJeu {
 		double score;
 		score=0;
 		
-		etat.calculEtatSuccesseur();
+		//etat.calculEtatSuccesseur();
 		if(etat.estUnEtatFinal()) {
-			
+			System.out.println("estfinal");
 			int nbNoir = etat.getNombreNoir();
 			int nbBlanc = etat.getNombreBlanc();
 			if(this.getJoueurActuel()==etat.getJoueurActuel()) {
@@ -1039,7 +1039,7 @@ public class EtatReversi extends EtatJeu {
 		}
 		//System.out.println(etat.getJoueurActuel().getId());
 		if(etat.getJoueurActuel().equals(this.getJoueurActuel())) {
-			System.out.println("evaluation joueur different"+c);
+			//System.out.println("evaluation joueur different"+getJoueurActuel().toString());
 			score = Integer.MIN_VALUE;
 			for(EtatReversi e : this.getSuccesseur()) {
 				score = max(score,evaluation(c-1,e,numeroEvaluation));
@@ -1048,7 +1048,7 @@ public class EtatReversi extends EtatJeu {
 			return score;
 			
 		}else {
-			//System.out.println("evaluation joueur different"+c);
+			//System.out.println("evaluation joueur different"+getJoueurActuel().toString());
 			score = Integer.MAX_VALUE;
 			for(EtatReversi e : this.getSuccesseur()) {
 				score = min(score,evaluation(c-1, e,numeroEvaluation));
