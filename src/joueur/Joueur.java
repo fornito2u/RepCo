@@ -24,4 +24,10 @@ public abstract class Joueur  {
 	{
 		return this.id;
 	}
+	
+
+	
+	public boolean equals(Joueur j) {
+		return this.getId()==j.getId();
+	}
 }

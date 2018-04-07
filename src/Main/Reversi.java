@@ -57,7 +57,7 @@ public class Reversi
 		}
 		System.out.println("Tour n°" + nbTour+ " / Joueur " + this.etat.getJoueurActuel().getCouleur());
 		System.out.println("Nombre de possibilite : "+i);
-		System.out.println("Valeur de eval0 utilis� : "+this.etat.eval0V2());
+		System.out.println("Valeur de eval0 utilis� : "+this.etat.eval0V2());
 		Scanner sc  = new Scanner(System.in);
 		String s = "";
 		int si = -1;
@@ -65,10 +65,10 @@ public class Reversi
 		{
 			System.out.println("Pour jouer, entrez un numéro de possibilité valide");
 
-			
+			//System.out.println(etat.eval0());
 			s = sc.nextLine();
 			//s="0";//pour tester rapidement
-			
+			//s = ""+etat.eval0();
 			
 			try 
 			{
