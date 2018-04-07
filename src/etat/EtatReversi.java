@@ -849,7 +849,8 @@ public class EtatReversi extends EtatJeu {
 						er = this.minimax(p, i);
 						compteur = 1;
 					}
-				}	
+				}
+				er.calculEtatSuccesseur();
 			}
 			compteur = 1;
 			nbNoir = er.getNombreNoir();
@@ -896,7 +897,7 @@ public class EtatReversi extends EtatJeu {
 		EtatReversi e_sortie = null;
 		
 		this.calculEtatSuccesseur();
-		System.out.println(succ.size());
+		//System.out.println(succ.size());
 		//int i =0;
 		//for(EtatReversi s : this.succ)
 		for(int i=0;i<succ.size();i++)
@@ -915,7 +916,7 @@ public class EtatReversi extends EtatJeu {
 			
 			//System.out.println(e_sortie);
 		}
-		System.out.println(e_sortie);
+		//System.out.println(e_sortie);
 		//e_sortie.afficherTab();
 		
 		return e_sortie;
@@ -942,10 +943,12 @@ public class EtatReversi extends EtatJeu {
 		return a;
 	}
 	public double evaluation(int c, EtatReversi etat, int numeroEvaluation) {
+		//System.out.println("evaluation");
 		double score;
 		score=0;
-		
-		//etat.calculEtatSuccesseur();
+		if(etat.succ.isEmpty()) {
+		etat.calculEtatSuccesseur();
+		}
 		if(etat.estUnEtatFinal()) {
 			System.out.println("estfinal");
 			int nbNoir = etat.getNombreNoir();
@@ -1070,8 +1073,12 @@ public class EtatReversi extends EtatJeu {
 	 public static void main(String[] args) 
 	 {
 		EtatReversi er = new EtatReversi();
-		er.minimax(1,0);
-		//int i = er.compareEval0(2, 1, 5);
-		//System.out.println("Result : "+ i);
+		//er = er.minimax(1,0);
+		//er.afficherTab();
+		
+		int i = er.compareEval0(2, 1, 5);
+		System.out.println("Result : "+ i);
+		
+		System.out.println("fini");
 	 }
 }
