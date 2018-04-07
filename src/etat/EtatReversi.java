@@ -810,6 +810,7 @@ public class EtatReversi extends EtatJeu {
 		int nbNoir = 0; // Nombre de pion noir pour 1 partie
 		int nbBlanc = 0; // Nombre de pion blanc pour 1 partie
 		EtatReversi er = new EtatReversi();
+		er.calculEtatSuccesseur();
 		for(int f = 0; f<1;f++)
 		{
 			while(!er.estUnEtatFinal())
