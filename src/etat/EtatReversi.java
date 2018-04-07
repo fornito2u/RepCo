@@ -943,7 +943,7 @@ public class EtatReversi extends EtatJeu {
 		etat.calculEtatSuccesseur();
 		}
 		if(etat.estUnEtatFinal()) {
-			System.out.println("estfinal");
+			//System.out.println("estfinal");
 			int nbNoir = etat.getNombreNoir();
 			int nbBlanc = etat.getNombreBlanc();
 			if(this.getJoueurActuel().equals(etat.getJoueurActuel())) {
@@ -1063,13 +1063,18 @@ public class EtatReversi extends EtatJeu {
 	 {
 		EtatReversi er = new EtatReversi();
 
-		for(int i =0 ; i <4 ; i++) {
+		er.calculEtatSuccesseur();
+		int i =0;
+		while(!er.estUnEtatFinal()) {
+		
+		//for(int i =0 ; i <16 ; i++) {
 			if(i%2==0) {
-				er = er.minimax(3,2);
+				er = er.minimax(3,2); //arg : profondeur ,eval0
 			}else {
-				er = er.minimax(1, 1);
+				er = er.minimax(3,3);
 			}
 		er.afficherTab();
+		i++;
 		}
 		//int i = er.compareEval0(1, 1, 0);
 		//System.out.println("Result : "+ i);
