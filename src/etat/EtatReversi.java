@@ -1904,6 +1904,28 @@ public class EtatReversi extends EtatJeu {
 		return e_sortie;
 	}
 	
+	public EtatReversi minimax(int c, int valEval0,double alpha,double beta) {
+		
+		float score = 0;
+		float score_max = Integer.MIN_VALUE;
+		EtatReversi e_sortie = null;
+		this.calculEtatSuccesseur();
+		for(int i=0;i<succ.size();i++){
+			score=(float)evaluation(c, this, valEval0,alpha,beta);
+
+			if(score>=score_max)
+			{
+				e_sortie = succ.get(i);//s;
+				score_max = score;
+				//System.out.println(e_sortie);
+			}
+		}
+		
+		return e_sortie;
+		
+	}
+	
+	
 	public double max(double x,double y) {
 		double a;
 		if(x>y) {
@@ -2047,6 +2069,138 @@ public class EtatReversi extends EtatJeu {
 		}
 	}
 	
+	////////////////////////////////////////
+	public double evaluation(int c, EtatReversi etat, int numeroEvaluation,double alpha,double beta) {
+		//System.out.println("evaluation");
+		double score;
+		score=0;
+		if(etat.succ.isEmpty()) {
+		etat.calculEtatSuccesseur();
+		}
+		if(etat.estUnEtatFinal()) {
+			//System.out.println("estfinal");
+			int nbNoir = etat.getNombreNoir();
+			int nbBlanc = etat.getNombreBlanc();
+			if(this.getJoueurActuel().equals(etat.getJoueurActuel())) {
+			//if(this.getJoueurActuel()==etat.getJoueurActuel()) {
+				//System.out.println("true");
+				if(etat.getJoueurActuel().getCouleur()=="noir") {
+					if(nbNoir > nbBlanc) {
+						score = Integer.MAX_VALUE;
+						return score;
+					}
+					else if(nbNoir<nbBlanc) {
+						score = Integer.MIN_VALUE;
+						return score;
+					}
+					else {
+						score = 0;
+						return score;
+					}
+				}
+				else {
+					if(nbNoir > nbBlanc) {
+						score = Integer.MIN_VALUE;
+						return score;
+					}
+					else if(nbNoir<nbBlanc) {
+						score = Integer.MAX_VALUE;
+						return score;
+					}
+					else {
+						score = 0;
+						return score;
+					}
+					
+				}
+			}
+			else {
+
+				if(etat.getJoueurActuel().getCouleur()=="noir") {
+					if(nbNoir < nbBlanc) {
+						score = Integer.MAX_VALUE;
+						return score;
+					}
+					else if(nbNoir>nbBlanc) {
+						score = Integer.MIN_VALUE;
+						return score;
+					}
+					else {
+						score = 0;
+						return score;
+					}
+				}
+				else {
+					if(nbNoir < nbBlanc) {
+						score = Integer.MIN_VALUE;
+						return score;
+					}
+					else if(nbNoir > nbBlanc) {
+						score = Integer.MAX_VALUE;
+						return score;
+					}
+					else {
+						score = 0;
+						return score;
+					}
+					
+				}
+			}
+			//retourner -infini , +infini , 0 en fonction du gagnant
+		}
+		if(c == 0) {
+			switch (numeroEvaluation) {
+			case 0:
+				score = eval0();
+				break;
+				
+			case 1:
+				score = eval0V2();
+				break;
+				
+			case 2 :
+				score = eval0V3();
+				break;
+
+			default:
+				score = 0;//eval0();
+				break;
+			}
+			
+			return score; 
+		}
+		//System.out.println(etat.getJoueurActuel().getId());
+		if(etat.getJoueurActuel().equals(this.getJoueurActuel())) {
+			//System.out.println("evaluation joueur different"+getJoueurActuel().toString());
+			score = Integer.MIN_VALUE;
+			for(EtatReversi e : etat.getSuccesseur()) {
+				score = max(score,evaluation(c-1,e,numeroEvaluation,alpha,beta));
+				if(score>=beta){
+					return score;
+					}
+				alpha = max(alpha,score);
+
+
+			}
+			return score;
+			
+		}else {
+			//System.out.println("evaluation joueur different"+getJoueurActuel().toString());
+			score = Integer.MAX_VALUE;
+			for(EtatReversi e : etat.getSuccesseur()) {
+				score = min(score,evaluation(c-1, e,numeroEvaluation,alpha,beta));
+				if(score<=alpha){
+					return score;				
+					}
+				beta = min(beta,score);
+			}
+			return score;
+			
+		}
+	}
+
+	////////////////////////////////////////
+	
 	/**
 	 * Méthode principal de lancement
 	 * @param args
@@ -2054,6 +2208,8 @@ public class EtatReversi extends EtatJeu {
 	 */
 	 public static void main(String[] args) 
 	 {
+		 double alpha = Integer.MIN_VALUE;
+		 double beta = Integer.MAX_VALUE;
 		 
 			Scanner sc  = new Scanner(System.in);
 			String s = "";
@@ -2068,11 +2224,11 @@ public class EtatReversi extends EtatJeu {
 		
 			//for(int i =0 ; i <16 ; i++) {
 				if(i%2==1) {
-					er = er.minimax(1,2); //arg : profondeur ,eval0
+					er = er.minimax(1,2,alpha,beta); //arg : profondeur ,eval0
 				}else {
-					er = er.minimax(1,0);
+					er = er.minimax(1,0,alpha,beta);
 				}
-			//er.afficherTab();
+			er.afficherTab();
 			//System.out.println(" ");
 		
 	
