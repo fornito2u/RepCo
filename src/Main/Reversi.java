@@ -151,6 +151,9 @@ public class Reversi
 			int i=0,j=0,p=0;
 			
 			System.out.println("veuillez choisir la fonction d'evaluation pour les pions noirs : ");
+			System.out.println("le choix 0 utilise une fonction qui compare le nombre de jetons dans les différents états successeurs");
+			System.out.println("le choix 1 se base sur un tableau de force basé sur la place des pions de chaques couleurs");
+			System.out.println("le choix 2 se base sur le nombre de successeur possible ");
 			s = sc.nextLine();
 			try 
 			{
@@ -162,6 +165,9 @@ public class Reversi
 			}
 			
 			System.out.println("veuillez choisir la fonction d'evaluation pour les pions blancs : ");
+			System.out.println("le choix 0 utilise une fonction qui compare le nombre de jetons dans les différents états successeurs");
+			System.out.println("le choix 1 se base sur un tableau de force basé sur la place des pions de chaques couleurs");
+			System.out.println("le choix 2 se base sur le nombre de successeur possible ");
 			s = sc.nextLine();
 			try 
 			{
@@ -199,8 +205,8 @@ public class Reversi
 				System.out.println("/////////////////////////////////////////////////////////////");
 				k++;
 			}
-			blanc = r.getEtat().getNombreBlanc();
-			noir = r.getEtat().getNombreNoir();
+			blanc = er.getNombreBlanc();
+			noir = er.getNombreNoir();
 			System.out.println("NOMBRE DE BLANC : "+ blanc);
 			System.out.println("NOMBRE DE NOIR : "+noir);
 			if(blanc < noir)
