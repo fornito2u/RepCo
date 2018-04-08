@@ -1,0 +1,4 @@
+Instructions :
+
+Pour lancer l'éxécutable sous Linux, entrez  la commande :
+java -jar Reversi.jar
