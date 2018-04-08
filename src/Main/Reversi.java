@@ -57,7 +57,6 @@ public class Reversi
 		}
 		System.out.println("Tour n°" + nbTour+ " / Joueur " + this.etat.getJoueurActuel().getCouleur());
 		System.out.println("Nombre de possibilite : "+i);
-		System.out.println("Valeur de eval0 utilis� : "+this.etat.eval0V2());
 		Scanner sc  = new Scanner(System.in);
 		String s = "";
 		int si = -1;
@@ -65,10 +64,9 @@ public class Reversi
 		{
 			System.out.println("Pour jouer, entrez un numéro de possibilité valide");
 
-			//System.out.println(etat.eval0());
+			
 			s = sc.nextLine();
-			//s="0";//pour tester rapidement
-			//s = ""+etat.eval0();
+			
 			
 			try 
 			{
@@ -101,21 +99,61 @@ public class Reversi
 	
 	public static void main(String[] args) 
 	{
-		// TODO Auto-generated method stub
 		Reversi r = new Reversi();
-		System.out.println("----------------------------------------------------------------------------------\n"
-						 + "----------------------------------------------------------------------------------\n"
-						 + "----------------------------------------------------------------------------------\n"
-						 + "Plateau de jeu actuel :");
-		r.getEtat().afficherTab();
-		r.getEtat().calculEtatSuccesseur();
-		while(!r.getEtat().estUnEtatFinal())//r.getEtat().getSuccesseur().isEmpty() 
+		Scanner sc  = new Scanner(System.in);
+		String s = "";
+		int si = -1;
+		
+		StringBuilder choix = new StringBuilder("Que voulez vous faire??\n");
+		choix.append("0 si vous voulez lancer le jeu à 2 joueurs humains, tour par tour,\n1 si vous voulez jouer une partie contre la machine,\n2 si vous voulez regarder jouer la machine contre elle meme");
+		System.out.println(choix.toString());
+		
+		s = sc.nextLine();
+		
+		
+		try 
 		{
-			r.tour();
-			r.getEtat().calculEtatSuccesseur();
+			si = Integer.parseInt(s);
+		} 
+		catch (NumberFormatException e)
+		{
+			System.out.println("Vous devez entrer un entier !");
 		}
-		r.win();
-		System.out.println("END OF THE GAME");
+		
+		
+		switch (si) {
+		case 0:
+			
+			System.out.println("----------------------------------------------------------------------------------\n"
+							 + "----------------------------------------------------------------------------------\n"
+							 + "----------------------------------------------------------------------------------\n"
+							 + "Plateau de jeu actuel :");
+			r.getEtat().afficherTab();
+			r.getEtat().calculEtatSuccesseur();
+			while(!r.getEtat().estUnEtatFinal()) 
+			{
+				r.tour();
+				r.getEtat().calculEtatSuccesseur();
+			}
+			r.win();
+			
+			break;
+			
+		case 1:
+			
+			
+			break;
+			
+		case 2:
+
+			break;
+
+		default:
+			break;
+		}
+		
+
+		System.out.println("FIN DU JEU");
 		
 	}		
 	
