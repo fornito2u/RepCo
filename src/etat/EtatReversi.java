@@ -2211,35 +2211,30 @@ public class EtatReversi extends EtatJeu {
 		 double alpha = Integer.MIN_VALUE;
 		 double beta = Integer.MAX_VALUE;
 		 
-			Scanner sc  = new Scanner(System.in);
-			String s = "";
-			
-			
-		 
+			//Scanner sc  = new Scanner(System.in);
+			//String s = "";
+					 
 		EtatReversi er = new EtatReversi();
 
 		er.calculEtatSuccesseur();
 		int i =0;
+		//timer pour calculer le temps de resolution d'une parti en fonction de l'utilisation de la coupe ou non
+		long startTime = System.nanoTime();
 		while(!er.estUnEtatFinal()) {
-		
-			//for(int i =0 ; i <16 ; i++) {
+	
 				if(i%2==1) {
-					er = er.minimax(1,2,alpha,beta); //arg : profondeur ,eval0
+					er = er.minimax(4,2,alpha,beta); //arg : profondeur ,eval0
 				}else {
-					er = er.minimax(1,0,alpha,beta);
+					er = er.minimax(4,0,alpha,beta);
 				}
-			er.afficherTab();
-			//System.out.println(" ");
-		
-	
+			//er.afficherTab();
 			//	s = sc.nextLine();
-	
-			
-			
-			
 			i++;
 		}
-		
+		long estimatedTime = System.nanoTime() - startTime;
+		System.out.println("temps d'execution avec l'utilisation de l'algorithme minimax avec coupe alpha béta  :");
+		System.out.print(estimatedTime);
+		System.out.println(" nano secondes");
 		String couleur;
 		int blanc,noir;
 		couleur = er.getCouleurGagnante();
@@ -2248,6 +2243,32 @@ public class EtatReversi extends EtatJeu {
 		System.out.println("blanc : "+ blanc);
 		System.out.println("noir : " + noir);
 		System.out.println(couleur);
+		
+		
+		er = new EtatReversi();
+
+		er.calculEtatSuccesseur();
+		startTime = System.nanoTime();
+		while(!er.estUnEtatFinal()) {
+	
+				if(i%2==1) {
+					er = er.minimax(4,2); //arg : profondeur ,eval0
+				}else {
+					er = er.minimax(4,0);
+				}
+			//er.afficherTab();
+			//	s = sc.nextLine();
+			i++;
+		}
+		long estimatedTime2 = System.nanoTime() - startTime;
+		System.out.println("temps d'execution avec l'utilisation de l'algorithme minimax sans coupe alpha béta :");
+		System.out.print(estimatedTime);
+		System.out.println(" nano secondes");
+		long temps = estimatedTime2-estimatedTime;
+		System.out.println("différence : ");
+		System.out.print(temps);
+		System.out.println("*10⁽-9)secondes");
+		System.out.println("minimax avec coupe alpha beta plus rapide");
 		
 		//int i = er.compareEval0(1, 1, 0);
 		//System.out.println("Result : "+ i);
