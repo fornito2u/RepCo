@@ -1825,7 +1825,7 @@ public class EtatReversi extends EtatJeu {
 		this.calculEtatSuccesseur();
 		for(int i=0;i<succ.size();i++){
 			score=(float)evaluation(c, this.succ.get(i), valEval0,alpha,beta);
-
+			System.out.println("Score 1 : "+score);
 			if(score>=score_max)
 			{
 				e_sortie = succ.get(i);//s;
