@@ -1802,7 +1802,7 @@ public class EtatReversi extends EtatJeu {
 		{
 			//System.out.println(i);
 			//i++;
-			score=(float)evaluation(c, this, valEval0);
+			score=(float)evaluation(c, this.succ.get(i), valEval0);
 			//System.out.println(score);
 			//System.out.println(score_max);
 			if(score>=score_max)
@@ -1823,7 +1823,7 @@ public class EtatReversi extends EtatJeu {
 		EtatReversi e_sortie = null;
 		this.calculEtatSuccesseur();
 		for(int i=0;i<succ.size();i++){
-			score=(float)evaluation(c, this, valEval0,alpha,beta);
+			score=(float)evaluation(c, this.succ.get(i), valEval0,alpha,beta);
 
 			if(score>=score_max)
 			{
@@ -2147,6 +2147,7 @@ public class EtatReversi extends EtatJeu {
 					er = er.minimax(p,i,alpha,beta); // <-- Joue les noirs = premier eval0 <-- utilise i
 				}
 			er.afficherTab();
+			System.out.println("/////////////////////////////////////////////////////////////");
 			k++;
 		}
 		blanc = er.getNombreBlanc();
@@ -2178,6 +2179,7 @@ public class EtatReversi extends EtatJeu {
 					er = er.minimax(p,j,alpha,beta); // Joue les noir <-- Second eval0 <-- j
 				}
 			er.afficherTab();
+			System.out.println("/////////////////////////////////////////////////////////////");
 			k++;
 		}
 		blanc = er.getNombreBlanc();
@@ -2220,7 +2222,7 @@ public class EtatReversi extends EtatJeu {
 	 public static void main(String[] args) 
 	 {
 		 EtatReversi er = new EtatReversi();
-		 er.compareEval0(0, 0, 2); // Parametre : NuméroPremierEval0, NuméroSecondEval0, Profondeur
+		 er.compareEval0(0, 2, 2); // Parametre : NuméroPremierEval0, NuméroSecondEval0, Profondeur
 		/*
 		double alpha = Integer.MIN_VALUE;
 		double beta = Integer.MAX_VALUE;
