@@ -1666,7 +1666,7 @@ public class EtatReversi extends EtatJeu {
 				}
 			}
 		}
-		
+		//System.out.println("1669 : "+nbr);
 		return nbr;
 	}
 	
@@ -1998,12 +1998,18 @@ public class EtatReversi extends EtatJeu {
 			//if(this.getJoueurActuel()==etat.getJoueurActuel()) {
 				//System.out.println("true");
 				if(etat.getJoueurActuel().getCouleur()=="noir") {
+					//System.out.println("2001 joueur noir");
+					//System.out.println("ligne 2002 nombre noir :"+nbNoir);
+					//System.out.println("ligne 2003 nombre blanc :"+nbBlanc);
 					if(nbNoir > nbBlanc) {
+
+						
 						score = Integer.MAX_VALUE;
 						return score;
 					}
 					else if(nbNoir<nbBlanc) {
 						score = Integer.MIN_VALUE;
+						//System.out.println("2012 score = "+score);
 						return score;
 					}
 					else {
@@ -2012,6 +2018,7 @@ public class EtatReversi extends EtatJeu {
 					}
 				}
 				else {
+					//System.out.println("ligne 2021");
 					if(nbNoir > nbBlanc) {
 						score = Integer.MIN_VALUE;
 						return score;
@@ -2029,7 +2036,9 @@ public class EtatReversi extends EtatJeu {
 			}
 			else {
 
+				//System.out.println("ligne 2039");
 				if(etat.getJoueurActuel().getCouleur()=="noir") {
+					//System.out.println("ligne 2041 : noir");
 					if(nbNoir < nbBlanc) {
 						score = Integer.MAX_VALUE;
 						return score;
@@ -2044,6 +2053,7 @@ public class EtatReversi extends EtatJeu {
 					}
 				}
 				else {
+					//System.out.println("ligne 2056 blanc");
 					if(nbNoir < nbBlanc) {
 						score = Integer.MIN_VALUE;
 						return score;
@@ -2064,23 +2074,23 @@ public class EtatReversi extends EtatJeu {
 		if(c == 0) {
 			switch (numeroEvaluation) {
 			case 0:
-				score = eval0();
-				System.out.println("2068 choix eval0");
+				score = etat.eval0();
+				//System.out.println("2068 choix eval0");
 				break;
 				
 			case 1:
-				score = eval0V2();
-				System.out.println("2073 choix eval0v2");
+				score = etat.eval0V2();
+				//System.out.println("2073 choix eval0v2");
 				break;
 				
 			case 2 :
-				score = eval0V3();
-				System.out.println("2078 choix eval0v3");
+				score = etat.eval0V3();
+				//System.out.println("2078 choix eval0v3");
 				break;
 
 			default:
 				score = 0;//eval0();
-				System.out.println("2083 default");
+				//System.out.println("2083 default");
 				break;
 			}
 			
@@ -2227,7 +2237,7 @@ public class EtatReversi extends EtatJeu {
 	 public static void main(String[] args) 
 	 {
 		 EtatReversi er = new EtatReversi();
-		 er.compareEval0(0, 2, 2); // Parametre : NuméroPremierEval0, NuméroSecondEval0, Profondeur
+		 er.compareEval0(1, 2, 2); // Parametre : NuméroPremierEval0, NuméroSecondEval0, Profondeur
 		/*
 		double alpha = Integer.MIN_VALUE;
 		double beta = Integer.MAX_VALUE;

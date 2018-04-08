@@ -100,6 +100,8 @@ public class Reversi
 	public static void main(String[] args) 
 	{
 		Reversi r = new Reversi();
+		int blanc;
+		int noir;
 		Scanner sc  = new Scanner(System.in);
 		String s = "";
 		int si = -1;
@@ -146,6 +148,75 @@ public class Reversi
 			
 		case 2:
 
+			int i=0,j=0,p=0;
+			
+			System.out.println("veuillez choisir la fonction d'evaluation pour les pions noirs : ");
+			s = sc.nextLine();
+			try 
+			{
+				i = Integer.parseInt(s);
+			} 
+			catch (NumberFormatException e)
+			{
+				System.out.println("Vous devez entrer un entier !");
+			}
+			
+			System.out.println("veuillez choisir la fonction d'evaluation pour les pions blancs : ");
+			s = sc.nextLine();
+			try 
+			{
+				j = Integer.parseInt(s);
+			} 
+			catch (NumberFormatException e)
+			{
+				System.out.println("Vous devez entrer un entier !");
+			}
+			System.out.println("veuillez choisir le nombre de coup calculé à l'avance : ");
+			s = sc.nextLine();
+			try 
+			{
+				p = Integer.parseInt(s);
+			} 
+			catch (NumberFormatException e)
+			{
+				System.out.println("Vous devez entrer un entier !");
+			}
+			////////////////////////////////
+			EtatReversi er = new EtatReversi();
+			er.calculEtatSuccesseur();
+			int k = 0;
+			while(!er.estUnEtatFinal()) 
+			{
+					if(k%2==1) 
+					{
+						er = er.minimax(p,j,Integer.MIN_VALUE,Integer.MAX_VALUE); //arg : profondeur ,eval0   <-- Joue les blanc = second eval0 <-- utilise j
+					}
+					else 
+					{
+						er = er.minimax(p,i,Integer.MIN_VALUE,Integer.MAX_VALUE); // <-- Joue les noirs = premier eval0 <-- utilise i
+					}
+				er.afficherTab();
+				System.out.println("/////////////////////////////////////////////////////////////");
+				k++;
+			}
+			blanc = r.getEtat().getNombreBlanc();
+			noir = r.getEtat().getNombreNoir();
+			System.out.println("NOMBRE DE BLANC : "+ blanc);
+			System.out.println("NOMBRE DE NOIR : "+noir);
+			if(blanc < noir)
+			{
+				
+				System.out.println("NOIR GAGNANT");
+			}
+			else if(blanc > noir)
+			{
+				System.out.println("BLANC GAGNANT");
+			}else {
+				System.out.println("ÉGALITÉ");
+			}
+			
+			///////////////////////////////
+			//r.getEtat().compareEval0(i, j, p);//Parametre : NuméroPremierEval0, NuméroSecondEval0, Profondeur
 			break;
 
 		default:
