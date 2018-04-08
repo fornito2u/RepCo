@@ -2065,18 +2065,22 @@ public class EtatReversi extends EtatJeu {
 			switch (numeroEvaluation) {
 			case 0:
 				score = eval0();
+				System.out.println("2068 choix eval0");
 				break;
 				
 			case 1:
 				score = eval0V2();
+				System.out.println("2073 choix eval0v2");
 				break;
 				
 			case 2 :
 				score = eval0V3();
+				System.out.println("2078 choix eval0v3");
 				break;
 
 			default:
 				score = 0;//eval0();
+				System.out.println("2083 default");
 				break;
 			}
 			
