@@ -1825,7 +1825,6 @@ public class EtatReversi extends EtatJeu {
 		this.calculEtatSuccesseur();
 		for(int i=0;i<succ.size();i++){
 			score=(float)evaluation(c, this.succ.get(i), valEval0,alpha,beta);
-			System.out.println("Score 1 : "+score);
 			if(score>=score_max)
 			{
 				e_sortie = succ.get(i);//s;
@@ -1944,19 +1943,19 @@ public class EtatReversi extends EtatJeu {
 		if(c == 0) {
 			switch (numeroEvaluation) {
 			case 0:
-				score = eval0();
+				score = etat.eval0();
 				break;
 				
 			case 1:
-				score = eval0V2();
+				score = etat.eval0V2();
 				break;
 				
 			case 2 :
-				score = eval0V3();
+				score = etat.eval0V3();
 				break;
 
 			default:
-				score = 0;//eval0();
+				score = 0;//etat.eval0();
 				break;
 			}
 			
@@ -2166,9 +2165,6 @@ public class EtatReversi extends EtatJeu {
 					er = er.minimax(p,i,alpha,beta); // <-- Joue les noirs = premier eval0 <-- utilise i
 				}
 			er.afficherTab();
-			System.out.println("Eval0 0 : "+er.eval0());
-			System.out.println("Eval0 1 : "+er.eval0V2());
-			System.out.println("Eval0 2 : "+er.eval0V3());
 			System.out.println("/////////////////////////////////////////////////////////////");
 			k++;
 		}
@@ -2201,9 +2197,6 @@ public class EtatReversi extends EtatJeu {
 					er = er.minimax(p,j,alpha,beta); // Joue les noir <-- Second eval0 <-- j
 				}
 			er.afficherTab();
-			System.out.println("Eval0 0 : "+er.eval0());
-			System.out.println("Eval0 1 : "+er.eval0V2());
-			System.out.println("Eval0 2 : "+er.eval0V3());
 			System.out.println("/////////////////////////////////////////////////////////////");
 			k++;
 		}
@@ -2246,38 +2239,8 @@ public class EtatReversi extends EtatJeu {
 	 */
 	 public static void main(String[] args) 
 	 {
-
 		 EtatReversi er = new EtatReversi();
-		 er.compareEval0(1, 2, 2); // Parametre : NuméroPremierEval0, NuméroSecondEval0, Profondeur
-
-		/*
-		double alpha = Integer.MIN_VALUE;
-		double beta = Integer.MAX_VALUE;
-	
-		EtatReversi er = new EtatReversi();
-
-		er.calculEtatSuccesseur();
-		int i =0;
-		while(!er.estUnEtatFinal()) {
-		
-				if(i%2==1) {
-					er = er.minimax(1,2,alpha,beta); //arg : profondeur ,eval0
-				}else {
-					er = er.minimax(1,0,alpha,beta);
-				}
-			er.afficherTab();
-			i++;
-		}
-		
-		String couleur;
-		int blanc,noir;
-		couleur = er.getCouleurGagnante();
-		blanc = er.getNombreBlanc();
-		noir = er.getNombreNoir();
-		System.out.println("blanc : "+ blanc);
-		System.out.println("noir : " + noir);
-		System.out.println(couleur);
-		System.out.println("fini");*/
+		 er.compareEval0(1, 2, 3); // Parametre : NuméroPremierEval0, NuméroSecondEval0, Profondeur
 	 }
 }
 
