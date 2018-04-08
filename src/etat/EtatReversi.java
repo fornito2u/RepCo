@@ -1,13 +1,10 @@
 
 package etat;
 
+import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import joueur.JoueurReversi;
-
-import java.awt.Point;
-import java.awt.geom.Point2D;
 
 /**
  * Classe représentant l'état d'un jeu
@@ -82,17 +79,9 @@ public class EtatReversi extends EtatJeu {
 		plateau[3][4] = " N ";
 		plateau[4][4] = " B ";
 		plateau[4][3] = " N ";
-		//test();
-	}
-	private void test() {
-		plateau[3][3] = " B ";
-		plateau[3][4] = " B ";
-		plateau[4][4] = " B ";
-		plateau[4][3] = " N ";
-		plateau[2][4] = " N ";
-		plateau[2][2] = " N ";
 		
 	}
+	
 	/**
 	 * Renvoit true si les deux etats sont identiques
 	 * @param etat
