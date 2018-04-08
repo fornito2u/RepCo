@@ -5,7 +5,6 @@ package Main;
 
 import java.util.Scanner;
 
-import etat.EtatJeu;
 import etat.EtatReversi;
 
 /**
