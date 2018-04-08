@@ -1783,95 +1783,7 @@ public class EtatReversi extends EtatJeu {
 		return this.poids;
 	}
 	
-	/**
-	 * Compare deux fonctions eval0
-	 * @param i Numéro de la première eval0 (entre 0 et 2 pour les fonction eval0, eval0V2 et eval0V3
-	 * @param j Numéro de la première eval0 (entre 0 et 2 pour les fonction eval0, eval0V2 et eval0V3
-	 * @param p Profondeur
-	 * @return 1 si premier eval0 meilleur que le second, -1 pour l'inverse, 0 si egalité 
-	 */
-	public int compareEval0(int i, int j, int p)
-	{
-		int result = 0;
-		int compteur = 1;
-		int compteurVictoirePremierEval0 = 0;
-		int compteurVictoireSecondEval0 = 0;
-		int nbNoir = 0; // Nombre de pion noir pour 1 partie
-		int nbBlanc = 0; // Nombre de pion blanc pour 1 partie
-		EtatReversi er = new EtatReversi();
-		er.calculEtatSuccesseur();
-		for(int f = 0; f<1;f++)
-		{
-			while(!er.estUnEtatFinal())
-			{
-				er.calculEtatSuccesseur();
-				if(f == 0)
-				{
-					//Noir utilise le premier eval0
-					if(compteur == 1)
-					{
-						er = this.minimax(p, i);
-						compteur = 2;
-					}
-					else // Blanc utilise le second eval0
-					{
-						er = this.minimax(p, j);
-						compteur = 1;
-					}
-				}
-				else
-				{
-					//Noir utilise le second eval0
-					if(compteur == 1)
-					{
-						er = this.minimax(p, j);
-						compteur = 2;
-					}
-					else // Blanc utilise le premier eval0
-					{
-						er = this.minimax(p, i);
-						compteur = 1;
-					}
-				}
-				er.calculEtatSuccesseur();
-			}
-			compteur = 1;
-			nbNoir = er.getNombreNoir();
-			nbBlanc = er.getNombreBlanc();
-			if(nbNoir > nbBlanc)
-			{
-				if(f == 0)
-				{
-					compteurVictoirePremierEval0+=1;
-				}
-				else
-				{
-					compteurVictoireSecondEval0+=1;
-				}
-			}
-			if(nbNoir<nbBlanc)
-			{
-				if(f==0)
-				{
-					compteurVictoireSecondEval0+=1;
-				}
-				else
-				{
-					compteurVictoirePremierEval0+=1;
-				}
-			}
-		}
-		
-		if(compteurVictoirePremierEval0 > compteurVictoireSecondEval0)
-		{
-			result = 1;
-		}
-		if(compteurVictoirePremierEval0 < compteurVictoireSecondEval0)
-		{
-			result = -1;
-		}
-		return result;
-	}
+	
 	
 	public EtatReversi minimax(int c, int valEval0)
 	{
@@ -2199,7 +2111,106 @@ public class EtatReversi extends EtatJeu {
 		}
 	}
 
-	////////////////////////////////////////
+
+	
+	
+	/**
+	 * Compare deux fonctions eval0
+	 * @param i Numéro de la première eval0 (entre 0 et 2 pour les fonction eval0, eval0V2 et eval0V3
+	 * @param j Numéro de la première eval0 (entre 0 et 2 pour les fonction eval0, eval0V2 et eval0V3
+	 * @param p Profondeur
+	 * @return 1 si premier eval0 meilleur que le second, -1 pour l'inverse, 0 si egalité 
+	 */
+	public int compareEval0(int i, int j, int p)
+	{
+		int result = 0;
+		double alpha = Integer.MIN_VALUE;
+		double beta = Integer.MAX_VALUE;
+		int blanc, noir, k;
+		int compteurVictoirePremierEval0 = 0;
+		int compteurVictoireSecondEval0 = 0;
+		
+		////////////////////////////////////////////
+		// 				PREMIER JEU 			  //
+		////////////////////////////////////////////
+		EtatReversi er = new EtatReversi();
+		er.calculEtatSuccesseur();
+		k = 0;
+		while(!er.estUnEtatFinal()) 
+		{
+				if(k%2==1) 
+				{
+					er = er.minimax(p,j,alpha,beta); //arg : profondeur ,eval0   <-- Joue les blanc = second eval0 <-- utilise j
+				}
+				else 
+				{
+					er = er.minimax(p,i,alpha,beta); // <-- Joue les noirs = premier eval0 <-- utilise i
+				}
+			er.afficherTab();
+			k++;
+		}
+		blanc = er.getNombreBlanc();
+		noir = er.getNombreNoir();
+		if(blanc < noir)
+		{
+			compteurVictoirePremierEval0 +=1;
+		}
+		if(blanc > noir)
+		{
+			compteurVictoireSecondEval0 +=1;
+		}
+	
+
+		////////////////////////////////////////////
+		// 				SECOND JEU	 			  //
+		////////////////////////////////////////////
+		er = new EtatReversi();
+		er.calculEtatSuccesseur();
+		k = 0;
+		while(!er.estUnEtatFinal()) 
+		{
+				if(k%2==1) 
+				{
+					er = er.minimax(p,i,alpha,beta); //arg : profondeur ,eval0 <-- Joue les blanc <-- Premier eval0 <-- i
+				}
+				else 
+				{
+					er = er.minimax(p,j,alpha,beta); // Joue les noir <-- Second eval0 <-- j
+				}
+			er.afficherTab();
+			k++;
+		}
+		blanc = er.getNombreBlanc();
+		noir = er.getNombreNoir();
+		if(blanc < noir)
+		{
+			compteurVictoireSecondEval0 +=1;
+		}
+		if(blanc > noir)
+		{
+			compteurVictoirePremierEval0 +=1;
+		}
+		
+
+		////////////////////////////////////////////
+		// 				CLASSEMENT FINAL 		  //
+		////////////////////////////////////////////
+		System.out.println("Victoire premier eval0 : "+compteurVictoirePremierEval0+" Victoire second eval0 : "+compteurVictoireSecondEval0);
+		if(compteurVictoirePremierEval0 > compteurVictoireSecondEval0)
+		{
+			result = 1;
+		}
+		if(compteurVictoirePremierEval0 < compteurVictoireSecondEval0)
+		{
+			result = -1;
+		}
+		if(compteurVictoirePremierEval0 == compteurVictoireSecondEval0)
+		{
+			result = 0;
+		}
+		System.out.println("Résultat de compareEval0 : "+result);
+		return result;
+	}
 	
 	/**
 	 * Méthode principal de lancement
@@ -2208,35 +2219,24 @@ public class EtatReversi extends EtatJeu {
 	 */
 	 public static void main(String[] args) 
 	 {
-		 double alpha = Integer.MIN_VALUE;
-		 double beta = Integer.MAX_VALUE;
-		 
-			Scanner sc  = new Scanner(System.in);
-			String s = "";
-			
-			
-		 
+		 EtatReversi er = new EtatReversi();
+		 er.compareEval0(0, 0, 2); // Parametre : NuméroPremierEval0, NuméroSecondEval0, Profondeur
+		/*
+		double alpha = Integer.MIN_VALUE;
+		double beta = Integer.MAX_VALUE;
+	
 		EtatReversi er = new EtatReversi();
 
 		er.calculEtatSuccesseur();
 		int i =0;
 		while(!er.estUnEtatFinal()) {
 		
-			//for(int i =0 ; i <16 ; i++) {
 				if(i%2==1) {
 					er = er.minimax(1,2,alpha,beta); //arg : profondeur ,eval0
 				}else {
 					er = er.minimax(1,0,alpha,beta);
 				}
 			er.afficherTab();
-			//System.out.println(" ");
-		
-	
-			//	s = sc.nextLine();
-	
-			
-			
-			
 			i++;
 		}
 		
@@ -2248,11 +2248,6 @@ public class EtatReversi extends EtatJeu {
 		System.out.println("blanc : "+ blanc);
 		System.out.println("noir : " + noir);
 		System.out.println(couleur);
-		
-		//int i = er.compareEval0(1, 1, 0);
-		//System.out.println("Result : "+ i);
-		
-		System.out.println("fini");
-
+		System.out.println("fini");*/
 	 }
 }
