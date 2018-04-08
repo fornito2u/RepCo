@@ -1,6 +1,7 @@
 package etat;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import joueur.JoueurReversi;
 
@@ -243,6 +244,14 @@ public class EtatReversi extends EtatJeu {
 	//on calcule l'etat successeur et
 	//on l'ajoute a la liste d'etat successeur
 	public void calculEtatSuccesseur() { 
+		boolean haut = false,
+				bas = false,
+				gauche = false,
+				droite = false,
+				hautGauche = false,
+				basGauche = false,
+				hautDroit = false,
+				basDroit = false;
 		
 		String blanc = " B ";
 		String noir = " N ";
@@ -262,14 +271,26 @@ public class EtatReversi extends EtatJeu {
 					x = (int) p.getX();
 					y = (int) p.getY();
 					plateau= copieEtat();
+					
+					droite = getDroite(x,y,blanc);
+					haut = getHaut(x, y, blanc);
+					bas = getBas(x, y, blanc);
+					gauche = getGauche(x, y, blanc);
+					hautDroit = getDiagHautdroite(x, y, blanc);
+					hautGauche = getDiagHautGauche(x, y, blanc);
+					basDroit = getDiagBasDroite(x, y, blanc);
+					basGauche = getDiagBasGauche(x, y, blanc);
+					
 					if(this.plateau[x][y-1]==noir) {//regarder si à gauche du pion blanc il y a un pion noir
+
 						//on regarde si il est possible de poser un pion noir à droite
-						if(getDroite(x,y,blanc)) {
+						if(droite) {
 							while(plateau[x][y] == blanc) {
 								plateau[x][y] = noir;
 								y++;
 							}
 							plateau[x][y]=noir;
+							plateau=pionPosé(x, y, noir, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
 					}//1
@@ -280,7 +301,7 @@ public class EtatReversi extends EtatJeu {
 					
 					if(this.plateau[x-1][y]==noir) {//regardre au dessus si le pion est noir
 						
-						if(getBas(x, y, blanc)) {
+						if(bas) {
 							
 							while(plateau[x][y] == blanc) {
 								
@@ -288,6 +309,7 @@ public class EtatReversi extends EtatJeu {
 								x++;
 							}
 							plateau[x][y]=noir;
+							plateau=pionPosé(x, y, noir, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
 					}//2
@@ -298,12 +320,13 @@ public class EtatReversi extends EtatJeu {
 					
 					if(this.plateau[x][y+1]==noir) { //regarde a droite si le pion est noir
 						
-						if(getGauche(x, y, blanc)) {
+						if(gauche) {
 							while(plateau[x][y] == blanc) {
 								plateau[x][y]= noir;
 								y--;
 							}
 							plateau[x][y]=noir;
+							plateau=pionPosé(x, y, noir, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
 					}//3
@@ -314,13 +337,14 @@ public class EtatReversi extends EtatJeu {
 					plateau= copieEtat();
 					if(this.plateau[x+1][y] == noir) {
 						
-						if(getHaut(x, y, blanc)) {
+						if(haut) {
 							//System.out.println("regarde en dessous");
 							while(plateau[x][y] == blanc) {
 								plateau[x][y] = noir;
 								x--;
 							}
 							plateau[x][y]=noir;
+							plateau=pionPosé(x, y, noir, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
 					}//4
@@ -331,13 +355,14 @@ public class EtatReversi extends EtatJeu {
 					plateau= copieEtat();
 					//diaghautgauche
 					if(this.plateau[x+1][y+1]==noir) {
-						if(getDiagHautGauche(x, y, blanc)) {
+						if(hautGauche) {
 							while(plateau[x][y] == blanc) {
 								plateau[x][y] = noir;
 								x--;
 								y--;
 							}
 							plateau[x][y]=noir;
+							plateau=pionPosé(x, y, noir, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 							
 						}
@@ -350,13 +375,14 @@ public class EtatReversi extends EtatJeu {
 					//diagbasGauche
 					if(this.plateau[x-1][y+1]==noir) {
 						
-						if(getDiagBasGauche(x, y, blanc)) {
+						if(basGauche) {
 							while(plateau[x][y] == blanc) {
 								plateau[x][y] = noir;
 								x++;
 								y--;
 							}
 							plateau[x][y]=noir;
+							plateau=pionPosé(x, y, noir, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 							
 						}
@@ -370,13 +396,14 @@ public class EtatReversi extends EtatJeu {
 					//diaghautDroit : OK!
 					if(this.plateau[x+1][y-1]==noir) {
 						
-						if(getDiagHautdroite(x, y, blanc)) {
+						if(hautDroit) {
 							while(plateau[x][y] == blanc) {
 								plateau[x][y] = noir;
 								x--;
 								y++;
 							}
 							plateau[x][y]=noir;
+							plateau=pionPosé(x, y, noir, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 							
 						}
@@ -388,13 +415,14 @@ public class EtatReversi extends EtatJeu {
 					plateau= copieEtat();
 					//diagBasDroit
 					if(this.plateau[x-1][y-1]==noir) {
-						if(getDiagBasDroite(x, y, blanc)) {
+						if(basDroit) {
 							while(plateau[x][y] == blanc) {
 								plateau[x][y] = noir;
 								x++;
 								y++;
 							}
 							plateau[x][y]=noir;
+							plateau=pionPosé(x, y, noir, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 							//System.out.println("ajouté!");
 						}
@@ -416,6 +444,7 @@ public class EtatReversi extends EtatJeu {
 								y++;
 							}
 							plateau[x][y]=blanc;
+							plateau=pionPosé(x, y, blanc, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
 						
@@ -437,6 +466,7 @@ public class EtatReversi extends EtatJeu {
 								x++;
 							}
 							plateau[x][y]=blanc;
+							plateau=pionPosé(x, y, blanc, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
 					}//2.2
@@ -453,6 +483,7 @@ public class EtatReversi extends EtatJeu {
 								y--;
 							}
 							plateau[x][y]=blanc;
+							plateau=pionPosé(x, y, blanc, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
 					}//3.3
@@ -470,6 +501,7 @@ public class EtatReversi extends EtatJeu {
 								x--;
 							}
 							plateau[x][y]=blanc;
+							plateau=pionPosé(x, y, blanc, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
 					}//4.4
@@ -487,6 +519,7 @@ public class EtatReversi extends EtatJeu {
 								y--;
 							}
 							plateau[x][y]= blanc;
+							plateau=pionPosé(x, y, blanc, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
 					}//5.5
@@ -503,6 +536,7 @@ public class EtatReversi extends EtatJeu {
 								y--;
 							}
 							plateau[x][y]=blanc;
+							plateau=pionPosé(x, y, blanc, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
 					}//6.6
@@ -520,6 +554,7 @@ public class EtatReversi extends EtatJeu {
 								y++;
 							}
 							plateau[x][y]=blanc;
+							plateau=pionPosé(x, y, blanc, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
 						
@@ -537,6 +572,7 @@ public class EtatReversi extends EtatJeu {
 								y++;
 							}
 							plateau[x][y]=blanc;
+							plateau=pionPosé(x, y, blanc, plateau);
 							this.setSuccesseur(new EtatReversi(this, plateau));
 						}
 					}//8.8
@@ -549,47 +585,974 @@ public class EtatReversi extends EtatJeu {
 			}
 		}
 	}
+	
+	
+	public String[][] pionPosé(int x, int y , String couleur,String[][]plateau) {
+		String blanc = " B ";
+		String noir = " N ";
+		int tmp1 = x;
+		int tmp2 = y;
+		
+		if(couleur==noir) {
+		
+			//if(p.getY()>0 && p.getY()<plateau[0].length-1 && p.getX()>0 && p.getX()<plateau.length-1)
+			if(x == 0) {
+				if(y==0) {
+					//droite
+					if(plateau[x][y+1]==blanc) {
+						//droit
+						tmp1 = x;
+						tmp2 = y+1;
+						if(getDroite(tmp1, tmp2, blanc,noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp2++;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+					}
+					//enbas
+					if(plateau[x+1][y]==blanc) {
+						tmp1 = x+1;
+						tmp2 = y;
+						if(getBas(tmp1, tmp2, blanc, noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp1++;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+						//bas
+					}
+					//diagbasdroit
+					if(plateau[x+1][y+1]==blanc) {
+						tmp1 = x+1;
+						tmp2 = y+1;
+						if(getDiagBasDroite(tmp1, tmp2, blanc, noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp1++;
+								tmp2++;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+						//basdroit
+					}
+				}
+				
+				else if(y==plateau[0].length-1) {
+					//gauche
+					if(plateau[x][y-1]==blanc) {
+						tmp1 = x;
+						tmp2 = y-1;
+						//regarde à gauche
+						if(getGauche(x, y-1, blanc,noir)) { 
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp2--;
+							}
+							plateau[tmp1][tmp2]=noir;
+							
+						}
+					//bas
+						if(plateau[x+1][y]==blanc) {
+							tmp1 = x+1;
+							tmp2 = y;
+							if(getBas(tmp1, tmp2, blanc, noir)) {
+								while(plateau[tmp1][tmp2].equals(blanc)) {
+									plateau[tmp1][tmp2]=noir;
+									tmp1++;
+								}
+								plateau[tmp1][tmp2]=noir;
+							}
+							//bas
+						}	
+						
+					//diagbasgauche
+						if(plateau[x+1][y-1]==blanc) {
+							tmp1 = x+1;
+							tmp2 = y-1;
+							if(getDiagBasGauche(tmp1, tmp2, blanc, noir)) {
+								while(plateau[tmp1][tmp2].equals(blanc)) {
+									plateau[tmp1][tmp2]=noir;
+									tmp1++;
+									tmp2--;
+								}
+								plateau[tmp1][tmp2]=noir;
+							}
+							//basgauche
+						}
+						
+					}	
+				}
+				else {
+					//gauche
+					if(plateau[x][y-1]==blanc) {
+						tmp1 = x;
+						tmp2 = y-1;
+						//regarde à gauche
+						if(getGauche(x, y-1, blanc,noir)) { 
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp2--;
+							}
+							plateau[tmp1][tmp2]=noir;
+							
+						}
+					}
+					//diagbasgauche
+						if(plateau[x+1][y-1]==blanc) {
+							tmp1 = x+1;
+							tmp2 = y-1;
+							if(getDiagBasGauche(tmp1, tmp2, blanc, noir)) {
+								while(plateau[tmp1][tmp2].equals(blanc)) {
+									plateau[tmp1][tmp2]=noir;
+									tmp1++;
+									tmp2--;
+								}
+								plateau[tmp1][tmp2]=noir;
+							}
+							//basgauche
+						}
+					
+					//bas
+						if(plateau[x+1][y]==blanc) {
+							tmp1 = x+1;
+							tmp2 = y;
+							if(getBas(tmp1, tmp2, blanc, noir)) {
+								while(plateau[tmp1][tmp2].equals(blanc)) {
+									plateau[tmp1][tmp2]=noir;
+									tmp1++;
+								}
+								plateau[tmp1][tmp2]=noir;
+							}
+							//bas
+						}
+					//droit
+					if(plateau[x][y+1]==blanc) {
+						//droit
+						tmp1 = x;
+						tmp2 = y+1;
+						if(getDroite(tmp1, tmp2, blanc,noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp2++;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+					}
+					//diagbasdroit
+					if(plateau[x+1][y+1]==blanc) {
+						tmp1 = x+1;
+						tmp2 = y+1;
+						if(getDiagBasDroite(tmp1, tmp2, blanc, noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp1++;
+								tmp2++;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+						//basdroit
+					}
+					
+				}
+				
+				
+			}
+			else if(x>0 && x<plateau.length-1 && y>0 && y<plateau[0].length-1 ) { //milieu du plateau
+				
+				if(plateau[x][y-1]==blanc) {
+					tmp1 = x;
+					tmp2 = y-1;
+					//regarde à gauche
+					if(getGauche(x, y-1, blanc,noir)) { 
+						while(plateau[tmp1][tmp2].equals(blanc)) {
+							plateau[tmp1][tmp2]=noir;
+							tmp2--;
+						}
+						plateau[tmp1][tmp2]=noir;
+						
+					}//*/
+				}
+					
+				if(plateau[x-1][y]==blanc) {
+					tmp1 = x-1;
+					tmp2 = y;
+					//haut
+					if(getHaut(x-1, y, blanc, noir)) {
+						while(plateau[tmp1][tmp2].equals(blanc)) {
+							plateau[tmp1][tmp2]=noir;
+							tmp1--;
+						}
+						plateau[tmp1][tmp2]=noir;
+					}
+				}
+					
+				if(plateau[x][y+1]==blanc) {
+					//droit
+					tmp1 = x;
+					tmp2 = y+1;
+					if(getDroite(tmp1, tmp2, blanc,noir)) {
+						while(plateau[tmp1][tmp2].equals(blanc)) {
+							plateau[tmp1][tmp2]=noir;
+							tmp2++;
+						}
+						plateau[tmp1][tmp2]=noir;
+					}
+				}
+				if(plateau[x+1][y]==blanc) {
+					tmp1 = x+1;
+					tmp2 = y;
+					if(getBas(tmp1, tmp2, blanc, noir)) {
+						while(plateau[tmp1][tmp2].equals(blanc)) {
+							plateau[tmp1][tmp2]=noir;
+							tmp1++;
+						}
+						plateau[tmp1][tmp2]=noir;
+					}
+					//bas
+				}
+				if(plateau[x+1][y+1]==blanc) {
+					tmp1 = x+1;
+					tmp2 = y+1;
+					if(getDiagBasDroite(tmp1, tmp2, blanc, noir)) {
+						while(plateau[tmp1][tmp2].equals(blanc)) {
+							plateau[tmp1][tmp2]=noir;
+							tmp1++;
+							tmp2++;
+						}
+						plateau[tmp1][tmp2]=noir;
+					}
+					//basdroit
+				}
+				if(plateau[x-1][y+1]==blanc) {
+					tmp1 = x-1;
+					tmp2 = y+1;
+					if(getDiagHautdroite(tmp1, tmp2, blanc, noir)) {
+						while(plateau[tmp1][tmp2].equals(blanc)) {
+							plateau[tmp1][tmp2]=noir;
+							tmp1--;
+							tmp2++;
+						}
+						plateau[tmp1][tmp2]=noir;
+					}
+					//hautdroit
+				}
+				if(plateau[x+1][y-1]==blanc) {
+					tmp1 = x+1;
+					tmp2 = y-1;
+					if(getDiagBasGauche(tmp1, tmp2, blanc, noir)) {
+						while(plateau[tmp1][tmp2].equals(blanc)) {
+							plateau[tmp1][tmp2]=noir;
+							tmp1++;
+							tmp2--;
+						}
+						plateau[tmp1][tmp2]=noir;
+					}
+					//basgauche
+				}
+				if(plateau[x-1][y-1]==blanc) {
+					//hautgauche
+					tmp1 = x-1;tmp2 = y-1;
+					if(getDiagHautGauche(tmp1, tmp2, blanc, noir)) {
+						while(plateau[tmp1][tmp2].equals(blanc)) {
+							plateau[tmp1][tmp2]=noir;
+							tmp1--;
+							tmp2--;
+						}
+						plateau[tmp1][tmp2]=noir;
+					}
+				}
+
+			}
+			else {
+			
+				//x=tab.lenght
+				if(y==0) {
+					//droite
+					
+					if(plateau[x][y+1]==blanc) {
+						//droit
+						tmp1 = x;
+						tmp2 = y+1;
+						if(getDroite(tmp1, tmp2, blanc,noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp2++;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+					}
+					//enhaut
+					if(plateau[x-1][y]==blanc) {
+						tmp1 = x-1;
+						tmp2 = y;
+						//haut
+						if(getHaut(x-1, y, blanc, noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp1--;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+					}
+					//diagbasdroit
+					if(plateau[x-1][y+1]==blanc) {
+						tmp1 = x-1;
+						tmp2 = y+1;
+						if(getDiagHautdroite(tmp1, tmp2, blanc, noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp1--;
+								tmp2++;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+						//hautdroit
+					}
+				}
+				else if(y==plateau[0].length-1) {
+					//gauche
+					if(plateau[x][y-1]==blanc) {
+						tmp1 = x;
+						tmp2 = y-1;
+						//regarde à gauche
+						if(getGauche(x, y-1, blanc,noir)) { 
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp2--;
+							}
+							plateau[tmp1][tmp2]=noir;
+							
+						}
+					}
+					//haut
+					if(plateau[x-1][y]==blanc) {
+						tmp1 = x-1;
+						tmp2 = y;
+						//haut
+						if(getHaut(x-1, y, blanc, noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp1--;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+					}
+					//diagbasgauche
+					if(plateau[x-1][y-1]==blanc) {
+						//hautgauche
+						tmp1 = x-1;tmp2 = y-1;
+						if(getDiagHautGauche(tmp1, tmp2, blanc, noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp1--;
+								tmp2--;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+					}
+
+				}else {
+					//gauche
+					if(plateau[x][y-1]==blanc) {
+						tmp1 = x;
+						tmp2 = y-1;
+						//regarde à gauche
+						if(getGauche(x, y-1, blanc,noir)) { 
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp2--;
+							}
+							plateau[tmp1][tmp2]=noir;
+							
+						}
+					}
+					//diagbasgauche
+					if(plateau[x-1][y-1]==blanc) {
+						//hautgauche
+						tmp1 = x-1;tmp2 = y-1;
+						if(getDiagHautGauche(tmp1, tmp2, blanc, noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp1--;
+								tmp2--;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+					}
+
+					//haut
+					if(plateau[x-1][y]==blanc) {
+						tmp1 = x-1;
+						tmp2 = y;
+						//haut
+						if(getHaut(x-1, y, blanc, noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp1--;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+					}
+					//droit
+					
+					if(plateau[x][y+1]==blanc) {
+						//droit
+						tmp1 = x;
+						tmp2 = y+1;
+						if(getDroite(tmp1, tmp2, blanc,noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp2++;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+					}
+					//diagbasdroit
+					if(plateau[x-1][y+1]==blanc) {
+						tmp1 = x-1;
+						tmp2 = y+1;
+						if(getDiagHautdroite(tmp1, tmp2, blanc, noir)) {
+							while(plateau[tmp1][tmp2].equals(blanc)) {
+								plateau[tmp1][tmp2]=noir;
+								tmp1--;
+								tmp2++;
+							}
+							plateau[tmp1][tmp2]=noir;
+						}
+						//hautdroit
+					}
+					
+				}
+				
+			
+			
+			}
+				return plateau;
+		}
+			
+		else {
+			
+			//////////////////////////////////////////////////////////
+			/*haut du plateau*/
+			
+			
+			
+			if(x == 0) {
+				if(y==0) {
+					//bas
+						if(plateau[x+1][y]==noir) {
+							tmp1 = x+1;
+							tmp2 = y;
+							if(getBas(tmp1, tmp2,noir,blanc)) {
+								while(plateau[tmp1][tmp2].equals(noir)) {
+									plateau[tmp1][tmp2]=blanc;
+									tmp1++;
+								}
+								plateau[tmp1][tmp2]=blanc;
+							}
+							//bas
+						}
+					//droit
+					if(plateau[x][y+1]==noir) {
+						//droit
+						tmp1 = x;
+						tmp2 = y+1;
+						if(getDroite(tmp1, tmp2,noir,blanc)) {
+							while(plateau[tmp1][tmp2].equals(noir)) {
+								plateau[tmp1][tmp2]=blanc;
+								tmp2++;
+							}
+							plateau[tmp1][tmp2]=blanc;
+						}
+					}
+					//diagbasdroit
+					if(plateau[x+1][y+1]==noir) {
+						tmp1 = x+1;
+						tmp2 = y+1;
+						if(getDiagBasDroite(tmp1, tmp2,noir, blanc)) {
+							while(plateau[tmp1][tmp2].equals(noir)) {
+								plateau[tmp1][tmp2]=blanc;
+								tmp1++;
+								tmp2++;
+							}
+							plateau[tmp1][tmp2]=blanc;
+						}
+						//basdroit
+					
+					}
+				
+				}
+
+				else if(y==plateau[0].length-1) {
+					//gauche
+					if(plateau[x][y-1]==noir) {
+						tmp1 = x;
+						tmp2 = y-1;
+						//regarde à gauche
+						if(getGauche(x, y-1, noir,blanc)) { 
+							while(plateau[tmp1][tmp2].equals(noir)) {
+								plateau[tmp1][tmp2]=blanc;
+								tmp2--;
+							}
+							plateau[tmp1][tmp2]=blanc;
+							
+						}
+					}
+					//diagbasgauche
+						if(plateau[x+1][y-1]==noir) {
+							tmp1 = x+1;
+							tmp2 = y-1;
+							if(getDiagBasGauche(tmp1, tmp2, noir,blanc)) {
+								while(plateau[tmp1][tmp2].equals(noir)) {
+									plateau[tmp1][tmp2]=blanc;
+									tmp1++;
+									tmp2--;
+								}
+								plateau[tmp1][tmp2]=blanc;
+							}
+							//basgauche
+						}
+					
+					//bas
+						if(plateau[x+1][y]==noir) {
+							tmp1 = x+1;
+							tmp2 = y;
+							if(getBas(tmp1, tmp2,noir,blanc)) {
+								while(plateau[tmp1][tmp2].equals(noir)) {
+									plateau[tmp1][tmp2]=blanc;
+									tmp1++;
+								}
+								plateau[tmp1][tmp2]=blanc;
+							}
+							//bas
+						}
+				}
+				
+				
+				else {
+					//gauche
+					if(plateau[x][y-1]==noir) {
+						tmp1 = x;
+						tmp2 = y-1;
+						//regarde à gauche
+						if(getGauche(x, y-1, noir,blanc)) { 
+							while(plateau[tmp1][tmp2].equals(noir)) {
+								plateau[tmp1][tmp2]=blanc;
+								tmp2--;
+							}
+							plateau[tmp1][tmp2]=blanc;
+							
+						}
+					}
+					//diagbasgauche
+						if(plateau[x+1][y-1]==noir) {
+							tmp1 = x+1;
+							tmp2 = y-1;
+							if(getDiagBasGauche(tmp1, tmp2, noir,blanc)) {
+								while(plateau[tmp1][tmp2].equals(noir)) {
+									plateau[tmp1][tmp2]=blanc;
+									tmp1++;
+									tmp2--;
+								}
+								plateau[tmp1][tmp2]=blanc;
+							}
+							//basgauche
+						}
+					
+					//bas
+						if(plateau[x+1][y]==noir) {
+							tmp1 = x+1;
+							tmp2 = y;
+							if(getBas(tmp1, tmp2,noir,blanc)) {
+								while(plateau[tmp1][tmp2].equals(noir)) {
+									plateau[tmp1][tmp2]=blanc;
+									tmp1++;
+								}
+								plateau[tmp1][tmp2]=blanc;
+							}
+							//bas
+						}
+					//droit
+					if(plateau[x][y+1]==noir) {
+						//droit
+						tmp1 = x;
+						tmp2 = y+1;
+						if(getDroite(tmp1, tmp2,noir,blanc)) {
+							while(plateau[tmp1][tmp2].equals(noir)) {
+								plateau[tmp1][tmp2]=blanc;
+								tmp2++;
+							}
+							plateau[tmp1][tmp2]=blanc;
+						}
+					}
+					//diagbasdroit
+					if(plateau[x+1][y+1]==noir) {
+						tmp1 = x+1;
+						tmp2 = y+1;
+						if(getDiagBasDroite(tmp1, tmp2,noir, blanc)) {
+							while(plateau[tmp1][tmp2].equals(noir)) {
+								plateau[tmp1][tmp2]=blanc;
+								tmp1++;
+								tmp2++;
+							}
+							plateau[tmp1][tmp2]=blanc;
+						}
+						//basdroit
+					}
+					
+				}
+				
+				
+			}
+			
+			
+			
+			
+			
+			
+			/*milieux du plateau*/
+			else if(x>0 && x<plateau.length-1 && y>0 && y<plateau[0].length-1 ) {
+				if(plateau[x][y-1]==noir) {
+					tmp1 = x;
+					tmp2 = y-1;
+					//regarde à gauche
+					if(getGauche(x, y-1, noir,blanc)) { 
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp2--;
+						}
+						plateau[tmp1][tmp2]=blanc;
+						
+					}//*/
+				}
+					
+				if(plateau[x-1][y]==noir) {
+					tmp1 = x-1;
+					tmp2 = y;
+					//haut
+					if(getHaut(x-1, y, noir, blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp1--;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+				}
+					
+				if(plateau[x][y+1]==noir) {
+					//droit
+					tmp1 = x;
+					tmp2 = y+1;
+					if(getDroite(tmp1, tmp2, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp2++;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+				}
+				if(plateau[x+1][y].equals(noir)) {
+					tmp1 = x+1;
+					tmp2 = y;
+					if(getBas(tmp1, tmp2, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp1++;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+					//bas
+				}
+				if(plateau[x+1][y+1]==noir) {
+					tmp1 = x+1;
+					tmp2 = y+1;
+					if(getDiagBasDroite(tmp1, tmp2, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp2++;
+							tmp1++;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+					//basdroit
+				}
+				if(plateau[x-1][y+1]==noir) {
+					tmp1 = x-1;
+					tmp2 = y+1;
+					if(getDiagHautdroite(tmp1, tmp2, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp1--;
+							tmp2++;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+					//hautdroit
+				}
+				if(plateau[x+1][y-1]==noir) {
+					tmp1 = x+1;
+					tmp2 = y-1;
+					if(getDiagBasGauche(tmp1, tmp2, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp1++;
+							tmp2--;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+					//basgauche
+				}
+				if(plateau[x-1][y-1]==noir) {
+					//hautgauche
+					tmp1 = x-1;tmp2 = y-1;
+					if(getDiagHautGauche(tmp1, tmp2,noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp1--;
+							tmp2--;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+				
+				}
+			}
+			///////////////////////////////////////////////////////
+			/*bas du plateau*/
+			
+			else if(x==plateau.length-1) {
+			
+			if(y==0) {
+				
+				//haut
+				if(plateau[x-1][y]==noir) {
+					tmp1 = x-1;
+					tmp2 = y;
+					//haut
+					if(getHaut(x-1, y, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp1--;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+				}
+				//droit
+				
+				if(plateau[x][y+1]==noir) {
+					//droit
+					tmp1 = x;
+					tmp2 = y+1;
+					if(getDroite(tmp1, tmp2, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp2++;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+				}
+				//diagbasdroit
+				if(plateau[x-1][y+1]==blanc) {
+					tmp1 = x-1;
+					tmp2 = y+1;
+					if(getDiagHautdroite(tmp1, tmp2, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp1--;
+							tmp2++;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+					//hautdroit
+				}
+				
+			
+			}
+			else if(y==plateau[0].length-1) {
+				//gauche
+				if(plateau[x][y-1]==noir) {
+					tmp1 = x;
+					tmp2 = y-1;
+					//regarde à gauche
+					if(getGauche(x, y-1, noir,blanc)) { 
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp2--;
+						}
+						plateau[tmp1][tmp2]=blanc;
+						
+					}
+				}
+				//diagbasgauche
+				if(plateau[x-1][y-1]==noir) {
+					//hautgauche
+					tmp1 = x-1;tmp2 = y-1;
+					if(getDiagHautGauche(tmp1, tmp2, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp1--;
+							tmp2--;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+				}
+
+				//haut
+				if(plateau[x-1][y]==noir) {
+					tmp1 = x-1;
+					tmp2 = y;
+					//haut
+					if(getHaut(x-1, y, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp1--;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+				}
+
+			}
+			
+/////////////////////////////////////////////////////////////////////////////
+			else if(y>0 && y<plateau[0].length-1) {
+				
+				
+				//gauche
+				if(plateau[x][y-1]==noir) {
+					tmp1 = x;
+					tmp2 = y-1;
+					//regarde à gauche
+					if(getGauche(x, y-1, noir,blanc)) { 
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp2--;
+						}
+						plateau[tmp1][tmp2]=blanc;
+						
+					}
+				}
+				//diagbasgauche
+				if(plateau[x-1][y-1]==noir) {
+					//hautgauche
+					tmp1 = x-1;tmp2 = y-1;
+					if(getDiagHautGauche(tmp1, tmp2, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp1--;
+							tmp2--;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+				}
+
+				//haut
+				if(plateau[x-1][y]==noir) {
+					tmp1 = x-1;
+					tmp2 = y;
+					//haut
+					if(getHaut(x-1, y, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp1--;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+				}
+				//droit
+				
+				if(plateau[x][y+1]==noir) {
+					//droit
+					tmp1 = x;
+					tmp2 = y+1;
+					if(getDroite(tmp1, tmp2, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp2++;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+				}
+				//diagbasdroit
+				if(plateau[x-1][y+1]==blanc) {
+					tmp1 = x-1;
+					tmp2 = y+1;
+					if(getDiagHautdroite(tmp1, tmp2, noir,blanc)) {
+						while(plateau[tmp1][tmp2].equals(noir)) {
+							plateau[tmp1][tmp2]=blanc;
+							tmp1--;
+							tmp2++;
+						}
+						plateau[tmp1][tmp2]=blanc;
+					}
+					//hautdroit
+				}
+				
+			}
+			
+			
+			
+			////////////////////////////////////////////////////////
+		}
+		}
+		return plateau;
+	}
 
 	public boolean getDroite(int i, int j,String couleur) {
 		
+		return getDroite(i, j, couleur, "   ");
+	}
+	public boolean getDroite(int i ,int j ,String couleur, String caseSorti) {
 		boolean possible = false;
 		//System.out.println("getDroite this.plateau[0].lenght = "+this.plateau[0].length);
 		while((this.plateau[i][j]==couleur) && j<this.plateau[0].length-1) {
 			
 			j++;
 		}
-		if(this.plateau[i][j] == "   ") {
+		if(this.plateau[i][j] == caseSorti) { //"   "
 			
+			possible = true;
+		}
+		return possible;
+		
+	}
+	
+	public boolean getGauche(int i, int j , String couleur,String caseSorti) {
+		boolean possible = false;
+		while((this.plateau[i][j]==couleur) && j>0) {
+			j--;
+		}
+		if(this.plateau[i][j]==caseSorti) {
 			possible = true;
 		}
 		return possible;
 	}
 	
 	public boolean getGauche(int i, int j , String couleur) {
-		boolean possible = false;
-		while((this.plateau[i][j]==couleur) && j>0) {
-			j--;
-		}
-		if(this.plateau[i][j]=="   ") {
-			possible = true;
-		}
-		return possible;
+		//"   "
+		return getGauche(i, j, couleur, "   ");
 	}
 	
-	public boolean getHaut(int i,int j, String couleur) {
+	public boolean getHaut(int i,int j, String couleur,String caseSorti) {
 		
 		boolean possible = false;
 		while((this.plateau[i][j]==couleur && i>0)) {
 			
 			i--;
 		}
-		if(this.plateau[i][j]=="   ") {
+		if(this.plateau[i][j]==caseSorti) {
 			possible = true;
 		}
 		//System.out.println(possible);
 		return possible;
 	}
-	public boolean getBas(int i,int j, String couleur) {
+	public boolean getHaut(int i, int j , String couleur) {
+		return getHaut(i, j, couleur, "   ");
+	}
+	
+	
+	public boolean getBas(int i,int j, String couleur,String caseSorti) {
 		
 		boolean possible = false;
 		
@@ -597,14 +1560,16 @@ public class EtatReversi extends EtatJeu {
 			i++;
 			
 		}
-		if(this.plateau[i][j]=="   ") {
+		if(this.plateau[i][j]==caseSorti) {
 			possible = true;
 		}
 		return possible;
 	}
-	
+	public boolean getBas(int i, int j , String couleur) {
+		return getBas(i, j, couleur, "   ");
+	}
 
-	public boolean getDiagHautGauche(int i,int j, String couleur) {
+	public boolean getDiagHautGauche(int i,int j, String couleur,String caseSorti) {
 		boolean possible = false;
 		//System.out.println("getdiaghautgauche");
 		while(this.plateau[i][j]==couleur && i>0 && j>0) {
@@ -612,7 +1577,7 @@ public class EtatReversi extends EtatJeu {
 			j--;
 		}
 		
-		if(this.plateau[i][j]=="   ") {
+		if(this.plateau[i][j]==caseSorti) {
 			possible = true;
 		}
 		//System.out.println("getDiagHautGauche : "+possible);
@@ -620,8 +1585,12 @@ public class EtatReversi extends EtatJeu {
 		
 	}
 	
+	public boolean getDiagHautGauche(int i , int j , String couleur) {
+		return getDiagHautGauche(i, j, couleur, "   ");
+	}
+	
 
-	public boolean getDiagHautdroite(int i,int j, String couleur) {
+	public boolean getDiagHautdroite(int i,int j, String couleur,String caseSorti) {
 			
 		boolean possible = false;		
 		while((this.plateau[i][j]==couleur) && (i>0) && (j<this.plateau[0].length-1)) {
@@ -630,7 +1599,7 @@ public class EtatReversi extends EtatJeu {
 			j++;
 		}
 		
-		if(this.plateau[i][j]=="   ") {
+		if(this.plateau[i][j].equals(caseSorti)) {
 			possible = true;
 		}
 		//System.out.println(possible);
@@ -638,24 +1607,32 @@ public class EtatReversi extends EtatJeu {
 		
 	}
 	
+	public boolean getDiagHautdroite(int i,int j, String couleur) {
+		return getDiagHautdroite(i, j, couleur, "   ");
+	}
+	
 
 
-	public boolean getDiagBasGauche(int i,int j, String couleur) {
+	public boolean getDiagBasGauche(int i,int j, String couleur,String caseSorti) {
 		boolean possible = false;
 		
 		while(this.plateau[i][j]==couleur && i<plateau.length-1 && j>0) {
 			i++;
 			j--;
 		}
-		if(this.plateau[i][j]=="   ") {
+		if(this.plateau[i][j].equals(caseSorti)) {
 			possible = true;
 		}
 		return possible;
 		
 	}
+	
+	public boolean getDiagBasGauche(int i,int j, String couleur) {
+		return getDiagBasGauche(i, j, couleur, "   ");
+	}
 
 
-	public boolean getDiagBasDroite(int i,int j, String couleur) {
+	public boolean getDiagBasDroite(int i,int j, String couleur,String caseSorti) {
 		boolean possible = false;
 		
 		while(this.plateau[i][j]==couleur && i<plateau.length-1 && j<plateau[0].length-1) {
@@ -663,10 +1640,14 @@ public class EtatReversi extends EtatJeu {
 			j++;
 		}
 		
-		if(this.plateau[i][j]=="   ") {
+		if(this.plateau[i][j].equals(caseSorti)) {
 			possible = true;
 		}
 		return possible;
+	}
+	
+	public boolean getDiagBasDroite(int i,int j, String couleur) {
+		return getDiagBasDroite(i, j, couleur, "   ");
 	}
 	
 	public boolean estUnEtatFinal() {
@@ -687,12 +1668,18 @@ public class EtatReversi extends EtatJeu {
 		
 		return nbr;
 	}
+	
+	
 	public int getNombreBlanc() {
 		return nombreJeton(" B ");
 	}
+	
+	
 	public int getNombreNoir() {
 		return nombreJeton(" N ");
 	}
+	
+	
 	public String getCouleurGagnante() {
 		String gagnant=null;
 		int blanc,noir;
@@ -700,10 +1687,10 @@ public class EtatReversi extends EtatJeu {
 		noir = getNombreNoir();
 		
 		if(blanc>noir) {
-			gagnant = "Blanc gagnant";
+			gagnant = "blanc";
 		}
 		else if (noir>blanc) {
-			gagnant = "Noir gagnant";
+			gagnant = "noir";
 		}
 		else {
 			gagnant = "egalité";
@@ -729,17 +1716,19 @@ public class EtatReversi extends EtatJeu {
 		}
 		
 		
-		/*if(this.estUnEtatFinal()) 
+		if(this.estUnEtatFinal()) 
 		{
-			if( this.getJoueurActuel().getCouleur()==this.getCouleurGagnante())
+			if( this.getJoueurActuel().getCouleur().equals(this.getCouleurGagnante()))
 			{
+				//System.out.println("if"+this.getCouleurGagnante());
 				poids = Integer.MAX_VALUE; //pour simuler + l'infini
 			}
 			else
 			{
+				//System.out.println("else"+this.getCouleurGagnante());
 				poids = Integer.MIN_VALUE;
 			}
-		}*/
+		}
 		
 		
 		return poids;
@@ -924,6 +1913,8 @@ public class EtatReversi extends EtatJeu {
 		}
 		return a;
 	}
+	
+	
 	public double min(double x,double y) {
 	
 		double a;
@@ -935,6 +1926,8 @@ public class EtatReversi extends EtatJeu {
 		}
 		return a;
 	}
+	
+	
 	public double evaluation(int c, EtatReversi etat, int numeroEvaluation) {
 		//System.out.println("evaluation");
 		double score;
@@ -948,7 +1941,7 @@ public class EtatReversi extends EtatJeu {
 			int nbBlanc = etat.getNombreBlanc();
 			if(this.getJoueurActuel().equals(etat.getJoueurActuel())) {
 			//if(this.getJoueurActuel()==etat.getJoueurActuel()) {
-				System.out.println("true");
+				//System.out.println("true");
 				if(etat.getJoueurActuel().getCouleur()=="noir") {
 					if(nbNoir > nbBlanc) {
 						score = Integer.MAX_VALUE;
@@ -1028,7 +2021,7 @@ public class EtatReversi extends EtatJeu {
 				break;
 
 			default:
-				score = eval0();
+				score = 0;//eval0();
 				break;
 			}
 			
@@ -1061,21 +2054,45 @@ public class EtatReversi extends EtatJeu {
 	 */
 	 public static void main(String[] args) 
 	 {
+		 
+			Scanner sc  = new Scanner(System.in);
+			String s = "";
+			
+			
+		 
 		EtatReversi er = new EtatReversi();
 
 		er.calculEtatSuccesseur();
 		int i =0;
 		while(!er.estUnEtatFinal()) {
 		
-		//for(int i =0 ; i <16 ; i++) {
-			if(i%2==0) {
-				er = er.minimax(3,2); //arg : profondeur ,eval0
-			}else {
-				er = er.minimax(3,3);
-			}
-		er.afficherTab();
-		i++;
+			//for(int i =0 ; i <16 ; i++) {
+				if(i%2==1) {
+					er = er.minimax(1,2); //arg : profondeur ,eval0
+				}else {
+					er = er.minimax(1,0);
+				}
+			//er.afficherTab();
+			//System.out.println(" ");
+		
+	
+			//	s = sc.nextLine();
+	
+			
+			
+			
+			i++;
 		}
+		
+		String couleur;
+		int blanc,noir;
+		couleur = er.getCouleurGagnante();
+		blanc = er.getNombreBlanc();
+		noir = er.getNombreNoir();
+		System.out.println("blanc : "+ blanc);
+		System.out.println("noir : " + noir);
+		System.out.println(couleur);
+		
 		//int i = er.compareEval0(1, 1, 0);
 		//System.out.println("Result : "+ i);
 		
