@@ -85,6 +85,59 @@ public class Reversi
 				 + "Plateau de jeu actuel :");
 		this.etat.afficherTab();
 	}
+	
+	public void tourJoueurMachine(int joueur,int choixEval0,int profondeur) {
+		int i = 0; 
+		this.nbTour += 1;
+		
+		if(nbTour%2==joueur) {
+		
+		for(EtatReversi e : this.etat.getSuccesseur()) 
+		{
+			System.out.println("Possibilite "+i);
+			e.afficherTab();
+			System.out.println();
+			i++;
+			
+		}
+		System.out.println("Tour n°" + nbTour+ " / Joueur " + this.etat.getJoueurActuel().getCouleur());
+		System.out.println("Nombre de possibilite : "+i);
+		Scanner sc  = new Scanner(System.in);
+		String s = "";
+		int si = -1;
+		while(si < 0 || si > this.etat.getSuccesseur().size()-1 || estUnEntier(s) == false)
+		{
+			System.out.println("Pour jouer, entrez un numéro de possibilité valide");
+
+			
+			s = sc.nextLine();
+			
+			
+			try 
+			{
+				si = Integer.parseInt(s);
+			} 
+			catch (NumberFormatException e)
+			{
+				System.out.println("Vous devez entrer un entier !");
+			}
+		}
+		
+		this.etat = this.etat.getEtatSucc(Integer.parseInt(s)); // Permet d'affecter a l'etat courant le successeur choisi
+		System.out.println("----------------------------------------------------------------------------------\n"
+				 + "----------------------------------------------------------------------------------\n"
+				 + "----------------------------------------------------------------------------------\n"
+				 + "Plateau de jeu actuel :");
+		this.etat.afficherTab();
+		}
+		else {
+			this.etat = etat.minimax(profondeur, choixEval0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+			this.etat.afficherTab();
+		}
+		
+	}
+	
+	
 	public void win() {
 		String couleur;
 		int blanc,noir;
@@ -102,6 +155,7 @@ public class Reversi
 		Reversi r = new Reversi();
 		int blanc;
 		int noir;
+		int i=0,j=0,p=0;
 		Scanner sc  = new Scanner(System.in);
 		String s = "";
 		int si = -1;
@@ -142,13 +196,66 @@ public class Reversi
 			break;
 			
 		case 1:
-			
-			
+			int choixEval0=0,profondeur=0;
+			System.out.println("voulez vous etre les pions noirs ou blancs? (1 =noir) ");
+			System.out.println("le choix 0 utilise une fonction qui compare le nombre de jetons dans les différents états successeurs");
+			System.out.println("le choix 1 se base sur un tableau de force basé sur la place des pions de chaques couleurs");
+			System.out.println("le choix 2 se base sur le nombre de successeur possible ");
+			s = sc.nextLine();
+			try 
+			{
+				i = Integer.parseInt(s);
+			} 
+			catch (NumberFormatException e)
+			{
+				System.out.println("Vous devez entrer un entier !");
+			}
+			System.out.println("veuillez choisir la fonction d'evaluation pour les pions machine : ");
+			System.out.println("le choix 0 utilise une fonction qui compare le nombre de jetons dans les différents états successeurs");
+			System.out.println("le choix 1 se base sur un tableau de force basé sur la place des pions de chaques couleurs");
+			System.out.println("le choix 2 se base sur le nombre de successeur possible ");
+			s = sc.nextLine();
+			try 
+			{
+				choixEval0 = Integer.parseInt(s);
+			} 
+			catch (NumberFormatException e)
+			{
+				System.out.println("Vous devez entrer un entier !");
+			}
+			System.out.println("veuillez choisir le nombre de coup calculé à l'avance : ");
+			s = sc.nextLine();
+			try 
+			{
+				profondeur = Integer.parseInt(s);
+			} 
+			catch (NumberFormatException e)
+			{
+				System.out.println("Vous devez entrer un entier !");
+			}
+			r.getEtat().calculEtatSuccesseur();
+			while(!r.getEtat().estUnEtatFinal()) {
+				r.tourJoueurMachine(i, choixEval0, profondeur);
+				r.getEtat().calculEtatSuccesseur();
+			}
+			r.win();
 			break;
 			
 		case 2:
 
-			int i=0,j=0,p=0;
+			
+			
+			System.out.println("voulez vous utiliser la coupe alpha/beta dans les calculs?(oui = 0 , non = 1)");
+			int oui=0;
+			s = sc.nextLine();
+			try 
+			{
+				oui = Integer.parseInt(s);
+			} 
+			catch (NumberFormatException e)
+			{
+				System.out.println("Vous devez entrer un entier !");
+			}
 			
 			System.out.println("veuillez choisir la fonction d'evaluation pour les pions noirs : ");
 			System.out.println("le choix 0 utilise une fonction qui compare le nombre de jetons dans les différents états successeurs");
@@ -191,20 +298,31 @@ public class Reversi
 			EtatReversi er = new EtatReversi();
 			er.calculEtatSuccesseur();
 			int k = 0;
+			long startTime = System.nanoTime();
 			while(!er.estUnEtatFinal()) 
 			{
 					if(k%2==1) 
 					{
+						if(oui==0) {
 						er = er.minimax(p,j,Integer.MIN_VALUE,Integer.MAX_VALUE); //arg : profondeur ,eval0   <-- Joue les blanc = second eval0 <-- utilise j
+						}else {
+							er = er.minimax(p,j);
+						}
 					}
 					else 
 					{
-						er = er.minimax(p,i,Integer.MIN_VALUE,Integer.MAX_VALUE); // <-- Joue les noirs = premier eval0 <-- utilise i
+						if(oui==0) {
+							er = er.minimax(p,i,Integer.MIN_VALUE,Integer.MAX_VALUE); // <-- Joue les noirs = premier eval0 <-- utilise i
+						}else {
+							er = er.minimax(p,i);
+						}
 					}
 				er.afficherTab();
 				System.out.println("/////////////////////////////////////////////////////////////");
 				k++;
 			}
+			long estimatedTime = System.nanoTime() - startTime;
+			System.out.println("temps de calcul : "+ estimatedTime+ " ns");
 			blanc = er.getNombreBlanc();
 			noir = er.getNombreNoir();
 			System.out.println("NOMBRE DE BLANC : "+ blanc);
