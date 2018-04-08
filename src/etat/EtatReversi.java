@@ -2065,22 +2065,22 @@ public class EtatReversi extends EtatJeu {
 			switch (numeroEvaluation) {
 			case 0:
 				score = eval0();
-				System.out.println("2068 choix eval0");
+				//System.out.println("2068 choix eval0");
 				break;
 				
 			case 1:
 				score = eval0V2();
-				System.out.println("2073 choix eval0v2");
+				//System.out.println("2073 choix eval0v2");
 				break;
 				
 			case 2 :
 				score = eval0V3();
-				System.out.println("2078 choix eval0v3");
+				//System.out.println("2078 choix eval0v3");
 				break;
 
 			default:
 				score = 0;//eval0();
-				System.out.println("2083 default");
+				//System.out.println("2083 default");
 				break;
 			}
 			
@@ -2152,6 +2152,9 @@ public class EtatReversi extends EtatJeu {
 					er = er.minimax(p,i,alpha,beta); // <-- Joue les noirs = premier eval0 <-- utilise i
 				}
 			er.afficherTab();
+			System.out.println("Eval0 0 : "+er.eval0());
+			System.out.println("Eval0 1 : "+er.eval0V2());
+			System.out.println("Eval0 2 : "+er.eval0V3());
 			System.out.println("/////////////////////////////////////////////////////////////");
 			k++;
 		}
@@ -2184,6 +2187,9 @@ public class EtatReversi extends EtatJeu {
 					er = er.minimax(p,j,alpha,beta); // Joue les noir <-- Second eval0 <-- j
 				}
 			er.afficherTab();
+			System.out.println("Eval0 0 : "+er.eval0());
+			System.out.println("Eval0 1 : "+er.eval0V2());
+			System.out.println("Eval0 2 : "+er.eval0V3());
 			System.out.println("/////////////////////////////////////////////////////////////");
 			k++;
 		}
@@ -2226,8 +2232,8 @@ public class EtatReversi extends EtatJeu {
 	 */
 	 public static void main(String[] args) 
 	 {
-		 EtatReversi er = new EtatReversi();
-		 er.compareEval0(0, 2, 2); // Parametre : NuméroPremierEval0, NuméroSecondEval0, Profondeur
+		EtatReversi er = new EtatReversi();
+		er.compareEval0(1, 1, 2); // Parametre : NuméroPremierEval0, NuméroSecondEval0, Profondeur
 		/*
 		double alpha = Integer.MIN_VALUE;
 		double beta = Integer.MAX_VALUE;
